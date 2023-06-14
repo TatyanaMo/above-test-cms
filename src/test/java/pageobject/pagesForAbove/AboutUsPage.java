@@ -55,6 +55,7 @@ public class AboutUsPage {
         Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
 
         menuButtons.get(1).click();
+        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 3);
         List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
         Assertions.assertEquals("USD", currencies.get(0).getText(),"wrong currency");
         Assertions.assertEquals("EUR", currencies.get(1).getText(),"wrong currency");

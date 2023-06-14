@@ -112,6 +112,12 @@ public class BaseFunc {
     public void waitForElementsCountAtLeast(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
     }
+    public void waitForElementNotClickable (By locator) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+    public void waitElementToBeVisible (By locator) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    }
 
     public void linksStatusCheck (String string)  {
         RestTemplate restTemplate = new RestTemplate();

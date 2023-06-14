@@ -7,6 +7,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 
+
 import java.util.List;
 
 public class BlogPage {
@@ -36,6 +37,7 @@ public class BlogPage {
     private final By SOCIAL_MEDIA_LINKS = By.xpath(".//div[@class='flex flex-row gap-x-2 m-auto']/a");
     private final By SUBMIT_REQUEST_BUTTON = By.id("submit-request");
     private final By BACK_LINK = By.xpath(".//div[@class='flex flex-col lg:flex-row lg:items-center mb-6']/a");
+    private final By LOAD_MORE_BTN = By.id("load-more");
 
     private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
     private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
@@ -43,7 +45,6 @@ public class BlogPage {
     private final By PAYMENTS_METHODS = By.xpath(".//li[@class='w-9 md:w-12']/img");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
     private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
-    private final By BLOG_LINKS = By.xpath(".//div[@class='grid grid-cols-1 xl:grid-cols-3 justify-center gap-x-7 gap-y-8 mb-10']/a");
 
     private BaseFunc baseFunc;
 
@@ -117,47 +118,63 @@ public class BlogPage {
         WebElement selectedBlogItem = blogItems.get(randomItem);
         System.out.println(randomItem);
         selectedBlogItem.click();
-        //blogItems.get(3).click();
-        if (baseFunc.findElement(BLOG_MAIN_POST) != null) {
+        boolean postExist = false;
+        try {
+            baseFunc.waitElementPresented(BLOG_MAIN_POST);
+        } catch (TimeoutException e) {
+            System.out.println("Blog Item has no info");
+        }
+        if (postExist) {
             baseFunc.waitElementPresented(BLOG_MAIN_POST);
             String blogLink = baseFunc.findElement(BLOG_MAIN_POST).getAttribute("href");
             baseFunc.linksStatusCheck(blogLink);
             Assertions.assertTrue(baseFunc.findElement(BLOG_MAIN_POST).isDisplayed(), "Blog has no info");
         } else {
-            try {
-                baseFunc.findElement(BLOG_MAIN_POST);
-            } catch (TimeoutException e) {
-                System.out.println("Blog Item has no info");
-            }
-            blogItems.get(0).click();
+            WebElement firstBlogItem = baseFunc.list(BLOG_BUTTONS).subList(4,15).get(0);
+           firstBlogItem.click();
         }
         return true;
     }
 
     public boolean isAllPostRepresentedInBlog() {
-        String allPostMainUrl = baseFunc.findElement(BLOG_MAIN_POST).getAttribute("href");
-        baseFunc.linksStatusCheck(allPostMainUrl);
-        Assertions.assertNotNull(baseFunc.findElement(BLOG_IMAGES).getAttribute("src"), "Image source is null for main blog item");
-        Assertions.assertFalse(baseFunc.findElement(BLOG_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
-        List<WebElement> textInBlogItem = baseFunc.list(BLOG_TEXT_FOR_MAIN_ITEM);
-        for (WebElement text : textInBlogItem) {
-            Assertions.assertTrue(text.getText().length() > 0, "No tittle text in blog item");
+        boolean loadMoreBtn = false;
+        try {
+            baseFunc.waitElementPresented(LOAD_MORE_BTN);
+        } catch (TimeoutException e) {
+            System.out.println("No load more btn");
         }
-        List<WebElement> allPostBlogCards = baseFunc.list(ALL_POST_BLOG_CARDS);
-        for (WebElement blogCard : allPostBlogCards) {
-            String blogCardUrl = blogCard.getAttribute("href");
-            baseFunc.linksStatusCheck(blogCardUrl);
-            Assertions.assertNotNull(baseFunc.findElement(BLOG_CARD_IMAGES).getAttribute("src"), "Image source is null for main blog item");
-            Assertions.assertFalse(baseFunc.findElement(BLOG_CARD_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
-        }
-        List<WebElement> blogCardText = baseFunc.list(BLOG_CARDS_TEXT);
-        for(WebElement cardText : blogCardText) {
-            Assertions.assertTrue(cardText.getText().length()>0, "No tittle in blog card'");
+        if (loadMoreBtn) {
+            WebElement loadBtn = baseFunc.findElement(LOAD_MORE_BTN);
+            while (loadBtn.isDisplayed() && loadBtn.isEnabled()) {
+                loadBtn.click();
+                baseFunc.waitForElementNotClickable(LOAD_MORE_BTN);
+                loadBtn = baseFunc.findElement(LOAD_MORE_BTN);
+            }
+        } else {
+            String allPostMainUrl = baseFunc.findElement(BLOG_MAIN_POST).getAttribute("href");
+            baseFunc.linksStatusCheck(allPostMainUrl);
+            Assertions.assertNotNull(baseFunc.findElement(BLOG_IMAGES).getAttribute("src"), "Image source is null for main blog item");
+            Assertions.assertFalse(baseFunc.findElement(BLOG_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
+            List<WebElement> textInBlogItem = baseFunc.list(BLOG_TEXT_FOR_MAIN_ITEM);
+            for (WebElement text : textInBlogItem) {
+                Assertions.assertTrue(text.getText().length() > 0, "No tittle text in blog item");
+            }
+            List<WebElement> allPostBlogCards = baseFunc.list(ALL_POST_BLOG_CARDS);
+            for (WebElement blogCard : allPostBlogCards) {
+                String blogCardUrl = blogCard.getAttribute("href");
+                baseFunc.linksStatusCheck(blogCardUrl);
+                Assertions.assertNotNull(baseFunc.findElement(BLOG_CARD_IMAGES).getAttribute("src"), "Image source is null for main blog item");
+                Assertions.assertFalse(baseFunc.findElement(BLOG_CARD_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
+            }
+            List<WebElement> blogCardText = baseFunc.list(BLOG_CARDS_TEXT);
+            for(WebElement cardText : blogCardText) {
+                Assertions.assertTrue(cardText.getText().length()>0, "No tittle in blog card'");
+            }
         }
         return true;
     }
 
-    public boolean isBlogCardsDisplayed () {
+    public boolean isMainBlogPostDisplayed () {
         List<WebElement> textInBlogItem = baseFunc.list(BLOG_TEXT_FOR_MAIN_ITEM);
         String tittleOne = textInBlogItem.get(0).getText();
         String subTittleOne = textInBlogItem.get(1).getText();
@@ -177,7 +194,7 @@ public class BlogPage {
        baseFunc.linksStatusCheck(linkFb);
        String linkPinterest = socialMediaLinks.get(1).getAttribute("href");
        baseFunc.linksStatusCheck(linkPinterest);
-       //twitter link status check doesn't work!!
+//twitter link status check doesn't work!!
        /*for (WebElement link : socialMediaLinks) {
            String socialMediaUrl = link.getAttribute("href");
            baseFunc.linksStatusCheck(socialMediaUrl);
@@ -194,20 +211,39 @@ public class BlogPage {
             List<WebElement> textInBlogCard = blogCard.findElements(BLOG_CARDS_TEXT);
             String tittleCard = textInBlogCard.get(0).getText();
             String subTittleCard = textInBlogCard.get(1).getText();
-            System.out.println(tittleCard);
-            System.out.println(subTittleCard);
             blogCard.click();
             String tittleCardTwo = baseFunc.findElement(POST_TITTLE).getText();
             String subTittleCardTwo = baseFunc.findElement(POST_SUBTITLE).getText();
             Assertions.assertEquals(tittleCard, tittleCardTwo,"text not equals");
             Assertions.assertEquals(subTittleCard, subTittleCardTwo,"text not equals");
-            baseFunc.findElement(BACK_LINK).click();
+
+            boolean imagesPresent = false;
+            try {
+               baseFunc.waitElementPresented(POST_IMAGES_IN_TEXT);
+            } catch (TimeoutException e) {
+                System.out.println("Image not found or not visible in blog post");
+            }
+            if (imagesPresent) {
+                List<WebElement> images = baseFunc.list(POST_IMAGES_IN_TEXT);
+                for (WebElement image : images) {
+                    Assertions.assertTrue(image.isDisplayed(), "Image not visible in post");
+                }
+            }else {
+                /*
+                for (WebElement link : socialMediaLinks) {
+                    String socialMediaUrl = link.getAttribute("href");
+                    baseFunc.linksStatusCheck(socialMediaUrl);
+                    Assertions.assertTrue(link.isDisplayed(), "no social media element on post page");
+                }*/
+                baseFunc.linksStatusCheck(linkFb);
+                baseFunc.linksStatusCheck(linkPinterest);
+                Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).getText().length()>0, "No text in submit request btn");
+                Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).isEnabled(), "button is disabled");
+                baseFunc.findElement(BACK_LINK).click();
+            }
         }
-
-
             return true;
     }
-
 
     public boolean isLinksWorks() {
         List<WebElement> menuItems = baseFunc.list(FOOTER_LINKS);
@@ -243,6 +279,12 @@ public class BlogPage {
     }
     public void allRightsText () {
         Assertions.assertTrue(baseFunc.findElement(ALL_RIGHTS_TEXT).getText().length()>0, "no all right text on about us page");
+    }
+    public void openTermOfUsePage () {
+        List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
+        menuButtons.get(1).click();
+        WebElement termsOfUseItem = baseFunc.list(DROP_DOWN_ELEMENTS).get(2);
+        termsOfUseItem.click();
     }
 
 }

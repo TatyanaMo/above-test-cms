@@ -86,9 +86,9 @@ public class CmsTestAbove {
         blogPage.getTittle();
         Assertions.assertTrue(blogPage.isBlogDisplayed(),"No blog container on blog page");
         blogPage.isAllBlogItemsDisplayed();
-        //blogPage.isLinksWorksInRandomBlogItems();
+        blogPage.isLinksWorksInRandomBlogItems();
         blogPage.isAllPostRepresentedInBlog();
-        blogPage.isBlogCardsDisplayed();
+        blogPage.isMainBlogPostDisplayed();
         Assertions.assertTrue(blogPage.isLinksWorks(), "Link does not return 200 OK");
         Assertions.assertTrue(blogPage.isPhoneNumberLinkWorkInFooter(), "Link does not return 200 OK");
         Assertions.assertTrue(blogPage.isEmailLinkWorkInFooter(), "Link does not return 200 OK");
@@ -96,6 +96,7 @@ public class CmsTestAbove {
         Assertions.assertTrue(blogPage.isPaymentMethodImageDisplayed(), "payment method images not displayed");
         Assertions.assertTrue(blogPage.isPartnersDisplayed(), "No partners list in footer");
         blogPage.allRightsText();
+        blogPage.openTermOfUsePage();
 
     }
 }
