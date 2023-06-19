@@ -1,5 +1,7 @@
 package pageobject.pagesForAbove;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -26,6 +28,7 @@ public class AboutUsPage {
     private final By PAYMENTS_METHODS = By.xpath(".//li[@class='w-9 md:w-12']/img");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
     private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
+    private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
 
@@ -34,28 +37,32 @@ public class AboutUsPage {
     }
 
     public boolean isLogoAppearsInHeader() {
-        WebElement logo = baseFunc.findElement(HEADER_LOGO);
+        LOGGER.info("Checking logo in header for about us page");
+        baseFunc.findElement(HEADER_LOGO);
         return true;
     }
     public boolean isReviewLinkAppearsInHeader() {
+        LOGGER.info("Checking Trustpilot link in header for about us page");
         String trustPilotUrl = baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href");
         baseFunc.linksStatusCheck(trustPilotUrl);
         baseFunc.findElement(REVIEW_IMG).isDisplayed();
         return true;
     }
     public boolean isPhoneNumberLinkWorkInHeader() {
+        LOGGER.info("Checking phone number in header for about us page");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        phonesLInks.get(0).getAttribute("href");
+        Assertions.assertTrue(phonesLInks.get(0).getAttribute("href").length()>0, "no phone number");
         return true;
     }
     public void openDropDown() {
+        LOGGER.info("Checking presence of elements in all dropdown menus for about us page");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
         menuButtons.get(0).click();
         Assertions.assertTrue(baseFunc.findElement(LOG_IN_BUTTON).isEnabled(), "button is disabled");
         Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
 
         menuButtons.get(1).click();
-        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 3);
+        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
         List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
         Assertions.assertEquals("USD", currencies.get(0).getText(),"wrong currency");
         Assertions.assertEquals("EUR", currencies.get(1).getText(),"wrong currency");
@@ -64,7 +71,7 @@ public class AboutUsPage {
         Assertions.assertEquals("GBP", currencies.get(4).getText(),"wrong currency");
 
         menuButtons.get(2).click();
-        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS,3);
+        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
         List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
         Assertions.assertEquals("About Us", submenuItems.get(5).getText(),"No submenu item");
         Assertions.assertEquals("Blog", submenuItems.get(6).getText(),"No submenu item");
@@ -76,12 +83,15 @@ public class AboutUsPage {
         menuButtons.get(2).click();
     }
     public void getTittle() {
+        LOGGER.info("Checking presence of tittle for about us page");
         Assertions.assertTrue(baseFunc.findElement(TITTLE_ABOUT_US).getText().length()>0,"No tittle on about us page");
     }
     public void getMainText () {
+        LOGGER.info("Checking presence of main text for about us page");
         Assertions.assertTrue(baseFunc.findElement(TEXT).getText().length()>0,"No text info on about us page");
     }
     public boolean isLinksWorks () {
+        LOGGER.info("Links in footer return status 200 for about us page");
         List<WebElement> menuItems = baseFunc.list(FOOTER_LINKS);
         for (WebElement item : menuItems) {
             String url = item.getAttribute("href");
@@ -90,19 +100,24 @@ public class AboutUsPage {
         return true;
     }
     public boolean isPhoneNumberLinkWorkInFooter() {
+        LOGGER.info("Phone number link in footer returns status 200 for about us page");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
         phonesLInks.get(1).getAttribute("href");
         return true;
     }
     public boolean isEmailLinkWorkInFooter () {
+        LOGGER.info("Email link in footer returns status 200 for about us page");
         List<WebElement> email = baseFunc.list(EMAIL_LINK_IN_FOOTER);
         email.get(1).getAttribute("href");
         return true;
     }
-    public void payments () {
+    public boolean isPaymentsDisplayed () {
+        LOGGER.info("Checking if payment info displayed for about us page");
         Assertions.assertTrue(baseFunc.findElement(PAYMENTS).getText().length()>0,"no payments on about us page");
+        return true;
     }
     public boolean isPaymentMethodImageDisplayed () {
+        LOGGER.info("Checking if payment methods displayed for about us page");
         List<WebElement> paymentsMethods = baseFunc.list(PAYMENTS_METHODS);
         for (WebElement paymentMethod : paymentsMethods) {
             paymentMethod.isDisplayed();
@@ -110,17 +125,21 @@ public class AboutUsPage {
         return true;
     }
     public boolean isPartnersDisplayed () {
+        LOGGER.info("Checking if partner list displayed for about us page");
         baseFunc.findElement(AIRLINES_PARTNERS).isDisplayed();
         return true;
     }
-    public void allRightsText () {
+    public boolean isAllRightsTextDisplayed () {
+        LOGGER.info("Checking if block about rights displayed for about us page");
         Assertions.assertTrue(baseFunc.findElement(ALL_RIGHTS_TEXT).getText().length()>0, "no all right text on about us page");
+        return true;
     }
     public void openBlogPage () {
+        LOGGER.info("Opening next page - Blog");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
         menuButtons.get(2).click();
-        WebElement BlogItem = baseFunc.list(DROP_DOWN_ELEMENTS).get(6);
-        BlogItem.click();
+        WebElement blogItem = baseFunc.list(DROP_DOWN_ELEMENTS).get(6);
+        blogItem.click();
     }
 }
 

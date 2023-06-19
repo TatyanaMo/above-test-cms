@@ -1,6 +1,8 @@
 package pageobject.pagesForAbove;
 
 import com.sun.source.tree.AssertTree;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -66,8 +68,8 @@ public class HomePage {
     private final By PHONE_CODES = By.xpath(".//div[@class='choices__item choices__item--choice choices__item--selectable is-highlighted']");
     private final By LISTS = By.xpath(".//div[@role='listbox']");
     private final By AIRPORT_TO = By.xpath(".//div[@class='is-parent choices__item choices__item--choice choices__item--selectable is-highlighted']");
-
     private final By BUTTONS = By.xpath(".//div[@class='px-3 w-1/4']");
+    private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
 
     private BaseFunc baseFunc;
@@ -77,40 +79,46 @@ public class HomePage {
     }
 
     public void acceptCookies () {
+        LOGGER.info("Accepting cookies");
         baseFunc.findElement(ACCEPT_COOKIES_BTN).click();
     }
     public boolean isLogoAppearsInHeader() {
+        LOGGER.info("Checking logo in header for homepage");
         WebElement logo = baseFunc.findElement(HEADER_LOGO);
         return true;
     }
+    /*
     public void IframeFacebookCheck () {
         baseFunc.switchIframe(0);
         baseFunc.waitElementPresented(FACEBOOK_MODAL);
-        baseFunc.switchToMainPage();
         Assertions.assertTrue(baseFunc.findElement(IFRAME_HEADER).getText().length()>0 , "No text here'");
         Assertions.assertTrue(baseFunc.findElement(IFRAME_TEXT).getText().length()>0, "No text here");
         Assertions.assertTrue(baseFunc.findElement(START_CHAT_BTN).isEnabled(), "button is disabled");
         baseFunc.findElement(CLOSE_CHAT_BTN).click();
         baseFunc.switchToMainPage();
-    }
+    }*/
     public boolean isReviewLinkAppearsInHeader() {
+        LOGGER.info("Checking Trustpilot link in header for homepage");
         String trustPilotUrl = baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href");
         baseFunc.linksStatusCheck(trustPilotUrl);
         baseFunc.findElement(REVIEW_IMG).isDisplayed();
         return true;
     }
     public boolean isPhoneNumberLinkWorkInHeader() {
+        LOGGER.info("Checking phone number in header for homepage");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        phonesLInks.get(0).getAttribute("href");
+        Assertions.assertTrue(phonesLInks.get(0).getAttribute("href").length()>0, "no phone number");
         return true;
     }
     public void openDropDown() {
+        LOGGER.info("Checking presence of elements in all dropdown menus for homepage");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
         menuButtons.get(0).click();
         Assertions.assertTrue(baseFunc.findElement(LOG_IN_BUTTON).isEnabled(), "button is disabled");
         Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
 
         menuButtons.get(1).click();
+        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
         List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
         Assertions.assertEquals("USD", currencies.get(0).getText(),"wrong currency");
         Assertions.assertEquals("EUR", currencies.get(1).getText(),"wrong currency");
@@ -119,6 +127,7 @@ public class HomePage {
         Assertions.assertEquals("GBP", currencies.get(4).getText(),"wrong currency");
 
         menuButtons.get(2).click();
+        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
         List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
         Assertions.assertEquals("About Us", submenuItems.get(5).getText(),"No submenu item");
         Assertions.assertEquals("Blog", submenuItems.get(6).getText(),"No submenu item");
@@ -130,35 +139,41 @@ public class HomePage {
         menuButtons.get(2).click();
     }
     public boolean isHomePageWelcomeTextAppears () {
+        LOGGER.info("Checking if Welcome text on page for homepage");
         Assertions.assertTrue(baseFunc.findElement(HOME_PAGE_WELCOME_TEXT).getText().length()>0, "No text here");
         return baseFunc.findElement(HOME_PAGE_WELCOME_TEXT).isDisplayed();
     }
     public boolean isRequestFormAppears () {
+        LOGGER.info("Checking if request form displayed for homepage");
         return baseFunc.findElement(REQUEST_FORM).isDisplayed();
     }
     public boolean isTextOneAppears () {
+        LOGGER.info("Checking if text displayed for homepage");
         Assertions.assertTrue(baseFunc.findElement(HOME_PAGE_TEXT_ONE).getText().length()>0, "No text here");
         return baseFunc.findElement(HOME_PAGE_TEXT_ONE).isDisplayed();
     }
     public boolean isTextTwoAppears () {
+        LOGGER.info("Checking if text displayed");
         Assertions.assertTrue(baseFunc.list(CONTAINERS_TEXT).get(0).getText().length()>0, "No text here");
         return baseFunc.list(CONTAINERS_TEXT).get(0).isDisplayed();
     }
     public boolean isTextThreeAppears () {
+        LOGGER.info("Checking if text displayed for homepage");
         Assertions.assertTrue(baseFunc.list(HOME_PAGE_TEXT_THREE).get(0).getText().length()>0, "No text here'");
         return baseFunc.list(HOME_PAGE_TEXT_THREE).get(0).isDisplayed();
     }
     public void WhyChooseAboveBlockCheck () {
+        LOGGER.info("Checking if block Why choose Above displayed for homepage");
         Integer elements = baseFunc.list(CONTAINERS_TEXT).size();
         Assertions.assertTrue(baseFunc.list(CONTAINERS_TEXT).get(1).getText().length()>0, "No text here");
         Assertions.assertTrue(baseFunc.list(CONTAINERS_TEXT).get(2).getText().length()>0, "No text here");
     }
     public void reviewBlockCheck () {
+        LOGGER.info("Checking if review block displayed for homepage");
         String reviewHeader = baseFunc.list(CONTAINERS_TEXT).get(3).findElements(REVIEW_HEADER).get(0).getText();
         String reviewCarousel = baseFunc.list(CONTAINERS_TEXT).get(3).findElement(REVIEW_CAROUSEL).getText();
         Assertions.assertTrue(reviewHeader.length()>0, "No text here");
         Assertions.assertTrue(reviewCarousel.length()>0, "No text here");
-        //System.out.println(reviewCarousel);
         WebElement nextBtn = baseFunc.list(CONTAINERS_TEXT).get(3).findElement(CAROUSEL_BTN_NEXT);
         nextBtn.click();
         WebElement prevBtn = baseFunc.list(CONTAINERS_TEXT).get(3).findElement(CAROUSEL_BTN_PREV);
@@ -168,7 +183,8 @@ public class HomePage {
         Assertions.assertTrue(nextBtn.isEnabled(), "Next carousel button is disabled");
 
     }
-    public boolean isInstructionTittleAppears () {
+    public boolean isInstructionBlockAppears () {
+        LOGGER.info("Checking if instruction block displayed for homepage");
         Assertions.assertTrue(baseFunc.list(CONTAINERS_TEXT).get(4).getText().length()>0, "No text here");
         List<WebElement> steps =  baseFunc.list(INSTRUCTION);
         int counter = 0;
@@ -180,6 +196,7 @@ public class HomePage {
         return baseFunc.list(CONTAINERS_TEXT).get(4).isDisplayed();
     }
     public boolean isLinksWorks () {
+        LOGGER.info("Links in footer return status 200 for homepage");
         List<WebElement> menuItems = baseFunc.list(FOOTER_LINKS);
         for (WebElement item : menuItems) {
             String url = item.getAttribute("href");
@@ -188,19 +205,28 @@ public class HomePage {
         return true;
     }
     public boolean isPhoneNumberLinkWorkInFooter() {
+        LOGGER.info("Phone number link in footer returns status 200 for homepage");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        phonesLInks.get(1).getAttribute("href");
+        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length()>0, "no phone number");
         return true;
     }
     public boolean isEmailLinkWorkInFooter () {
+        LOGGER.info("Email link in footer returns status 200 for homepage");
         List<WebElement> email = baseFunc.list(EMAIL_LINK_IN_FOOTER);
-        email.get(1).getAttribute("href");
+        String link = email.get(1).getAttribute("href");
+        if (link != null && !link.startsWith("mailto:")) {
+            baseFunc.linksStatusCheck(link);
+        }
+        Assertions.assertTrue(email.get(1).getText().length()>0, "no phone number");
         return true;
     }
-    public void payments () {
-        Assertions.assertTrue(baseFunc.findElement(PAYMENTS).getText().length()>0,"no payments on homepage");
+    public boolean isPaymentsDisplayed () {
+        LOGGER.info("Checking if payment info displayed for homepage");
+        Assertions.assertTrue(baseFunc.findElement(PAYMENTS).getText().length()>0,"no payments on about us page");
+        return true;
     }
     public boolean isPaymentMethodImageDisplayed () {
+        LOGGER.info("Checking if payment methods displayed for homepage");
         List<WebElement> paymentsMethods = baseFunc.list(PAYMENTS_METHODS);
         for (WebElement paymentMethod : paymentsMethods) {
             paymentMethod.isDisplayed();
@@ -208,14 +234,18 @@ public class HomePage {
         return true;
     }
     public boolean isPartnersDisplayed () {
+        LOGGER.info("Checking if partner list displayed for homepage");
         baseFunc.findElement(AIRLINES_PARTNERS).isDisplayed();
         return true;
     }
-    public void allRightsText () {
-        Assertions.assertTrue(baseFunc.findElement(ALL_RIGHTS_TEXT).getText().length()>0, "no all right text on homepage");
+    public boolean isAllRightsTextDisplayed () {
+        LOGGER.info("Checking if block about rights displayed for homepage");
+        Assertions.assertTrue(baseFunc.findElement(ALL_RIGHTS_TEXT).getText().length()>0, "no all right text on about us page");
+        return true;
     }
 
     public void fillFlightRequestForm (int adultPassengerToSelect) {
+        LOGGER.info("Filling request form");
         List<WebElement> allDropDownMenus = baseFunc.list(DROP_DOWN_BUTTONS);
         allDropDownMenus.get(3).click();
         baseFunc.findElement(REQUEST_FORM_MENU);
@@ -298,7 +328,7 @@ public class HomePage {
     }
 
     public void fillInPassengerInfo(Passenger passenger) {
-
+        LOGGER.info("Filling passenger info in request form");
         WebElement inputName = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(0);
         WebElement inputPhone = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(1);
         WebElement inputEmail = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(2);
@@ -307,6 +337,7 @@ public class HomePage {
         baseFunc.type(inputEmail, passenger.getEmail());
     }
     public void selectAirportsAndCountryCodeFromSuggestionLists (String locationFrom, String locationTo,String countryCode, Passenger passenger) {
+        LOGGER.info("Selecting airports" + locationFrom + locationTo + "and country code" +  countryCode + "from suggestion lists");
         WebElement inputAirportFrom = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(4);
         inputAirportFrom.click();
         WebElement inputFrom = baseFunc.list(INPUT_FROM).get(1);
@@ -352,6 +383,7 @@ public class HomePage {
     }
 
     public void openAboutUsPage () {
+        LOGGER.info("Opening next page - About us");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
         menuButtons.get(2).click();
         WebElement aboutUsMenuItem = baseFunc.list(DROP_DOWN_ELEMENTS).get(5);

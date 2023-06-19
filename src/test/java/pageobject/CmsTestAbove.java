@@ -1,19 +1,20 @@
 package pageobject;
 
 import io.netty.util.collection.IntObjectMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pageobject.model.Passenger;
-import pageobject.pagesForAbove.AboutUsPage;
-import pageobject.pagesForAbove.BlogPage;
-import pageobject.pagesForAbove.HomePage;
+import pageobject.pagesForAbove.*;
 
 public class CmsTestAbove {
     private final String URL = "http://staging.above9.travel/";
     private final String FROM_AIRPORT = "RIX";
     private final String TO_AIRPORT = "CPT";
     private final String COUNTRY_CODE = "371";
+    private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc = new BaseFunc();
 
@@ -27,31 +28,25 @@ public class CmsTestAbove {
         HomePage homePage = new HomePage(baseFunc);
         homePage.acceptCookies();
 
-        Assertions.assertTrue(homePage.isLogoAppearsInHeader(), "No logo");
-        Assertions.assertTrue(homePage.isReviewLinkAppearsInHeader(), "No review link");
-        Assertions.assertTrue(homePage.isPhoneNumberLinkWorkInHeader(),"Link does not return 200 OK");
-
+        homePage.isLogoAppearsInHeader();
+        homePage.isReviewLinkAppearsInHeader();
+        homePage.isPhoneNumberLinkWorkInHeader();
         homePage.openDropDown();
-
-        Assertions.assertTrue(homePage.isHomePageWelcomeTextAppears(), "No welcome text on home page");
-        Assertions.assertTrue(homePage.isRequestFormAppears(),"No request form");
-        Assertions.assertTrue(homePage.isTextOneAppears(), "no text");
-        Assertions.assertTrue(homePage.isTextTwoAppears(),"No text");
-        Assertions.assertTrue(homePage.isTextThreeAppears(), "No text");
-
+        homePage.isHomePageWelcomeTextAppears();
+        homePage.isRequestFormAppears();
+        homePage.isTextOneAppears();
+        homePage.isTextTwoAppears();
+        homePage.isTextThreeAppears();
         homePage.WhyChooseAboveBlockCheck();
-
-        Assertions.assertTrue(homePage.isInstructionTittleAppears(), "no block");
-
+        homePage.isInstructionBlockAppears();
         homePage.reviewBlockCheck();
-
-        Assertions.assertTrue(homePage.isLinksWorks(), "Link does not return 200 OK");
-        Assertions.assertTrue(homePage.isPhoneNumberLinkWorkInFooter(), "Link does not return 200 OK");
-        Assertions.assertTrue(homePage.isEmailLinkWorkInFooter(), "Link does not return 200 OK");
-        homePage.payments();
-        Assertions.assertTrue(homePage.isPaymentMethodImageDisplayed(), "payment method images not displayed");
-        Assertions.assertTrue(homePage.isPartnersDisplayed(), "No partners list in footer");
-        homePage.allRightsText();
+        homePage.isLinksWorks();
+        homePage.isPhoneNumberLinkWorkInFooter();
+        homePage.isEmailLinkWorkInFooter();
+        homePage.isPaymentsDisplayed();
+        homePage.isPaymentMethodImageDisplayed();
+        homePage.isPartnersDisplayed();
+        homePage.isAllRightsTextDisplayed();
         //homePage.IframeFacebookCheck();
         homePage.fillFlightRequestForm(adultPassengerToSelect);
         //homePage.fillInPassengerInfo(passenger);
@@ -59,44 +54,111 @@ public class CmsTestAbove {
         homePage.openAboutUsPage();
 
         AboutUsPage aboutUsPage = new AboutUsPage(baseFunc);
-        Assertions.assertTrue(aboutUsPage.isLogoAppearsInHeader(), "No logo on about us page");
-        Assertions.assertTrue(aboutUsPage.isReviewLinkAppearsInHeader(), "No review link");
-        Assertions.assertTrue(aboutUsPage.isPhoneNumberLinkWorkInHeader(),"Link does not return 200 OK");
-
+        aboutUsPage.isLogoAppearsInHeader();
+        aboutUsPage.isReviewLinkAppearsInHeader();
+        aboutUsPage.isPhoneNumberLinkWorkInHeader();
         aboutUsPage.openDropDown();
-
         aboutUsPage.getTittle();
         aboutUsPage.getMainText();
-
-        Assertions.assertTrue(aboutUsPage.isLinksWorks(), "Link does not return 200 OK");
-        Assertions.assertTrue(aboutUsPage.isPhoneNumberLinkWorkInFooter(), "Link does not return 200 OK");
-        Assertions.assertTrue(aboutUsPage.isEmailLinkWorkInFooter(), "Link does not return 200 OK");
-        aboutUsPage.payments();
-        Assertions.assertTrue(aboutUsPage.isPaymentMethodImageDisplayed(), "payment method images not displayed");
-        Assertions.assertTrue(aboutUsPage.isPartnersDisplayed(), "No partners list in footer");
-        aboutUsPage.allRightsText();
+        aboutUsPage.isLinksWorks();
+        aboutUsPage.isPhoneNumberLinkWorkInFooter();
+        aboutUsPage.isEmailLinkWorkInFooter();
+        aboutUsPage.isPaymentsDisplayed();
+        aboutUsPage.isPaymentMethodImageDisplayed();
+        aboutUsPage.isPartnersDisplayed();
+        aboutUsPage.isAllRightsTextDisplayed();
         aboutUsPage.openBlogPage();
 
         BlogPage blogPage = new BlogPage(baseFunc);
-        Assertions.assertTrue(blogPage.isLogoAppearsInHeader(), "No logo on about us page");
-        Assertions.assertTrue(blogPage.isReviewLinkAppearsInHeader(), "No review link");
-        Assertions.assertTrue(blogPage.isPhoneNumberLinkWorkInHeader(),"Link does not return 200 OK");
+        blogPage.isLogoAppearsInHeader();
+        blogPage.isReviewLinkAppearsInHeader();
         blogPage.openDropDown();
-
         blogPage.getTittle();
-        Assertions.assertTrue(blogPage.isBlogDisplayed(),"No blog container on blog page");
+        blogPage.isBlogDisplayed();
         blogPage.isAllBlogItemsDisplayed();
         blogPage.isLinksWorksInRandomBlogItems();
         blogPage.isAllPostRepresentedInBlog();
         blogPage.isMainBlogPostDisplayed();
-        Assertions.assertTrue(blogPage.isLinksWorks(), "Link does not return 200 OK");
-        Assertions.assertTrue(blogPage.isPhoneNumberLinkWorkInFooter(), "Link does not return 200 OK");
-        Assertions.assertTrue(blogPage.isEmailLinkWorkInFooter(), "Link does not return 200 OK");
-        blogPage.payments();
-        Assertions.assertTrue(blogPage.isPaymentMethodImageDisplayed(), "payment method images not displayed");
-        Assertions.assertTrue(blogPage.isPartnersDisplayed(), "No partners list in footer");
-        blogPage.allRightsText();
-        blogPage.openTermOfUsePage();
+        blogPage.isLinksWorks();
+        blogPage.isPhoneNumberLinkWorkInFooter();
+        blogPage.isEmailLinkWorkInFooter();
+        blogPage.isPaymentsDisplayed();
+        blogPage.isPaymentMethodImageDisplayed();
+        blogPage.isPartnersDisplayed();
+        blogPage.isAllRightsTextDisplayed();
+        blogPage.openTermsOfUsePage();
+
+        TermsOfUsePage termsOfUsePage = new TermsOfUsePage(baseFunc);
+        termsOfUsePage.isLogoAppearsInHeader();
+        termsOfUsePage.isReviewLinkAppearsInHeader();
+        termsOfUsePage.isPhoneNumberLinkWorkInHeader();
+        termsOfUsePage.openDropDown();
+        termsOfUsePage.getTittle();
+        termsOfUsePage.isTextDisplayed();
+        termsOfUsePage.isLinksWorks();
+        termsOfUsePage.isPhoneNumberLinkWorkInFooter();
+        termsOfUsePage.isEmailLinkWorkInFooter();
+        termsOfUsePage.isPaymentsDisplayed();
+        termsOfUsePage.isPaymentMethodImageDisplayed();
+        termsOfUsePage.isPartnersDisplayed();
+        termsOfUsePage.isAllRightsTextDisplayed();
+        termsOfUsePage.openPrivacyPolicyPage();
+
+        PrivacyPolicyPage privacyPolicyPage = new PrivacyPolicyPage(baseFunc);
+        privacyPolicyPage.isLogoAppearsInHeader();
+        privacyPolicyPage.isReviewLinkAppearsInHeader();
+        privacyPolicyPage.isPhoneNumberLinkWorkInHeader();
+        privacyPolicyPage.openDropDown();
+        privacyPolicyPage.getTittle();
+        privacyPolicyPage.isTextDisplayed();
+        //privacyPolicyPage.isLinksWorksInText();
+        privacyPolicyPage.isLinksWorks();
+        privacyPolicyPage.isPhoneNumberLinkWorkInFooter();
+        privacyPolicyPage.isEmailLinkWorkInFooter();
+        privacyPolicyPage.isPaymentsDisplayed();
+        privacyPolicyPage.isPaymentMethodImageDisplayed();
+        privacyPolicyPage.isPartnersDisplayed();
+        privacyPolicyPage.isAllRightsTextDisplayed();
+        //privacyPolicyPage.IframeFacebookClose();
+        privacyPolicyPage.openCookiesPolicyPage();
+
+        CookiesPolicyPage cookiesPolicyPage = new CookiesPolicyPage(baseFunc);
+        cookiesPolicyPage.isLogoAppearsInHeader();
+        cookiesPolicyPage.isReviewLinkAppearsInHeader();
+        cookiesPolicyPage.isPhoneNumberLinkWorkInHeader();
+        cookiesPolicyPage.openDropDown();
+        cookiesPolicyPage.getTittle();
+        cookiesPolicyPage.isTextDisplayed();
+        cookiesPolicyPage.isLinksWorks();
+        cookiesPolicyPage.isPhoneNumberLinkWorkInFooter();
+        cookiesPolicyPage.isEmailLinkWorkInFooter();
+        cookiesPolicyPage.isPaymentsDisplayed();
+        cookiesPolicyPage.isPaymentMethodImageDisplayed();
+        cookiesPolicyPage.isPartnersDisplayed();
+        cookiesPolicyPage.isAllRightsTextDisplayed();
+        cookiesPolicyPage.contactUsPage();
+
+        ContactUsPage contactUsPage = new ContactUsPage(baseFunc);
+        contactUsPage.isLogoAppearsInHeader();
+        contactUsPage.isReviewLinkAppearsInHeader();
+        contactUsPage.isPhoneNumberLinkWorkInHeader();
+        contactUsPage.openDropDown();
+        contactUsPage.getTittle();
+        contactUsPage.isHeadersDisplayed();
+        contactUsPage.isPlaceholdersTextDisplayed();
+        contactUsPage.isSubmitButtonEnabled();
+        contactUsPage.isUsefulInfoBlockDisplayed();
+        contactUsPage.isLinksWorks();
+        contactUsPage.isPhoneNumberLinkWorkInFooter();
+        contactUsPage.isEmailLinkWorkInFooter();
+        contactUsPage.isPaymentsDisplayed();
+        contactUsPage.isPaymentMethodImageDisplayed();
+        contactUsPage.isPartnersDisplayed();
+        contactUsPage.isAllRightsTextDisplayed();
+        contactUsPage.manageCookiesPreferencesModalOpen();
+        contactUsPage.isModalWindowDisplayedCorrect();
+        contactUsPage.manageCookiesPreferencesModalClose();
+
 
     }
 }

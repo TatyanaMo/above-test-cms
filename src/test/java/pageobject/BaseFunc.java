@@ -19,13 +19,17 @@ import pageobject.pagesForAbove.HomePage;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 
 public class BaseFunc {
-    //private final Logger logger = Logger.getLogger(this.getClass());
+    private final Logger LOGGER = LogManager.getLogger(this.getClass());
+
     private WebDriver browser;
     private WebDriverWait wait;
 
@@ -56,12 +60,24 @@ public class BaseFunc {
         }
         browser.get(url);
     }
-    public void switchIframe (int integer) {
-        browser.switchTo().frame(0);
+    public void switchIframe (By locator) {
+        WebElement iframeElement = browser.findElement(locator);
+        browser.switchTo().frame(iframeElement);
+    }
+    public void switchIframeIndex (int index) {
+        browser.switchTo().frame(index);
     }
 
     public void switchToMainPage () {
         browser.switchTo().defaultContent();
+    }
+    public void switchTab(int tabIndex) {
+        List <String> windowHandles = new ArrayList<>(browser.getWindowHandles());
+        if (tabIndex >= 0 && tabIndex < windowHandles.size()) {
+            browser.switchTo().window(windowHandles.get(tabIndex));
+        } else {
+            throw new IndexOutOfBoundsException("Invalid tab index: " + tabIndex);
+        }
     }
 
     public void click(By locator) {
