@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
@@ -21,7 +22,16 @@ public class BlogPage {
     private final By LOG_IN_BUTTON = By.xpath(".//button[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
     private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
-    private final By TITTLE_BLOG = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
+
+    private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
+    private final By MODAL_INPUT_FIELDS = By.xpath(".//div[@class='space-y-4']/div/div/div/input");
+    private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
+    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//div[@class='pt-6 -mx-2 flex items-baseline flex-wrap justify-between']/span/button");
+    private final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
+    private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
+
+    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[@class='typography_display-s__qOjh6 typography_appearance-default__AAY17 title_displayName__TtDDM']");
+    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
     private final By BLOG_CONTAINER = By.xpath(".//div[@class='flex lg:flex-wrap flex-row lg:justify-center overflow-x-auto gap-4 mb-2 sm:px-10 xl:px-32']");
     private final By BLOG_MAIN_POST = By.xpath(".//div[@class='grid grid-cols-1 xl:grid-cols-3 justify-center gap-x-7 gap-y-8 mb-10']/a");
     private final By BLOG_TEXT_FOR_MAIN_ITEM = By.xpath(".//div[@class='absolute flex flex-col text-white gap-y-4 z-20 mb-8 xl:mb-16']/span");
@@ -37,6 +47,9 @@ public class BlogPage {
     private final By POST_MAIN_IMAGE = By.xpath(".//div[@class='flex justify-center mb-6 md:mb-10']/img");
     private final By POST_IMAGES_IN_TEXT = By.xpath("//div[@class='text-base rich-content leading-normal mb-16']/p/img");
     private final By SOCIAL_MEDIA_LINKS = By.xpath(".//div[@class='flex flex-row gap-x-2 m-auto']/a");
+    private final By FB_PAGE_COOKIES_ACCEPT_FORM_TITTLE = By.id("consent_cookies_title");
+    private final By PINTEREST_PAGE_SIGN_UP_FORM_TITTLE = By.xpath(".//div[@class='zI7 iyn Hsu']/h1");
+    private final By TWITTER_PAGE_SIGN_UP_FORM_TITTLE = By.xpath(".//div[@data-testid='IntentLoginSheet_Login_Sheet']/div/div/div/div/span");
     private final By SUBMIT_REQUEST_BUTTON = By.id("submit-request");
     private final By BACK_LINK = By.xpath(".//div[@class='flex flex-col lg:flex-row lg:items-center mb-6']/a");
     private final By LOAD_MORE_BTN = By.id("load-more");
@@ -60,37 +73,82 @@ public class BlogPage {
         WebElement logo = baseFunc.findElement(HEADER_LOGO);
         return true;
     }
-
     public boolean isReviewLinkAppearsInHeader() {
-        LOGGER.info("Checking Trustpilot link in header for blog page");
-        String trustPilotUrl = baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href");
-        baseFunc.linksStatusCheck(trustPilotUrl);
-        baseFunc.findElement(REVIEW_IMG).isDisplayed();
+        LOGGER.info("Checking Trustpilot link in header for homepage");
+        baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK,REVIEW_IMG,REVIEW_HEADER_LINK,TRUSTPILOT_ABOVE_TITTLE );
         return true;
     }
-    public void openDropDown() {
-        LOGGER.info("Checking presence of elements in all dropdown menus for blog page");
+    public boolean isDropDownMenuOpen() {
+        LOGGER.info("Checking presence of elements in all dropdown menu");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
-        menuButtons.get(0).click();
+        baseFunc.click(menuButtons.get(0));
         Assertions.assertTrue(baseFunc.findElement(LOG_IN_BUTTON).isEnabled(), "button is disabled");
         Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
 
         menuButtons.get(1).click();
-        List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
         baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
-        Assertions.assertEquals("About Us", submenuItems.get(0).getText(), "No submenu item");
-        Assertions.assertEquals("Blog", submenuItems.get(1).getText(), "No submenu item");
-        Assertions.assertEquals("Terms Of Use", submenuItems.get(2).getText(), "No submenu item");
-        Assertions.assertEquals("Privacy Policy", submenuItems.get(3).getText(), "No submenu item");
-        Assertions.assertEquals("Cookies Policy", submenuItems.get(4).getText(), "No submenu item");
-        Assertions.assertEquals("Contact us", submenuItems.get(5).getText(), "No submenu item");
-        Assertions.assertEquals("Manage cookie preferences", submenuItems.get(6).getText(), "No submenu item");
-        menuButtons.get(1).click();
-    }
+        List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
+        Assertions.assertEquals("USD", baseFunc.getTextOfElement(currencies.get(0)), "wrong currency");
+        Assertions.assertEquals("EUR", baseFunc.getTextOfElement(currencies.get(1)), "wrong currency");
+        Assertions.assertEquals("CAD", baseFunc.getTextOfElement(currencies.get(2)), "wrong currency");
+        Assertions.assertEquals("AUD", baseFunc.getTextOfElement(currencies.get(3)), "wrong currency");
+        Assertions.assertEquals("GBP", baseFunc.getTextOfElement(currencies.get(4)), "wrong currency");
 
+        baseFunc.click(menuButtons.get(2));
+        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
+        List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
+        Assertions.assertEquals("About Us", baseFunc.getTextOfElement(submenuItems.get(5)), "No submenu item");
+        Assertions.assertEquals("Blog", baseFunc.getTextOfElement(submenuItems.get(6)), "No submenu item");
+        Assertions.assertEquals("Terms Of Use", baseFunc.getTextOfElement(submenuItems.get(7)), "No submenu item");
+        Assertions.assertEquals("Privacy Policy", baseFunc.getTextOfElement(submenuItems.get(8)), "No submenu item");
+        Assertions.assertEquals("Cookies Policy", baseFunc.getTextOfElement(submenuItems.get(9)), "No submenu item");
+        Assertions.assertEquals("Contact us", baseFunc.getTextOfElement(submenuItems.get(10)), "No submenu item");
+        Assertions.assertEquals("Manage cookie preferences", baseFunc.getTextOfElement(submenuItems.get(11)), "No submenu item");
+        baseFunc.click(menuButtons.get(2));
+        return true;
+    }
+    public boolean isLogInModalWindowOpens() {
+        LOGGER.info("Checking elements in Login modal window");
+        baseFunc.checkLogInModalWindow(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, LOG_IN_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS);
+        Assertions.assertTrue(baseFunc.getTextOfElement(LOG_IN_MODAL_WINDOW).length() > 0, "No tittle in Login modal window");
+        List<WebElement> loginInputFields = baseFunc.list(MODAL_INPUT_FIELDS).subList(0, 1);
+        for (WebElement inputField : loginInputFields) {
+            Assertions.assertTrue(inputField.getAttribute("placeholder").length() > 0, "no text in placeholders in login modal window");
+        }
+        Assertions.assertTrue(baseFunc.list(SUBMIT_BUTTONS).get(0).isEnabled(), "Sign in button is disabled in login modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(0)).length() > 0, "Sign in button hasn't name in login modal window");
+        List<WebElement> buttons = baseFunc.list(MODAL_WINDOW_BUTTONS).subList(0, 1);
+        for (WebElement button : buttons) {
+            Assertions.assertTrue(button.isEnabled(), "Buttons is disabled in login modal window");
+            Assertions.assertTrue(baseFunc.getTextOfElement(button).length() > 0, "Buttons haven't names in login modal window");
+        }
+        return true;
+    }
+    public void loginModalClose () {
+        LOGGER.info("Closing Login modal window");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(0));
+    }
+    public boolean isSignUpModalWindowOpen() {
+        LOGGER.info("Checking elements in Sign up modal window");
+        baseFunc.checkSignUpModalWindow(DROP_DOWN_BUTTONS, CREATE_PROFILE_BUTTON, SIGN_UP_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS );
+        Assertions.assertTrue(baseFunc.getTextOfElement(SIGN_UP_MODAL_WINDOW).length()>0, "No tittle in Sign up modal window");
+        List<WebElement> signUpInputFields = baseFunc.list(MODAL_INPUT_FIELDS).subList(2,6);
+        for (WebElement inputField : signUpInputFields) {
+            Assertions.assertTrue(inputField.getAttribute("placeholder").length()>0, "no text in placeholders in Sign up modal window");
+        }
+        Assertions.assertTrue(baseFunc.list(SUBMIT_BUTTONS).get(1).isEnabled(), "Sign in button is disabled  in Sign up modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(1)).length()>0, "Sign in button hasn't name in login modal window");
+        Assertions.assertTrue(baseFunc.list(MODAL_WINDOW_BUTTONS).get(2).isEnabled(), "Button is disabled in Sign up modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(MODAL_WINDOW_BUTTONS).get(2)).length()>0, "Button hasn't name in Sign up modal window");
+        return true;
+    }
+    public void signUpModalClose () {
+        LOGGER.info("Closing sign up modal window");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(1));
+    }
     public void getTittle() {
         LOGGER.info("Checking presence of tittle for blog page");
-        Assertions.assertTrue(baseFunc.findElement(TITTLE_BLOG).getText().length() > 0, "No tittle on about us page");
+        Assertions.assertTrue(baseFunc.getTextOfElement(TITTLE).length() > 0, "No tittle on about us page");
     }
 
     public boolean isBlogDisplayed() {
@@ -113,14 +171,14 @@ public class BlogPage {
         List<WebElement> blogItems = baseFunc.list(BLOG_BUTTONS).subList(4, 15);
 
         for (WebElement blogItem : blogItems) {
-            Assertions.assertTrue(blogItem.getText().length() > 0, "No tittle in blog items");
+            Assertions.assertTrue(baseFunc.getTextOfElement(blogItem).length() > 0, "No tittle in blog items");
             Assertions.assertTrue(blogItem.isEnabled(), "Blog button is disabled");
         }
         int blogItemsCount = blogItems.size();
         int randomItem = baseFunc.getRandomIndex(blogItemsCount);
         WebElement selectedBlogItem = blogItems.get(randomItem);
         System.out.println(randomItem);
-        selectedBlogItem.click();
+        baseFunc.click(selectedBlogItem);
         boolean postExist = false;
         try {
             baseFunc.waitElementPresented(BLOG_MAIN_POST);
@@ -134,7 +192,7 @@ public class BlogPage {
             Assertions.assertTrue(baseFunc.findElement(BLOG_MAIN_POST).isDisplayed(), "Blog has no info");
         } else {
             WebElement firstBlogItem = baseFunc.list(BLOG_BUTTONS).subList(4,15).get(0);
-           firstBlogItem.click();
+            baseFunc.click(firstBlogItem);
         }
         return true;
     }
@@ -150,7 +208,7 @@ public class BlogPage {
         if (loadMoreBtn) {
             WebElement loadBtn = baseFunc.findElement(LOAD_MORE_BTN);
             while (loadBtn.isDisplayed() && loadBtn.isEnabled()) {
-                loadBtn.click();
+                baseFunc.click(loadBtn);
                 baseFunc.waitForElementNotClickable(LOAD_MORE_BTN);
                 loadBtn = baseFunc.findElement(LOAD_MORE_BTN);
             }
@@ -161,7 +219,7 @@ public class BlogPage {
             Assertions.assertFalse(baseFunc.findElement(BLOG_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
             List<WebElement> textInBlogItem = baseFunc.list(BLOG_TEXT_FOR_MAIN_ITEM);
             for (WebElement text : textInBlogItem) {
-                Assertions.assertTrue(text.getText().length() > 0, "No tittle text in blog item");
+                Assertions.assertTrue(baseFunc.getTextOfElement(text).length() > 0, "No tittle text in blog item");
             }
             List<WebElement> allPostBlogCards = baseFunc.list(ALL_POST_BLOG_CARDS);
             for (WebElement blogCard : allPostBlogCards) {
@@ -172,7 +230,7 @@ public class BlogPage {
             }
             List<WebElement> blogCardText = baseFunc.list(BLOG_CARDS_TEXT);
             for(WebElement cardText : blogCardText) {
-                Assertions.assertTrue(cardText.getText().length()>0, "No tittle in blog card'");
+                Assertions.assertTrue(baseFunc.getTextOfElement(cardText).length()>0, "No tittle in blog card'");
             }
         }
         return true;
@@ -181,44 +239,76 @@ public class BlogPage {
     public boolean isMainBlogPostDisplayed () {
         LOGGER.info("Checking if main blog post and blog cards possible to open for blog page");
         List<WebElement> textInBlogItem = baseFunc.list(BLOG_TEXT_FOR_MAIN_ITEM);
-        String tittleOne = textInBlogItem.get(0).getText();
-        String subTittleOne = textInBlogItem.get(1).getText();
-        baseFunc.findElement(BLOG_MAIN_POST).click();
-        String tittleTwo = baseFunc.findElement(POST_TITTLE).getText();
-        String subTittleTwo = baseFunc.findElement(POST_SUBTITLE).getText();
-        Assertions.assertEquals(tittleOne, tittleTwo,"text not equals");
-        Assertions.assertEquals(subTittleOne, subTittleTwo,"text not equals");
-        Assertions.assertTrue(baseFunc.findElement(POST_TEXT).getText().length()>0, "no text in post");
+        String tittleOne = baseFunc.getTextOfElement(textInBlogItem.get(0));
+        String subTittleOne = baseFunc.getTextOfElement(textInBlogItem.get(1));
+        baseFunc.click(BLOG_MAIN_POST);
+        String tittleTwo = baseFunc.getTextOfElement(POST_TITTLE);
+        String subTittleTwo = baseFunc.getTextOfElement(POST_SUBTITLE);
+        Assertions.assertEquals(tittleOne, tittleTwo, "text not equals");
+        Assertions.assertEquals(subTittleOne, subTittleTwo, "text not equals");
+        Assertions.assertTrue(baseFunc.getTextOfElement(POST_TEXT).length() > 0, "no text in post");
         Assertions.assertNotNull(baseFunc.findElement(POST_MAIN_IMAGE).getAttribute("src"), "Image source is null for main blog item");
-        List<WebElement>imagesInPost = baseFunc.list(POST_IMAGES_IN_TEXT);
-       for (WebElement image : imagesInPost) {
-           Assertions.assertNotNull(image.getAttribute("src"), "Image source is null in post");
-       }
-       List<WebElement> socialMediaLinks = baseFunc.list(SOCIAL_MEDIA_LINKS);
-       String linkFb = socialMediaLinks.get(0).getAttribute("href");
-       baseFunc.linksStatusCheck(linkFb);
-       String linkPinterest = socialMediaLinks.get(1).getAttribute("href");
-       baseFunc.linksStatusCheck(linkPinterest);
-//twitter link status check doesn't work!!
-       /*for (WebElement link : socialMediaLinks) {
-           String socialMediaUrl = link.getAttribute("href");
-           baseFunc.linksStatusCheck(socialMediaUrl);
-           Assertions.assertTrue(link.isDisplayed(), "no social media element on post page");
-       }*/
-        Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).getText().length()>0, "No text in submit request btn");
+        List<WebElement> imagesInPost = baseFunc.list(POST_IMAGES_IN_TEXT);
+        for (WebElement image : imagesInPost) {
+            Assertions.assertNotNull(image.getAttribute("src"), "Image source is null in post");
+        }
+        List<WebElement> socialMediaLinks = baseFunc.list(SOCIAL_MEDIA_LINKS);
+        baseFunc.click(socialMediaLinks.get(0));
+        baseFunc.switchTab(1);
+        try {
+            baseFunc.waitElementPresented(FB_PAGE_COOKIES_ACCEPT_FORM_TITTLE);
+            if (baseFunc.getTextOfElement(FB_PAGE_COOKIES_ACCEPT_FORM_TITTLE).length() > 0) {
+                baseFunc.closeTab();
+                baseFunc.switchTab(0);
+            } else {
+                LOGGER.error("Facebook link doesn't open in new page properly from blog");
+            }
+        } catch (NoSuchElementException e) {
+            LOGGER.error("Facebook link doesn't open in new page properly from blog", e);
+        }
+        baseFunc.click(socialMediaLinks.get(1));
+        baseFunc.switchTab(1);
+        try {
+            baseFunc.waitElementPresented(PINTEREST_PAGE_SIGN_UP_FORM_TITTLE);
+            if (baseFunc.getTextOfElement(PINTEREST_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
+                baseFunc.closeTab();
+                baseFunc.switchTab(0);
+            } else {
+                LOGGER.error("Pinterest link doesn't open in new page properly from blog");
+            }
+        } catch (NoSuchElementException e) {
+            LOGGER.error("Pinterest link doesn't open in new page properly from blog", e);
+        }
+        baseFunc.click(socialMediaLinks.get(2));
+        baseFunc.switchTab(1);
+        try {
+            baseFunc.waitElementPresented(TWITTER_PAGE_SIGN_UP_FORM_TITTLE);
+            if (baseFunc.getTextOfElement(TWITTER_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
+                baseFunc.closeTab();
+                baseFunc.switchTab(0);
+            } else {
+                LOGGER.error("Twitter link doesn't open in new page properly from blog");
+            }
+        } catch (NoSuchElementException e) {
+            LOGGER.error("Twitter link doesn't open in new page properly from blog", e);
+        }
+        Assertions.assertTrue(baseFunc.getTextOfElement(SUBMIT_REQUEST_BUTTON).length() > 0, "No text in submit request btn");
         Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).isEnabled(), "button is disabled");
-        baseFunc.findElement(BACK_LINK).click();
+        baseFunc.click(BACK_LINK);
+        return true;
+    }
 
-        List<WebElement>blogCards = baseFunc.list(ALL_POST_BLOG_CARDS);
+    public boolean isBlogCardsDisplayed() {
+        List<WebElement> blogCards = baseFunc.list(ALL_POST_BLOG_CARDS);
         int postCount = blogCards.size();
         for (int i = 0; i<postCount; i++) {
             WebElement blogCard = baseFunc.list(ALL_POST_BLOG_CARDS).get(i);
             List<WebElement> textInBlogCard = blogCard.findElements(BLOG_CARDS_TEXT);
-            String tittleCard = textInBlogCard.get(0).getText();
-            String subTittleCard = textInBlogCard.get(1).getText();
-            blogCard.click();
-            String tittleCardTwo = baseFunc.findElement(POST_TITTLE).getText();
-            String subTittleCardTwo = baseFunc.findElement(POST_SUBTITLE).getText();
+            String tittleCard = baseFunc.getTextOfElement(textInBlogCard.get(0));
+            String subTittleCard = baseFunc.getTextOfElement(textInBlogCard.get(1));
+            baseFunc.click(blogCard);
+            String tittleCardTwo = baseFunc.getTextOfElement(POST_TITTLE);
+            String subTittleCardTwo = baseFunc.getTextOfElement(POST_SUBTITLE);
             Assertions.assertEquals(tittleCard, tittleCardTwo,"text not equals");
             Assertions.assertEquals(subTittleCard, subTittleCardTwo,"text not equals");
 
@@ -234,35 +324,62 @@ public class BlogPage {
                     Assertions.assertTrue(image.isDisplayed(), "Image not visible in post");
                 }
             }else {
-                /*
-                for (WebElement link : socialMediaLinks) {
-                    String socialMediaUrl = link.getAttribute("href");
-                    baseFunc.linksStatusCheck(socialMediaUrl);
-                    Assertions.assertTrue(link.isDisplayed(), "no social media element on post page");
-                }*/
-                baseFunc.linksStatusCheck(linkFb);
-                baseFunc.linksStatusCheck(linkPinterest);
-                Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).getText().length()>0, "No text in submit request btn");
+                List<WebElement> socialMediaLinks = baseFunc.list(SOCIAL_MEDIA_LINKS);
+                baseFunc.click(socialMediaLinks.get(0));
+                baseFunc.switchTab(1);
+                try {
+                    baseFunc.waitElementPresented(FB_PAGE_COOKIES_ACCEPT_FORM_TITTLE);
+                    if (baseFunc.getTextOfElement(FB_PAGE_COOKIES_ACCEPT_FORM_TITTLE).length() > 0) {
+                        baseFunc.closeTab();
+                        baseFunc.switchTab(0);
+                    } else {
+                        LOGGER.error("Facebook link doesn't open in new page properly from blog");
+                    }
+                } catch (NoSuchElementException e) {
+                    LOGGER.error("Facebook link doesn't open in new page properly from blog", e);
+                }
+                baseFunc.click(socialMediaLinks.get(1));
+                baseFunc.switchTab(1);
+                try {
+                    baseFunc.waitElementPresented(PINTEREST_PAGE_SIGN_UP_FORM_TITTLE);
+                    if (baseFunc.getTextOfElement(PINTEREST_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
+                        baseFunc.closeTab();
+                        baseFunc.switchTab(0);
+                    } else {
+                        LOGGER.error("Pinterest link doesn't open in new page properly from blog");
+                    }
+                } catch (NoSuchElementException e) {
+                    LOGGER.error("Pinterest link doesn't open in new page properly from blog", e);
+                }
+                baseFunc.click(socialMediaLinks.get(2));
+                baseFunc.switchTab(1);
+                try {
+                    baseFunc.waitElementPresented(TWITTER_PAGE_SIGN_UP_FORM_TITTLE);
+                    if (baseFunc.getTextOfElement(TWITTER_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
+                        baseFunc.closeTab();
+                        baseFunc.switchTab(0);
+                    } else {
+                        LOGGER.error("Twitter link doesn't open in new page properly from blog");
+                    }
+                } catch (NoSuchElementException e) {
+                    LOGGER.error("Twitter link doesn't open in new page properly from blog", e);
+                }
+                Assertions.assertTrue(baseFunc.getTextOfElement(SUBMIT_REQUEST_BUTTON).length()>0, "No text in submit request btn");
                 Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).isEnabled(), "button is disabled");
-                baseFunc.findElement(BACK_LINK).click();
+                baseFunc.click(BACK_LINK);
             }
         }
             return true;
     }
-
-    public boolean isLinksWorks() {
-        LOGGER.info("Links in footer return status 200 for blog page");
-        List<WebElement> menuItems = baseFunc.list(FOOTER_LINKS);
-        for (WebElement item : menuItems) {
-            String url = item.getAttribute("href");
-            baseFunc.linksStatusCheck(url);
-        }
+    public boolean isFooterLinksOpen() {
+        LOGGER.info("Checking if footer links successfully open");
+        baseFunc.footerLinksOpen(FOOTER_LINKS, TITTLE);
         return true;
     }
     public boolean isPhoneNumberLinkWorkInFooter() {
-        LOGGER.info("Phone number link in footer returns status 200 for blog page");
+        LOGGER.info("Phone number displayed in footer");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        Assertions.assertTrue(phonesLInks.get(0).getAttribute("href").length()>0, "no phone number");
+        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "no phone number");
         return true;
     }
     public boolean isEmailLinkWorkInFooter () {
@@ -272,38 +389,30 @@ public class BlogPage {
         if (link != null && !link.startsWith("mailto:")) {
             baseFunc.linksStatusCheck(link);
         }
-        Assertions.assertTrue(email.get(1).getText().length()>0, "no phone number");
+        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length()>0, "no phone number");
         return true;
     }
-    public boolean isPaymentsDisplayed () {
-        LOGGER.info("Checking if payment info displayed for blog page");
-        Assertions.assertTrue(baseFunc.findElement(PAYMENTS).getText().length()>0,"no payments on about us page");
+    public boolean isPaymentsDisplayed() {
+        LOGGER.info("Checking if payment info displayed in footer");
+        Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS),"No payments in footer" );
         return true;
     }
-    public boolean isPaymentMethodImageDisplayed () {
-        LOGGER.info("Checking if payment methods displayed for blog page");
-        List<WebElement> paymentsMethods = baseFunc.list(PAYMENTS_METHODS);
-        for (WebElement paymentMethod : paymentsMethods) {
-            paymentMethod.isDisplayed();
-        }
+    public boolean isPaymentMethodImageDisplayed() {
+        LOGGER.info("Checking if payment methods displayed in footer");
+        return baseFunc.isPaymentMethodImageDisplayed(PAYMENTS_METHODS);
+    }
+    public boolean isPartnersDisplayed() {
+        LOGGER.info("Checking if block about rights displayed in footer");
+        return baseFunc.isPartnersDisplayed(AIRLINES_PARTNERS);
+    }
+    public boolean isAllRightsTextDisplayed() {
+        LOGGER.info("Checking if block about rights displayed in footer");
+        Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
         return true;
     }
-    public boolean isPartnersDisplayed () {
-        LOGGER.info("Checking if partner list displayed for blog page");
-        baseFunc.findElement(AIRLINES_PARTNERS).isDisplayed();
-        return true;
-    }
-    public boolean isAllRightsTextDisplayed () {
-        LOGGER.info("Checking if block about rights displayed for blog page");
-        Assertions.assertTrue(baseFunc.findElement(ALL_RIGHTS_TEXT).getText().length()>0, "no all right text on about us page");
-        return true;
-    }
-    public void openTermsOfUsePage () {
-        LOGGER.info("Opening next page - Terms Of Use Page");
-        List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
-        menuButtons.get(1).click();
-        WebElement termsOfUseItem = baseFunc.list(DROP_DOWN_ELEMENTS).get(2);
-        termsOfUseItem.click();
+    public void openTermsOfUsePage() {
+        LOGGER.info("Opening next page - Terms of use");
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS,DROP_DOWN_ELEMENTS, 2 );
     }
 
 }

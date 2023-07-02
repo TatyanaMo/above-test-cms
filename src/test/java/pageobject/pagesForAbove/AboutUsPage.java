@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 
@@ -20,7 +21,16 @@ public class AboutUsPage {
     private final By LOG_IN_BUTTON = By.xpath(".//button[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
     private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
-    private final By TITTLE_ABOUT_US = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
+
+    private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
+    private final By MODAL_INPUT_FIELDS = By.xpath(".//div[@class='space-y-4']/div/div/div/input");
+    private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
+    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//div[@class='pt-6 -mx-2 flex items-baseline flex-wrap justify-between']/span/button");
+    private final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
+    private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
+
+    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[@class='typography_display-s__qOjh6 typography_appearance-default__AAY17 title_displayName__TtDDM']");
+    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
     private final By TEXT = By.xpath(".//div[@class='py-8 md:py-16 container rich-content']");
     private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
     private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
@@ -28,6 +38,7 @@ public class AboutUsPage {
     private final By PAYMENTS_METHODS = By.xpath(".//li[@class='w-9 md:w-12']/img");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
     private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
+
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
@@ -43,66 +54,99 @@ public class AboutUsPage {
     }
     public boolean isReviewLinkAppearsInHeader() {
         LOGGER.info("Checking Trustpilot link in header for about us page");
-        String trustPilotUrl = baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href");
-        baseFunc.linksStatusCheck(trustPilotUrl);
-        baseFunc.findElement(REVIEW_IMG).isDisplayed();
+        baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK,REVIEW_IMG,REVIEW_HEADER_LINK,TRUSTPILOT_ABOVE_TITTLE );
         return true;
     }
     public boolean isPhoneNumberLinkWorkInHeader() {
-        LOGGER.info("Checking phone number in header for about us page");
-        List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        Assertions.assertTrue(phonesLInks.get(0).getAttribute("href").length()>0, "no phone number");
+        LOGGER.info("Checking phone number in header");
+        baseFunc.checkPhoneNumberLinkInHeader(PHONE);
         return true;
     }
-    public void openDropDown() {
-        LOGGER.info("Checking presence of elements in all dropdown menus for about us page");
+    public boolean isDropDownMenuOpen() {
+        LOGGER.info("Checking presence of elements in all dropdown menu");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
-        menuButtons.get(0).click();
+        baseFunc.click(menuButtons.get(0));
         Assertions.assertTrue(baseFunc.findElement(LOG_IN_BUTTON).isEnabled(), "button is disabled");
         Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
 
         menuButtons.get(1).click();
         baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
         List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
-        Assertions.assertEquals("USD", currencies.get(0).getText(),"wrong currency");
-        Assertions.assertEquals("EUR", currencies.get(1).getText(),"wrong currency");
-        Assertions.assertEquals("CAD", currencies.get(2).getText(),"wrong currency");
-        Assertions.assertEquals("AUD", currencies.get(3).getText(),"wrong currency");
-        Assertions.assertEquals("GBP", currencies.get(4).getText(),"wrong currency");
+        Assertions.assertEquals("USD", baseFunc.getTextOfElement(currencies.get(0)), "wrong currency");
+        Assertions.assertEquals("EUR", baseFunc.getTextOfElement(currencies.get(1)), "wrong currency");
+        Assertions.assertEquals("CAD", baseFunc.getTextOfElement(currencies.get(2)), "wrong currency");
+        Assertions.assertEquals("AUD", baseFunc.getTextOfElement(currencies.get(3)), "wrong currency");
+        Assertions.assertEquals("GBP", baseFunc.getTextOfElement(currencies.get(4)), "wrong currency");
 
-        menuButtons.get(2).click();
+        baseFunc.click(menuButtons.get(2));
         baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
         List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
-        Assertions.assertEquals("About Us", submenuItems.get(5).getText(),"No submenu item");
-        Assertions.assertEquals("Blog", submenuItems.get(6).getText(),"No submenu item");
-        Assertions.assertEquals("Terms Of Use", submenuItems.get(7).getText(),"No submenu item");
-        Assertions.assertEquals("Privacy Policy", submenuItems.get(8).getText(),"No submenu item");
-        Assertions.assertEquals("Cookies Policy", submenuItems.get(9).getText(),"No submenu item");
-        Assertions.assertEquals("Contact us", submenuItems.get(10).getText(),"No submenu item");
-        Assertions.assertEquals("Manage cookie preferences", submenuItems.get(11).getText(),"No submenu item");
-        menuButtons.get(2).click();
+        Assertions.assertEquals("About Us", baseFunc.getTextOfElement(submenuItems.get(5)), "No submenu item");
+        Assertions.assertEquals("Blog", baseFunc.getTextOfElement(submenuItems.get(6)), "No submenu item");
+        Assertions.assertEquals("Terms Of Use", baseFunc.getTextOfElement(submenuItems.get(7)), "No submenu item");
+        Assertions.assertEquals("Privacy Policy", baseFunc.getTextOfElement(submenuItems.get(8)), "No submenu item");
+        Assertions.assertEquals("Cookies Policy", baseFunc.getTextOfElement(submenuItems.get(9)), "No submenu item");
+        Assertions.assertEquals("Contact us", baseFunc.getTextOfElement(submenuItems.get(10)), "No submenu item");
+        Assertions.assertEquals("Manage cookie preferences", baseFunc.getTextOfElement(submenuItems.get(11)), "No submenu item");
+        baseFunc.click(menuButtons.get(2));
+        return true;
     }
-    public void getTittle() {
-        LOGGER.info("Checking presence of tittle for about us page");
-        Assertions.assertTrue(baseFunc.findElement(TITTLE_ABOUT_US).getText().length()>0,"No tittle on about us page");
-    }
-    public void getMainText () {
-        LOGGER.info("Checking presence of main text for about us page");
-        Assertions.assertTrue(baseFunc.findElement(TEXT).getText().length()>0,"No text info on about us page");
-    }
-    public boolean isLinksWorks () {
-        LOGGER.info("Links in footer return status 200 for about us page");
-        List<WebElement> menuItems = baseFunc.list(FOOTER_LINKS);
-        for (WebElement item : menuItems) {
-            String url = item.getAttribute("href");
-            baseFunc.linksStatusCheck(url);
+    public boolean isLogInModalWindowOpens() {
+        LOGGER.info("Checking elements in Login modal window");
+        baseFunc.checkLogInModalWindow(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, LOG_IN_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS);
+        Assertions.assertTrue(baseFunc.getTextOfElement(LOG_IN_MODAL_WINDOW).length() > 0, "No tittle in Login modal window");
+        List<WebElement> loginInputFields = baseFunc.list(MODAL_INPUT_FIELDS).subList(0, 1);
+        for (WebElement inputField : loginInputFields) {
+            Assertions.assertTrue(inputField.getAttribute("placeholder").length() > 0, "no text in placeholders in login modal window");
+        }
+        Assertions.assertTrue(baseFunc.list(SUBMIT_BUTTONS).get(0).isEnabled(), "Sign in button is disabled in login modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(0)).length() > 0, "Sign in button hasn't name in login modal window");
+        List<WebElement> buttons = baseFunc.list(MODAL_WINDOW_BUTTONS).subList(0, 1);
+        for (WebElement button : buttons) {
+            Assertions.assertTrue(button.isEnabled(), "Buttons is disabled in login modal window");
+            Assertions.assertTrue(baseFunc.getTextOfElement(button).length() > 0, "Buttons haven't names in login modal window");
         }
         return true;
     }
+    public void loginModalClose () {
+        LOGGER.info("Closing Login modal window");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(0));
+    }
+    public boolean isSignUpModalWindowOpen() {
+        LOGGER.info("Checking elements in Sign up modal window");
+        baseFunc.checkSignUpModalWindow(DROP_DOWN_BUTTONS, CREATE_PROFILE_BUTTON, SIGN_UP_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS );
+        Assertions.assertTrue(baseFunc.getTextOfElement(SIGN_UP_MODAL_WINDOW).length()>0, "No tittle in Sign up modal window");
+        List<WebElement> signUpInputFields = baseFunc.list(MODAL_INPUT_FIELDS).subList(2,6);
+        for (WebElement inputField : signUpInputFields) {
+            Assertions.assertTrue(inputField.getAttribute("placeholder").length()>0, "no text in placeholders in Sign up modal window");
+        }
+        Assertions.assertTrue(baseFunc.list(SUBMIT_BUTTONS).get(1).isEnabled(), "Sign in button is disabled  in Sign up modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(1)).length()>0, "Sign in button hasn't name in login modal window");
+        Assertions.assertTrue(baseFunc.list(MODAL_WINDOW_BUTTONS).get(2).isEnabled(), "Button is disabled in Sign up modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(MODAL_WINDOW_BUTTONS).get(2)).length()>0, "Button hasn't name in Sign up modal window");
+        return true;
+    }
+    public void signUpModalClose () {
+        LOGGER.info("Closing sign up modal window");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(1));
+    }
+    public void getTittle() {
+        LOGGER.info("Checking presence of tittle for about us page");
+        Assertions.assertTrue(baseFunc.getTextOfElement(TITTLE).length()>0,"No tittle on about us page");
+    }
+    public void getMainText () {
+        LOGGER.info("Checking presence of main text for about us page");
+        Assertions.assertTrue(baseFunc.getTextOfElement(TEXT).length()>0,"No text info on about us page");
+    }
+    public boolean isFooterLinksOpen() {
+        LOGGER.info("Checking if footer links successfully open except About us link");
+        baseFunc.footerLinksOpenWithException(FOOTER_LINKS, 0, TITTLE);
+        return true;
+    }
     public boolean isPhoneNumberLinkWorkInFooter() {
-        LOGGER.info("Phone number link in footer returns status 200 for about us page");
+        LOGGER.info("Phone number displayed in footer");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        phonesLInks.get(1).getAttribute("href");
+        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "no phone number");
         return true;
     }
     public boolean isEmailLinkWorkInFooter () {
@@ -111,35 +155,27 @@ public class AboutUsPage {
         email.get(1).getAttribute("href");
         return true;
     }
-    public boolean isPaymentsDisplayed () {
-        LOGGER.info("Checking if payment info displayed for about us page");
-        Assertions.assertTrue(baseFunc.findElement(PAYMENTS).getText().length()>0,"no payments on about us page");
+    public boolean isPaymentsDisplayed() {
+        LOGGER.info("Checking if payment info displayed in footer");
+        Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS),"No payments in footer" );
         return true;
     }
-    public boolean isPaymentMethodImageDisplayed () {
-        LOGGER.info("Checking if payment methods displayed for about us page");
-        List<WebElement> paymentsMethods = baseFunc.list(PAYMENTS_METHODS);
-        for (WebElement paymentMethod : paymentsMethods) {
-            paymentMethod.isDisplayed();
-        }
+    public boolean isPaymentMethodImageDisplayed() {
+        LOGGER.info("Checking if payment methods displayed in footer");
+        return baseFunc.isPaymentMethodImageDisplayed(PAYMENTS_METHODS);
+    }
+    public boolean isPartnersDisplayed() {
+        LOGGER.info("Checking if block about rights displayed in footer");
+        return baseFunc.isPartnersDisplayed(AIRLINES_PARTNERS);
+    }
+    public boolean isAllRightsTextDisplayed() {
+        LOGGER.info("Checking if block about rights displayed in footer");
+        Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
         return true;
     }
-    public boolean isPartnersDisplayed () {
-        LOGGER.info("Checking if partner list displayed for about us page");
-        baseFunc.findElement(AIRLINES_PARTNERS).isDisplayed();
-        return true;
-    }
-    public boolean isAllRightsTextDisplayed () {
-        LOGGER.info("Checking if block about rights displayed for about us page");
-        Assertions.assertTrue(baseFunc.findElement(ALL_RIGHTS_TEXT).getText().length()>0, "no all right text on about us page");
-        return true;
-    }
-    public void openBlogPage () {
-        LOGGER.info("Opening next page - Blog");
-        List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
-        menuButtons.get(2).click();
-        WebElement blogItem = baseFunc.list(DROP_DOWN_ELEMENTS).get(6);
-        blogItem.click();
+    public void openBlogPage() {
+        LOGGER.info("Opening next page - Blog page");
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS,DROP_DOWN_ELEMENTS, 2 );
     }
 }
 

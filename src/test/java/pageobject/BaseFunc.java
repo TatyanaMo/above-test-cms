@@ -2,7 +2,9 @@ package pageobject;
 
 import com.sun.source.tree.BreakTree;
 import net.bytebuddy.asm.Advice;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,9 +24,12 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.frameToBeAvailableAndSwitchToIt;
+import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
 
 
 public class BaseFunc {
@@ -54,25 +59,32 @@ public class BaseFunc {
         return new HomePage(this);
     }
 
-    public void openUrl (String url) {
+    public void openUrl(String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
         browser.get(url);
     }
-    public void switchIframe (By locator) {
-        WebElement iframeElement = browser.findElement(locator);
-        browser.switchTo().frame(iframeElement);
+
+    public void switchIframe(By locator) {
+        WebElement we = findElement(locator);
+        browser.switchTo().frame(we);
     }
-    public void switchIframeIndex (int index) {
+
+    public void switchIframeWe(WebElement we) {
+        browser.switchTo().frame(we);
+    }
+
+    public void switchIframeIndex(int index) {
         browser.switchTo().frame(index);
     }
 
-    public void switchToMainPage () {
+    public void switchToMainPage() {
         browser.switchTo().defaultContent();
     }
+
     public void switchTab(int tabIndex) {
-        List <String> windowHandles = new ArrayList<>(browser.getWindowHandles());
+        List<String> windowHandles = new ArrayList<>(browser.getWindowHandles());
         if (tabIndex >= 0 && tabIndex < windowHandles.size()) {
             browser.switchTo().window(windowHandles.get(tabIndex));
         } else {
@@ -80,11 +92,19 @@ public class BaseFunc {
         }
     }
 
+    public void goBack() {
+        browser.navigate().back();
+    }
+
+    public void closeTab() {
+        browser.close();
+    }
+
     public void click(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
-    public void click (WebElement we) {
+    public void click(WebElement we) {
         wait.until(ExpectedConditions.elementToBeClickable(we)).click();
     }
 
@@ -99,50 +119,178 @@ public class BaseFunc {
         select.selectByValue(value);
     }
 
-    public void selectByText (By locator, String text) {
+    public void selectByText(By locator, String text) {
         WebElement we = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         Select select = new Select(we);
         select.selectByVisibleText(text);
     }
-    public void type (WebElement element, String text) {
-        //WebElement input = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+
+    public void selectByText(By locator, int text) {
+        WebElement we = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        Select select = new Select(we);
+        select.selectByVisibleText(String.valueOf(text));
+    }
+
+    public void type(WebElement element, String text) {
         element.clear();
         element.sendKeys(text);
     }
+
     //etot metod pozvolit int peredelatj v string i zaispoljzovatj osnovnoj metod
-    public void type (WebElement element, int text) {
+    public void type(WebElement element, int text) {
         type(element, String.valueOf(text));
     }
 
-    public WebElement findElement (By locator) {
+    public WebElement findElement(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    public String getTextOfElement (By locator) {
+    public String getTextOfElement(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator)).getText();
     }
 
-    public void waitElementPresented (By locator) {
+    public String getTextOfElement(WebElement we) {
+        return we.getText();
+    }
+
+    public void waitElementPresented(By locator) {
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+
     public void waitForElementsCountAtLeast(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
     }
-    public void waitForElementNotClickable (By locator) {
+
+    public void waitForElementNotClickable(By locator) {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
-    public void waitElementToBeVisible (By locator) {
+
+    public void waitElementToBeVisible(By locator) {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
-    public void linksStatusCheck (String string)  {
+    public void waitAllElementsToBeVisible(By locator) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    }
+
+    public void waitForDisplayedElement(WebElement we, String text) {
+        wait.until(ExpectedConditions.attributeToBe(we, "class", text));
+    }
+
+    public void waitForText(By locator, String text) {
+        wait.until(textToBe(locator, text));
+    }
+
+    public void linksStatusCheck(String string) {
         RestTemplate restTemplate = new RestTemplate();
         boolean response = restTemplate.getForEntity(string, String.class).getStatusCode().is2xxSuccessful();
     }
 
-    public int getRandomIndex (int range) {
+    public int getRandomIndex(int range) {
         Random random = new Random();
         return random.nextInt(range);
+    }
+
+    public void footerLinksOpen(By locatorOne, By locatorTwo) {
+        List<WebElement> menuItems = browser.findElements(locatorOne);
+        int numberLinks = menuItems.size();
+        for (int i = 0; i < numberLinks; i++) {
+            List<WebElement> updatedMenuItems = browser.findElements(locatorOne);
+            WebElement item = updatedMenuItems.get(i);
+            item.click();
+            waitElementPresented(locatorTwo);
+            if (browser.findElement(locatorTwo).isDisplayed()) {
+                goBack();
+                switchTab(0);
+            } else {
+                LOGGER.error("Page doesn't open from footer link");
+            }
+        }
+    }
+
+    public void footerLinksOpenWithException(By locatorOne, int index, By locatorTwo) {
+        List<WebElement> menuItems = browser.findElements(locatorOne);
+        int numberLinks = menuItems.size();
+        for (int i = 0; i < numberLinks; i++) {
+            if (i == index) {
+                continue;
+            }
+            List<WebElement> updatedMenuItems = browser.findElements(locatorOne);
+            WebElement item = updatedMenuItems.get(i);
+            item.click();
+            waitElementPresented(locatorTwo);
+            if (browser.findElement(locatorTwo).isDisplayed()) {
+                goBack();
+                switchTab(0);
+            } else {
+                LOGGER.error("Page doesn't open from footer link");
+            }
+        }
+    }
+
+    public void checkLogInModalWindow(By locatorOne, By locatorTwo, By locatorThree, By locatorFour, By locatorFive, By locatorSix) {
+        List<WebElement> menuButtons = list(locatorOne);
+        menuButtons.get(0).click();
+        findElement(locatorTwo).click();
+        waitAllElementsToBeVisible(locatorThree);
+        switchTab(0);
+        findElement(locatorThree);
+        List<WebElement> loginInputFields = list(locatorFour).subList(0, 1);
+        list(locatorFive).get(2);
+        list(locatorSix).subList(0, 1);
+    }
+
+    public void checkSignUpModalWindow(By locatorOne, By locatorTwo, By locatorThree, By locatorFour, By locatorFive, By locatorSix) {
+        List<WebElement> menuButtons = list(locatorOne);
+        menuButtons.get(0).click();
+        findElement(locatorTwo).click();
+        waitAllElementsToBeVisible(locatorThree);
+        switchTab(0);
+        findElement(locatorThree);
+        list(locatorFour).subList(2, 6);
+        list(locatorFive).subList(0, 1);
+        list(locatorSix).get(2);
+    }
+
+    public void checkReviewLinkInHeader(By locatorOne, By locatorTwo, By locatorThree, By locatorFour) {
+        linksStatusCheck(findElement(locatorOne).getAttribute("href"));
+        findElement(locatorTwo).isDisplayed();
+        click(locatorThree);
+        switchTab(1);
+        try {
+            waitElementPresented(locatorFour);
+            if (findElement(locatorFour).isDisplayed()) {
+                closeTab();
+                switchTab(0);
+            } else {
+                LOGGER.error("Trustpilot link doesn't open in new page properly");
+            }
+        } catch (NoSuchElementException e) {
+            LOGGER.error("Trustpilot link doesn't open in new page properly", e);
+        }
+    }
+    public void checkPhoneNumberLinkInHeader( By locator) {
+        Assertions.assertTrue(list(locator).get(0).getAttribute("href").length() > 0, "no phone number");
+    }
+    public void openNextPage(By locatorOne, By locatorTwo,int index ) {
+        click(list(locatorOne).get(index));
+        click(list(locatorTwo).get(5));
+    }
+    public boolean isPaymentsDisplayed(By locator) {
+       return  getTextOfElement(locator).length() > 0;
+    }
+    public boolean isPaymentMethodImageDisplayed(By locator) {
+        for (WebElement we : list(locator)) {
+            we.isDisplayed();
+        }
+        return true;
+    }
+    public boolean isPartnersDisplayed(By locator) {
+        findElement(locator).isDisplayed();
+        return true;
+    }
+    public boolean isAllRightsTextDisplayed(By locator) {
+        return getTextOfElement(locator).length() > 0;
     }
 
 }
