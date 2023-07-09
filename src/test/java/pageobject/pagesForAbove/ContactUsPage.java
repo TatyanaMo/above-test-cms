@@ -2,6 +2,7 @@ package pageobject.pagesForAbove;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -176,10 +177,7 @@ public class ContactUsPage {
 
     public boolean isHeadersDisplayed() {
         LOGGER.info("Checking if header displayed for contact form for contact us page");
-        List<WebElement> headers = baseFunc.list(HEADERS);
-        for (WebElement header : headers) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(header).length() > 0, "No headers on Contact us page");
-        }
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(HEADERS) >0 ,  "No headers on Contact us page");
         return true;
     }
 
@@ -208,10 +206,7 @@ public class ContactUsPage {
 
     public boolean isUsefulInfoBlockDisplayed() {
         LOGGER.info("Checking if useful info block displayed for contact form for contact us page");
-        List<WebElement> infoBlocks = baseFunc.list(USEFUL_INFO_BLOCKS_HEADERS);
-        for (WebElement infoBlock : infoBlocks) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(infoBlock).length() > 0, "No text header in useful information block in contact us page");
-        }
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(USEFUL_INFO_BLOCKS_HEADERS) > 0, "No text header in useful information block in contact us page");
         List<WebElement> infoBlockLinks = baseFunc.list(USEFUL_INFO_BLOCKS_CONTACTS);
         Assertions.assertTrue(baseFunc.getTextOfElement(infoBlockLinks.get(0)).length() > 0, "no phone number in support info block");
         Assertions.assertTrue(baseFunc.getTextOfElement(infoBlockLinks.get(2)).length() > 0, "no phone number in travel request info block");
@@ -295,18 +290,9 @@ public class ContactUsPage {
             Assertions.assertTrue(baseFunc.getTextOfElement(MODAL_WINDOW_HEADER).length() > 0, "no header in 'cookie preferences' modal window");
             Assertions.assertTrue(baseFunc.getTextOfElement(MODAL_WINDOW_TEXT).length() > 0, "no text in 'cookie preferences' modal window");
             Assertions.assertTrue(baseFunc.list(MODAL_WINDOW_COOKIES_TYPES).size() > 0, "no information about cookies in 'cookie preferences' modal window");
-            List<WebElement> cookieLabels = baseFunc.list(COOKIE_LABELS);
-            for (WebElement cookieLabel : cookieLabels) {
-                Assertions.assertTrue(baseFunc.getTextOfElement(cookieLabel).length() > 0, "no cookie label in 'cookie preferences' modal window");
-            }
-            List<WebElement> cookieCounts = baseFunc.list(COOKIE_COUNTS);
-            for (WebElement cookieCount : cookieCounts) {
-                Assertions.assertTrue(baseFunc.getTextOfElement(cookieCount).length() > 0, "no cookie count in 'cookie preferences' modal window");
-            }
-            List<WebElement> cookieTexts = baseFunc.list(COOKIE_TEXT);
-            for (WebElement cookieText : cookieTexts) {
-                Assertions.assertTrue(baseFunc.getTextOfElement(cookieText).length() > 0, "no cookies description text in 'cookie preferences' modal window");
-            }
+            Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(COOKIE_LABELS) >0, "No cookie label in 'cookie preferences' modal window");
+            Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(COOKIE_COUNTS) >0, "No cookie label in 'cookie preferences' modal window");
+            Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(COOKIE_TEXT) >0, "No cookie label in 'cookie preferences' modal window");
             List<WebElement> cookiesTypes = baseFunc.list(MODAL_WINDOW_COOKIES_TYPES);
             for (WebElement cookieType : cookiesTypes) {
                 baseFunc.click(COOKIE_DETAILS_LINKS);

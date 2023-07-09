@@ -150,18 +150,9 @@ public class TermsOfUsePage {
 
     public boolean isTextDisplayed() {
         LOGGER.info("Checking presence of main text for terms of use page");
-        List<WebElement> tittles = baseFunc.list(TEXT_TITTLES);
-        List<WebElement> texts = baseFunc.list(TEXT);
-        List<WebElement> lists = baseFunc.list(TEXT_LIST);
-        for (WebElement tittle : tittles) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(tittle).length() > 0, "no text tittle on terms of use page");
-        }
-        for (WebElement text : texts) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(text).length() > 0, "no text on terms of use page");
-        }
-        for (WebElement list : lists) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(list).length() > 0, "no text list on terms of use page");
-        }
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(TEXT_TITTLES) > 0, "No text tittle on terms of use page");
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(TEXT) > 0, "No text on terms of use page");
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(TEXT_LIST) > 0, "No text list on terms of use page");
         return true;
     }
 

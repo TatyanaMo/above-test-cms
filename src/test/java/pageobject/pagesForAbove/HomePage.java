@@ -93,7 +93,8 @@ public class HomePage {
     private final By AIRPORTS_SUGGESTION = By.xpath(".//span[@class='-mr-2 flex-shrink-0 pl-2']");
     private final By INPUT_FROM = By.xpath(".//input[@aria-label='From (city or airport)']");
     private final By INPUT_TO = By.xpath(".//input[@aria-label='To (city or airport)']");
-    private final By CHOICES_LIST = By.xpath(".//div[contains(@class,'choices__list choices__list--dropdown')]");
+    private final By CHOICES_LIST = By.xpath(".//div[contains(@class, 'choices__list choices__list--dropdown')]");
+    private final By CHOICES_LIST_TO = By.xpath(".//div[contains(@class, 'choices__item choices__item--choice choices__item--selectable')]");
 
     private final By DATE_PICKERS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0 py-1" +
             " w-full text-sm rounded-none transition-colors bg-transparent  border-white text-white placeholder-white " +
@@ -138,10 +139,7 @@ public class HomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TITTLE).length() > 0, "No tittle in Facebook iframe");
         Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TEXT).length() > 0, "No text in Facebook iframe");
         baseFunc.click(IFRAME_FACEBOOK_MORE_BTN);
-        List<WebElement> menuItems = baseFunc.list(IFRAME_FACEBOOK_MENU_ITEMS);
-        for (WebElement item : menuItems) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(item).length() > 0, "No menu items in 'More' option in Facebook iframe");
-        }
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(IFRAME_FACEBOOK_MENU_ITEMS) > 0, "No menu items in 'More' option in Facebook iframe" );
         Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_START_CHAT_BTN).isEnabled(), "Start chat button is disabled in Facebook iframe");
         baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
         baseFunc.switchToMainPage();
@@ -250,7 +248,6 @@ public class HomePage {
 
     public void WhyChooseAboveBlockCheck() {
         LOGGER.info("Checking if block Why choose Above displayed for homepage");
-        Integer elements = baseFunc.list(CONTAINERS_TEXT).size();
         Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(CONTAINERS_TEXT).get(1)).length() > 0, "No text here");
         Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(CONTAINERS_TEXT).get(2)).length() > 0, "No text here");
     }
@@ -265,7 +262,6 @@ public class HomePage {
         baseFunc.click(nextBtn);
         WebElement prevBtn = baseFunc.list(CONTAINERS_TEXT).get(3).findElement(CAROUSEL_BTN_PREV);
         baseFunc.click(prevBtn);
-
         Assertions.assertTrue(prevBtn.isEnabled(), "Prev carousel button is disabled");
         Assertions.assertTrue(nextBtn.isEnabled(), "Next carousel button is disabled");
 
@@ -329,9 +325,9 @@ public class HomePage {
         LOGGER.info("Checking if request form displayed for homepage");
         Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(REQUEST_FORM_INPUT_FIELDS) > 0, "No default text in placeholders in request form");
         List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
         for (WebElement input : inputFields) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(input).length() > 0, "no default text in placeholders in request form");
             Assertions.assertTrue(baseFunc.getTextOfElement(input).contains("This field is required."), "No error text in placeholders in request form ");
         }
         return true;
@@ -356,7 +352,7 @@ public class HomePage {
         List<WebElement> activePassengerBlock = passengersCounterBlock.subList(3, 6);
         for (WebElement passengersType : activePassengerBlock) {
             Assertions.assertTrue(passengersType.isDisplayed(), "passengers type not displayed");
-            Assertions.assertTrue(baseFunc.getTextOfElement(passengersType).length() > 0, "passengers type not displayed");
+            Assertions.assertTrue(baseFunc.getTextOfElement(passengersType).length() > 0, "Passengers type not displayed");
         }
         List<WebElement> passengersButtons = baseFunc.list(PASSENGERS_COUNTER_BTNS);
         List<WebElement> activePassengerButtons = passengersButtons.subList(6, 12);
@@ -423,14 +419,14 @@ public class HomePage {
             }
         }
         LOGGER.info("Checking if multi city request form displayed for homepage");
-        Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
+        Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "Request form not displayed on homepage");
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
         LOGGER.info("Checking text in input fields in request form");
         List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
         for (WebElement input : inputFields) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(input).length() > 0, "no default text in placeholders in request form");
             Assertions.assertTrue(baseFunc.getTextOfElement(input).contains("This field is required."), "No error text in placeholders in request form ");
         }
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(REQUEST_FORM_INPUT_FIELDS) > 0, "No default text in placeholders in request form");
         LOGGER.info("Checking if depart calendar opens in request form");
         List<WebElement> datePickersMultiCity = baseFunc.list(DATE_PICKERS);
         baseFunc.click(datePickersMultiCity.get(0));
@@ -462,7 +458,7 @@ public class HomePage {
         baseFunc.type(inputEmail, passenger.getEmail());
     }
 
-    public void selectAirportsAndCountryCodeFromSuggestionLists(String locationFrom, String countryCode, String locationTo, Passenger passenger) {
+    public void selectAirportsAndCountryCodeFromSuggestionLists(String locationFrom, String locationTo, Passenger passenger) {
         LOGGER.info("Selecting airports " + locationFrom + " from suggestion lists");
         WebElement inputAirportFrom = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(4);
         baseFunc.click(inputAirportFrom);
@@ -488,7 +484,6 @@ public class HomePage {
         WebElement inputTo = baseFunc.list(INPUT_TO).get(1);
         baseFunc.click(inputTo);
         baseFunc.type(inputTo, passenger.getAirportTo());
-        //baseFunc.waitForDisplayedElement(baseFunc.list(CHOICES_LIST).get(4), "choices__list choices__list--dropdown is-active");
         List<WebElement> suggestionsTo = baseFunc.list(AIRPORTS_SUGGESTION);
         baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
         boolean isFoundTo = false;
@@ -496,7 +491,7 @@ public class HomePage {
             System.out.println(we.getText());
             if (baseFunc.getTextOfElement(we).equals(locationTo)) {
                 we.click();
-                isFoundTo = true;
+                isFoundFrom = true;
                 break;
             }
         }

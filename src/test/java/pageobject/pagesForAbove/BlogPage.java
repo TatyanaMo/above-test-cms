@@ -99,16 +99,6 @@ public class BlogPage {
         baseFunc.click(menuButtons.get(0));
         Assertions.assertTrue(baseFunc.findElement(LOG_IN_BUTTON).isEnabled(), "button is disabled");
         Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
-/*
-        menuButtons.get(1).click();
-        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
-        List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
-        Assertions.assertEquals("USD", baseFunc.getTextOfElement(currencies.get(0)), "wrong currency");
-        Assertions.assertEquals("EUR", baseFunc.getTextOfElement(currencies.get(1)), "wrong currency");
-        Assertions.assertEquals("CAD", baseFunc.getTextOfElement(currencies.get(2)), "wrong currency");
-        Assertions.assertEquals("AUD", baseFunc.getTextOfElement(currencies.get(3)), "wrong currency");
-        Assertions.assertEquals("GBP", baseFunc.getTextOfElement(currencies.get(4)), "wrong currency");
-*/
         baseFunc.click(menuButtons.get(1));
         baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
         List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
@@ -189,7 +179,6 @@ public class BlogPage {
     public boolean isLinksWorksInRandomBlogItems() {
         LOGGER.info("Checking if random selected blog card opens for blog page");
         List<WebElement> blogItems = baseFunc.list(BLOG_BUTTONS).subList(4, 15);
-
         for (WebElement blogItem : blogItems) {
             Assertions.assertTrue(baseFunc.getTextOfElement(blogItem).length() > 0, "No tittle in blog items");
             Assertions.assertTrue(blogItem.isEnabled(), "Blog button is disabled");
@@ -237,10 +226,7 @@ public class BlogPage {
             baseFunc.linksStatusCheck(allPostMainUrl);
             Assertions.assertNotNull(baseFunc.findElement(BLOG_IMAGES).getAttribute("src"), "Image source is null for main blog item");
             Assertions.assertFalse(baseFunc.findElement(BLOG_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
-            List<WebElement> textInBlogItem = baseFunc.list(BLOG_TEXT_FOR_MAIN_ITEM);
-            for (WebElement text : textInBlogItem) {
-                Assertions.assertTrue(baseFunc.getTextOfElement(text).length() > 0, "No tittle text in blog item");
-            }
+            Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(BLOG_TEXT_FOR_MAIN_ITEM) > 0, "No tittle text in blog item");
             List<WebElement> allPostBlogCards = baseFunc.list(ALL_POST_BLOG_CARDS);
             for (WebElement blogCard : allPostBlogCards) {
                 String blogCardUrl = blogCard.getAttribute("href");
@@ -248,10 +234,7 @@ public class BlogPage {
                 Assertions.assertNotNull(baseFunc.findElement(BLOG_CARD_IMAGES).getAttribute("src"), "Image source is null for main blog item");
                 Assertions.assertFalse(baseFunc.findElement(BLOG_CARD_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
             }
-            List<WebElement> blogCardText = baseFunc.list(BLOG_CARDS_TEXT);
-            for (WebElement cardText : blogCardText) {
-                Assertions.assertTrue(baseFunc.getTextOfElement(cardText).length() > 0, "No tittle in blog card'");
-            }
+            Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(BLOG_CARDS_TEXT) > 0, "No tittle in blog card");
         }
         return true;
     }

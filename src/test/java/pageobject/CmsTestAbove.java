@@ -2,7 +2,9 @@ package pageobject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.objenesis.instantiator.sun.SunReflectionFactoryInstantiator;
 import pageobject.model.Passenger;
 import pageobject.pagesForAbove.*;
 
@@ -15,14 +17,14 @@ public class CmsTestAbove {
     private final String COUNTRY_CODE = "372";
     public final String expectedDepartDate = "01-08-2023";
 
-
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc = new BaseFunc();
+    int adultPassengerToSelect = 1;
 
     @Test
     public void ElementsCheck() {
-        int adultPassengerToSelect = 1;
+        //int adultPassengerToSelect = 1;
 
         Passenger passenger = new Passenger("Test", 28745640, "tanjatest2@inbox.lv", "VBS",
                 "372", "RIX", "BCN", "BCD");
@@ -194,7 +196,15 @@ public class CmsTestAbove {
 
     @Test
     public void successfulFlightRequest() {
+        Passenger passenger = new Passenger("Test", 28745640, "tanjatest2@inbox.lv", "VBS",
+                "372", "RIX", "BCN", "BCD");
 
+        baseFunc.openUrl(URL);
+        HomePage homePage = new HomePage(baseFunc);
+        homePage.acceptCookies();
+        homePage.selectFlightAndPassengerParameters(adultPassengerToSelect);
+        homePage.fillInPassengerInfo(passenger);
+        homePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
     }
 
 }
