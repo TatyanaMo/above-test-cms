@@ -1,20 +1,17 @@
 package pageobject;
 
-import io.netty.util.collection.IntObjectMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pageobject.model.Passenger;
 import pageobject.pagesForAbove.*;
 
 public class CmsTestAbove {
     private final String URL = "http://staging.above9.travel/";
-    private final String FROM_AIRPORT = "RIC";
+    private final String FROM_AIRPORT = "VBS";
     private final String TO_AIRPORT = "RIX";
     private final String SECOND_FROM_AIRPORT_MULTI_CITY = "BCN";
-    private final String SECOND_TO_AIRPORT_MULTI_CITY =  "BCD";
+    private final String SECOND_TO_AIRPORT_MULTI_CITY = "BCD";
     private final String COUNTRY_CODE = "372";
     public final String expectedDepartDate = "01-08-2023";
 
@@ -27,19 +24,16 @@ public class CmsTestAbove {
     public void ElementsCheck() {
         int adultPassengerToSelect = 1;
 
-        Passenger passenger = new Passenger("Test", 28745640, "tanjatest2@inbox.lv", "RIC",
-                "RIX", "372", "BCN", "BCD");
+        Passenger passenger = new Passenger("Test", 28745640, "tanjatest2@inbox.lv", "VBS",
+                "372", "RIX", "BCN", "BCD");
 
         baseFunc.openUrl(URL);
         HomePage homePage = new HomePage(baseFunc);
         homePage.acceptCookies();
-
         homePage.isLogoAppearsInHeader();
         homePage.isReviewLinkAppearsInHeader();
         homePage.isPhoneNumberLinkWorkInHeader();
         homePage.isDropDownMenuOpen();
-        homePage.selectMultiCityFlight();
-        /*
         homePage.isLogInModalWindowOpens();
         homePage.loginModalClose();
         homePage.isSignUpModalWindowOpen();
@@ -60,16 +54,12 @@ public class CmsTestAbove {
         homePage.isPaymentMethodImageDisplayed();
         homePage.isPartnersDisplayed();
         homePage.isAllRightsTextDisplayed();
+        homePage.isElementsInMultiCityFlightRequestFormDisplayed();
         homePage.isRequestFormAppears();
-        homePage.fillFlightRequestForm(adultPassengerToSelect);
-        homePage.selectAirportsAndCountryCodeFromSuggestionLists(FROM_AIRPORT, TO_AIRPORT, COUNTRY_CODE, passenger);
-        homePage.fillInPassengerInfo(passenger);
-        homePage.getAndSelectDepartAndReturnDates(expectedDepartDate);
-         */
+        homePage.selectFlightAndPassengerParameters(adultPassengerToSelect);
         homePage.openAboutUsPage();
 
         AboutUsPage aboutUsPage = new AboutUsPage(baseFunc);
-
         aboutUsPage.isLogoAppearsInHeader();
         aboutUsPage.isReviewLinkAppearsInHeader();
         aboutUsPage.isPhoneNumberLinkWorkInHeader();
@@ -78,7 +68,6 @@ public class CmsTestAbove {
         aboutUsPage.loginModalClose();
         aboutUsPage.isSignUpModalWindowOpen();
         aboutUsPage.signUpModalClose();
-        /*
         aboutUsPage.getTittle();
         aboutUsPage.getMainText();
         aboutUsPage.isFooterLinksOpen();
@@ -88,7 +77,6 @@ public class CmsTestAbove {
         aboutUsPage.isPaymentMethodImageDisplayed();
         aboutUsPage.isPartnersDisplayed();
         aboutUsPage.isAllRightsTextDisplayed();
-         */
         aboutUsPage.openBlogPage();
 
         BlogPage blogPage = new BlogPage(baseFunc);
@@ -99,7 +87,6 @@ public class CmsTestAbove {
         blogPage.loginModalClose();
         blogPage.isSignUpModalWindowOpen();
         blogPage.signUpModalClose();
-        /*
         blogPage.getTittle();
         blogPage.isBlogDisplayed();
         blogPage.isAllBlogItemsDisplayed();
@@ -114,7 +101,6 @@ public class CmsTestAbove {
         blogPage.isPaymentMethodImageDisplayed();
         blogPage.isPartnersDisplayed();
         blogPage.isAllRightsTextDisplayed();
-         */
         blogPage.openTermsOfUsePage();
 
         TermsOfUsePage termsOfUsePage = new TermsOfUsePage(baseFunc);
@@ -126,7 +112,6 @@ public class CmsTestAbove {
         termsOfUsePage.loginModalClose();
         termsOfUsePage.isSignUpModalWindowOpen();
         termsOfUsePage.signUpModalClose();
-        /*
         termsOfUsePage.getTittle();
         termsOfUsePage.isTextDisplayed();
         termsOfUsePage.isFooterLinksOpen();
@@ -136,7 +121,6 @@ public class CmsTestAbove {
         termsOfUsePage.isPaymentMethodImageDisplayed();
         termsOfUsePage.isPartnersDisplayed();
         termsOfUsePage.isAllRightsTextDisplayed();
-         */
         termsOfUsePage.openPrivacyPolicyPage();
 
         PrivacyPolicyPage privacyPolicyPage = new PrivacyPolicyPage(baseFunc);
@@ -148,19 +132,17 @@ public class CmsTestAbove {
         privacyPolicyPage.loginModalClose();
         privacyPolicyPage.isSignUpModalWindowOpen();
         privacyPolicyPage.signUpModalClose();
-        /*
         privacyPolicyPage.getTittle();
         privacyPolicyPage.isTextDisplayed();
         privacyPolicyPage.isLinksWorksInText();
-        privacyPolicyPage.switchAndCloseIframeFacebook();
         privacyPolicyPage.isFooterLinksOpen();
         privacyPolicyPage.isPhoneNumberLinkWorkInFooter();
         privacyPolicyPage.isEmailLinkWorkInFooter();
+        //privacyPolicyPage.switchAndCloseIframeFacebook();
         privacyPolicyPage.isPaymentsDisplayed();
         privacyPolicyPage.isPaymentMethodImageDisplayed();
         privacyPolicyPage.isPartnersDisplayed();
         privacyPolicyPage.isAllRightsTextDisplayed();
-         */
         privacyPolicyPage.openCookiesPolicyPage();
 
         CookiesPolicyPage cookiesPolicyPage = new CookiesPolicyPage(baseFunc);
@@ -172,7 +154,6 @@ public class CmsTestAbove {
         cookiesPolicyPage.loginModalClose();
         cookiesPolicyPage.isSignUpModalWindowOpen();
         cookiesPolicyPage.signUpModalClose();
-        /*
         cookiesPolicyPage.getTittle();
         cookiesPolicyPage.isTextDisplayed();
         cookiesPolicyPage.isFooterLinksOpen();
@@ -182,7 +163,6 @@ public class CmsTestAbove {
         cookiesPolicyPage.isPaymentMethodImageDisplayed();
         cookiesPolicyPage.isPartnersDisplayed();
         cookiesPolicyPage.isAllRightsTextDisplayed();
-         */
         cookiesPolicyPage.openContactUsPage();
 
         ContactUsPage contactUsPage = new ContactUsPage(baseFunc);
@@ -194,7 +174,6 @@ public class CmsTestAbove {
         contactUsPage.loginModalClose();
         contactUsPage.isSignUpModalWindowOpen();
         contactUsPage.signUpModalClose();
-       /*
         contactUsPage.getTittle();
         contactUsPage.isHeadersDisplayed();
         contactUsPage.isPlaceholdersTextDisplayed();
@@ -210,7 +189,12 @@ public class CmsTestAbove {
         contactUsPage.manageCookiesPreferencesModalOpen();
         contactUsPage.isModalWindowDisplayedCorrect();
         contactUsPage.manageCookiesPreferencesModalClose();
-        */
+        contactUsPage.closeBrowser();
+    }
+
+    @Test
+    public void successfulFlightRequest() {
+
     }
 
 }

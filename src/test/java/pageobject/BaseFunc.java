@@ -1,7 +1,5 @@
 package pageobject;
 
-import com.sun.source.tree.BreakTree;
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -12,25 +10,15 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.core.SpringVersion;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import pageobject.pagesForAbove.HomePage;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.frameToBeAvailableAndSwitchToIt;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
-
 
 public class BaseFunc {
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -118,6 +106,12 @@ public class BaseFunc {
         Select select = new Select(we);
         select.selectByValue(value);
     }
+    public void selectList (By locatorOne, int index, String value) {
+        List<WebElement> selectFields = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locatorOne));
+        WebElement selectField = selectFields.get(index);
+        Select select = new Select(selectField);
+        select.selectByValue(value);
+    }
 
     public void selectByText(By locator, String text) {
         WebElement we = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
@@ -135,8 +129,12 @@ public class BaseFunc {
         element.clear();
         element.sendKeys(text);
     }
+    public void type(By locator, String text) {
+        WebElement input = findElement((locator));
+        input.clear();
+        input.sendKeys(text);
+    }
 
-    //etot metod pozvolit int peredelatj v string i zaispoljzovatj osnovnoj metod
     public void type(WebElement element, int text) {
         type(element, String.valueOf(text));
     }
@@ -251,7 +249,6 @@ public class BaseFunc {
         list(locatorFive).subList(0, 1);
         list(locatorSix).get(2);
     }
-
     public void checkReviewLinkInHeader(By locatorOne, By locatorTwo, By locatorThree, By locatorFour) {
         linksStatusCheck(findElement(locatorOne).getAttribute("href"));
         findElement(locatorTwo).isDisplayed();
@@ -272,9 +269,9 @@ public class BaseFunc {
     public void checkPhoneNumberLinkInHeader( By locator) {
         Assertions.assertTrue(list(locator).get(0).getAttribute("href").length() > 0, "no phone number");
     }
-    public void openNextPage(By locatorOne, By locatorTwo,int index ) {
-        click(list(locatorOne).get(index));
-        click(list(locatorTwo).get(5));
+    public void openNextPage(By locatorOne, By locatorTwo,int indexOne, int indexTwo ) {
+        click(list(locatorOne).get(indexOne));
+        click(list(locatorTwo).get(indexTwo));
     }
     public boolean isPaymentsDisplayed(By locator) {
        return  getTextOfElement(locator).length() > 0;
@@ -292,5 +289,17 @@ public class BaseFunc {
     public boolean isAllRightsTextDisplayed(By locator) {
         return getTextOfElement(locator).length() > 0;
     }
-
+    public void closeBrowser() {
+        if (browser !=null) {
+            browser.quit();
+        }
+    }
+    public int checkTextInAllElementsOfList(By locator) {
+        List<WebElement>weList = list(locator);
+        int totalLength = 0;
+        for (WebElement we : weList) {
+            totalLength += getTextOfElement(we).length();
+        }
+        return totalLength;
+    }
 }

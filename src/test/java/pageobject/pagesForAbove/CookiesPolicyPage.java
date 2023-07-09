@@ -2,10 +2,8 @@ package pageobject.pagesForAbove;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 
@@ -16,20 +14,28 @@ public class CookiesPolicyPage {
     private final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
     private final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
     private final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
-    private final By DROP_DOWN_BUTTONS = By.xpath(".//button[@class='h-full flex items-center space-x-2 px-2 py-1 font-medium rounded appearance-none transition-colors focus:outline-none hover:bg-black hover:bg-opacity-10 focus:bg-black focus:bg-opacity-25 focus:text-white']");
+    private final By DROP_DOWN_BUTTONS = By.xpath(".//button[@class='h-full flex items-center space-x-2 px-2" +
+            " py-1 font-medium rounded appearance-none transition-colors focus:outline-none hover:bg-black hover:bg-opacity-10" +
+            " focus:bg-black focus:bg-opacity-25 focus:text-white']");
 
     private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
     private final By MODAL_INPUT_FIELDS = By.xpath(".//div[@class='space-y-4']/div/div/div/input");
     private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
-    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//div[@class='pt-6 -mx-2 flex items-baseline flex-wrap justify-between']/span/button");
+    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//div[@class='pt-6 -mx-2 flex items-baseline flex-wrap" +
+            " justify-between']/span/button");
     private final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
 
-    private final By LOG_IN_BUTTON = By.xpath(".//button[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
+    private final By LOG_IN_BUTTON = By.xpath(".//button[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full " +
+            "text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:" +
+            "text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
     private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
-    private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
-    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[@class='typography_display-s__qOjh6 typography_appearance-default__AAY17 title_displayName__TtDDM']");
+    private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center" +
+            " lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400" +
+            " after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
+    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[@class='typography_display-s__qOjh6 typography" +
+            "_appearance-default__AAY17 title_displayName__TtDDM']");
     private final By TEXT = By.xpath(".//div[@data-custom-class='body']");
     private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
     private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
@@ -153,12 +159,14 @@ public class CookiesPolicyPage {
         baseFunc.footerLinksOpen(FOOTER_LINKS, TITTLE);
         return true;
     }
+
     public boolean isPhoneNumberLinkWorkInFooter() {
         LOGGER.info("Phone number displayed in footer");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "no phone number");
+        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "No phone number");
         return true;
     }
+
     public boolean isEmailLinkWorkInFooter() {
         LOGGER.info("Email link in footer returns status 200 for cookies policy page");
         List<WebElement> email = baseFunc.list(EMAIL_LINK_IN_FOOTER);
@@ -166,29 +174,34 @@ public class CookiesPolicyPage {
         if (link != null && !link.startsWith("mailto:")) {
             baseFunc.linksStatusCheck(link);
         }
-        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "no phone number");
+        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "No phone number");
         return true;
     }
+
     public boolean isPaymentsDisplayed() {
         LOGGER.info("Checking if payment info displayed in footer");
-        Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS),"No payments in footer" );
+        Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS), "No payments in footer");
         return true;
     }
+
     public boolean isPaymentMethodImageDisplayed() {
         LOGGER.info("Checking if payment methods displayed in footer");
         return baseFunc.isPaymentMethodImageDisplayed(PAYMENTS_METHODS);
     }
+
     public boolean isPartnersDisplayed() {
         LOGGER.info("Checking if block about rights displayed in footer");
         return baseFunc.isPartnersDisplayed(AIRLINES_PARTNERS);
     }
+
     public boolean isAllRightsTextDisplayed() {
         LOGGER.info("Checking if block about rights displayed in footer");
         Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
         return true;
     }
+
     public void openContactUsPage() {
         LOGGER.info("Opening next page - Contact Us");
-        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2);
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2,10);
     }
 }

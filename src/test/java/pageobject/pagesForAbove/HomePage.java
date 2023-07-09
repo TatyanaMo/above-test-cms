@@ -1,27 +1,15 @@
 package pageobject.pagesForAbove;
 
-import com.sun.source.tree.AssertTree;
-import io.cucumber.core.internal.com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.groovy.GroovyBeanDefinitionReader;
-import org.springframework.http.HttpStatus;
 import pageobject.BaseFunc;
 import pageobject.model.Passenger;
-
-import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
 
 public class HomePage {
     private final By ACCEPT_COOKIES_BTN = By.xpath(".//button[@data-tid='banner-decline']");
@@ -32,7 +20,6 @@ public class HomePage {
     private final By IFRAME_FACEBOOK_MENU_ITEMS = By.xpath(".//div[@class='x1uvtmcs x4k7w5x x1h91t0o x1beo9mf " +
             "xaigb6o x12ejxvf x3igimt xarpa2k xedcshv x1lytzrv x1t2pt76 x7ja8zs x1n2onr6 x1qrby5j x1jfb8zj']/div/div/div");
     private final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
-    private final By IFRAME_BOTTOM_TEXT = By.xpath(".//span[@class='_9zb3']/span");
     private final By IFRAME_FACEBOOK_MORE_BTN = By.xpath(".//div[@aria-label='More']");
     private final By IFRAME_FACEBOOK_START_CHAT_BTN = By.xpath(".//div[@class='_a2zm']");
 
@@ -98,6 +85,7 @@ public class HomePage {
     private final By CURRENT_ADULT_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='adults']");
     private final By CURRENT_CHILD_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='children']");
     private final By CURRENT_INFANT_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='infants']");
+
     private final By INPUT_FIELDS_REQUEST_FORM = By.xpath(".//input[@class='appearance-none block h-10 lead" +
             "ing-8 px-0 py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-white text-white " +
             "placeholder-white hover:border-orange-400 focus:border-orange-400 placeholder-opacity-75 focus:outline-none']");
@@ -105,8 +93,7 @@ public class HomePage {
     private final By AIRPORTS_SUGGESTION = By.xpath(".//span[@class='-mr-2 flex-shrink-0 pl-2']");
     private final By INPUT_FROM = By.xpath(".//input[@aria-label='From (city or airport)']");
     private final By INPUT_TO = By.xpath(".//input[@aria-label='To (city or airport)']");
-    private final By INPUT_COUNTRY_CODE = By.xpath(".//input[@aria-label='false']");
-    private final By PHONE_CODES = By.xpath(".//div[@class='choices__item choices__item--choice choices__item--selectable is-highlighted']");
+    private final By CHOICES_LIST = By.xpath(".//div[contains(@class,'choices__list choices__list--dropdown')]");
 
     private final By DATE_PICKERS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0 py-1" +
             " w-full text-sm rounded-none transition-colors bg-transparent  border-white text-white placeholder-white " +
@@ -123,7 +110,6 @@ public class HomePage {
     private final By DATE_PICKERS_OPENED = By.xpath(".//section[@class='lightpick lightpick--1-columns']");
     private final By ADD_FLIGHT_BUTTON = By.xpath(".//button[@data-trip-add='data-trip-add']");
     private final By REMOVE_FLIGHT_BUTTON = By.xpath(".//button[@ data-trip-remove='data-trip-remove']");
-
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
@@ -131,26 +117,23 @@ public class HomePage {
     public HomePage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
     }
-
     public void acceptCookies() {
         LOGGER.info("Accepting cookies");
         baseFunc.click(ACCEPT_COOKIES_BTN);
     }
-
     public boolean isLogoAppearsInHeader() {
         LOGGER.info("Checking logo in header for homepage");
         WebElement logo = baseFunc.findElement(HEADER_LOGO);
         Assertions.assertTrue(logo.isDisplayed(), "No logo on homepage");
         return true;
     }
-
     public void switchToIframeFacebookButton() {
         LOGGER.info("Switching to Facebook iframe dialog in homepage");
         baseFunc.switchIframeIndex(0);
     }
-
     public boolean isIframeElementsDisplayed() {
         LOGGER.info("Checking elements in Facebook iframe dialog in homepage");
+        baseFunc.waitElementToBeVisible(IFRAME_FACEBOOK_IMAGE);
         Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_IMAGE).isDisplayed(), "No Above logo in Facebook iframe");
         Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TITTLE).length() > 0, "No tittle in Facebook iframe");
         Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TEXT).length() > 0, "No text in Facebook iframe");
@@ -160,15 +143,13 @@ public class HomePage {
             Assertions.assertTrue(baseFunc.getTextOfElement(item).length() > 0, "No menu items in 'More' option in Facebook iframe");
         }
         Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_START_CHAT_BTN).isEnabled(), "Start chat button is disabled in Facebook iframe");
-        //Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_BOTTOM_TEXT).length() > 0, "No bottom text in Facebook iframe");
         baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
         baseFunc.switchToMainPage();
         return true;
     }
-
     public boolean isReviewLinkAppearsInHeader() {
         LOGGER.info("Checking Trustpilot link in header for homepage");
-        baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK,REVIEW_IMG,REVIEW_HEADER_LINK,TRUSTPILOT_ABOVE_TITTLE );
+        baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK, REVIEW_IMG, REVIEW_HEADER_LINK, TRUSTPILOT_ABOVE_TITTLE);
         return true;
     }
     public boolean isPhoneNumberLinkWorkInHeader() {
@@ -205,7 +186,6 @@ public class HomePage {
         baseFunc.click(menuButtons.get(2));
         return true;
     }
-
     public boolean isLogInModalWindowOpens() {
         LOGGER.info("Checking elements in Login modal window");
         baseFunc.checkLogInModalWindow(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, LOG_IN_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS);
@@ -223,7 +203,6 @@ public class HomePage {
         }
         return true;
     }
-
     public void loginModalClose() {
         LOGGER.info("Closing Login modal window");
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(1));
@@ -246,25 +225,11 @@ public class HomePage {
         LOGGER.info("Closing sign up modal window");
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(2));
     }
-
     public boolean isHomePageWelcomeTextAppears() {
         LOGGER.info("Checking if Welcome text on page for homepage");
         Assertions.assertTrue(baseFunc.getTextOfElement(HOME_PAGE_WELCOME_TEXT).length() > 0, "No text here");
         return baseFunc.findElement(HOME_PAGE_WELCOME_TEXT).isDisplayed();
     }
-
-    public boolean isRequestFormAppears() {
-        LOGGER.info("Checking if request form displayed for homepage");
-        Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
-        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
-        List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
-        for (WebElement input : inputFields) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(input).length() > 0, "no default text in placeholders in request form");
-            Assertions.assertTrue(baseFunc.getTextOfElement(input).contains("This field is required."), "No error text in placeholders in request form ");
-        }
-        return true;
-    }
-
     public boolean isTextOneAppears() {
         LOGGER.info("Checking if text displayed for homepage");
         Assertions.assertTrue(baseFunc.getTextOfElement(HOME_PAGE_TEXT_ONE).length() > 0, "No text here");
@@ -324,12 +289,14 @@ public class HomePage {
         baseFunc.footerLinksOpen(FOOTER_LINKS, TITTLE);
         return true;
     }
+
     public boolean isPhoneNumberLinkWorkInFooter() {
         LOGGER.info("Phone number displayed in footer");
         List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "no phone number");
+        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "No phone number");
         return true;
     }
+
     public boolean isEmailLinkWorkInFooter() {
         LOGGER.info("Email link in footer returns status 200 for homepage");
         List<WebElement> email = baseFunc.list(EMAIL_LINK_IN_FOOTER);
@@ -337,12 +304,12 @@ public class HomePage {
         if (link != null && !link.startsWith("mailto:")) {
             baseFunc.linksStatusCheck(link);
         }
-        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "no phone number");
+        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "No phone number");
         return true;
     }
     public boolean isPaymentsDisplayed() {
         LOGGER.info("Checking if payment info displayed in footer");
-        Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS),"No payments in footer" );
+        Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS), "No payments in footer");
         return true;
     }
     public boolean isPaymentMethodImageDisplayed() {
@@ -358,8 +325,18 @@ public class HomePage {
         Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
         return true;
     }
-
-    public void fillFlightRequestForm(int adultPassengerToSelect) {
+    public boolean isRequestFormAppears() {
+        LOGGER.info("Checking if request form displayed for homepage");
+        Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
+        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
+        List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
+        for (WebElement input : inputFields) {
+            Assertions.assertTrue(baseFunc.getTextOfElement(input).length() > 0, "no default text in placeholders in request form");
+            Assertions.assertTrue(baseFunc.getTextOfElement(input).contains("This field is required."), "No error text in placeholders in request form ");
+        }
+        return true;
+    }
+    public void selectFlightAndPassengerParameters(int adultPassengerToSelect) {
         LOGGER.info("Select random flight type for flight request: Return or One Way");
         List<WebElement> allDropDownMenus = baseFunc.list(DROP_DOWN_BUTTONS);
         baseFunc.click(allDropDownMenus.get(3));
@@ -372,7 +349,6 @@ public class HomePage {
         int randomIndexType = baseFunc.getRandomIndex(2);  // multi city not select!!
         WebElement selectedFlightType = flightTypes.get(randomIndexType);
         baseFunc.click(selectedFlightType);
-
         LOGGER.info("Select numbers of passengers for flight request");
         allDropDownMenus.get(4).click();
         baseFunc.findElement(REQUEST_FORM_MENU);
@@ -387,17 +363,15 @@ public class HomePage {
         for (WebElement button : activePassengerButtons) {
             Assertions.assertTrue(button.isEnabled(), "counter button disabled");
         }
-
         int desiredAdultPassengerCount = adultPassengerToSelect;
         int desiredChildPassengerCount = 2 * desiredAdultPassengerCount;
         int desiredInfantPassengerCount = desiredAdultPassengerCount;
         int maxTotalPassengersCount = desiredAdultPassengerCount + desiredChildPassengerCount + desiredInfantPassengerCount;
-
         LOGGER.info("Select number of adult passengers");
         WebElement adultsCountElement = baseFunc.list(CURRENT_ADULT_PASSENGER_NUMBER).get(1);
         int currentAdultCount = Integer.parseInt(adultsCountElement.getAttribute("value"));
         while (currentAdultCount < desiredAdultPassengerCount) {
-            baseFunc.click( activePassengerButtons.get(1));
+            baseFunc.click(activePassengerButtons.get(1));
             currentAdultCount++;
         }
         LOGGER.info("Select number of child passengers");
@@ -420,13 +394,10 @@ public class HomePage {
         if (baseFunc.getTextOfElement(DATA_PASSENGER_MESSAGE).length() > 0) {
             LOGGER.info("Passenger message: " + " " + baseFunc.getTextOfElement(DATA_PASSENGER_MESSAGE));
         }
-
         Assertions.assertEquals(desiredAdultPassengerCount, currentAdultCount, "number of adults not equal");
         Assertions.assertEquals(desiredChildPassengerCount, currentChildCount, "number of children not equal");
         Assertions.assertEquals(desiredInfantPassengerCount, currentInfantCount, "number of children not equal");
-
         baseFunc.click(baseFunc.list(PASSENGERS_CONFIRM_BTN).get(1));
-
         LOGGER.info("Select random flight class for flight request");
         baseFunc.click(allDropDownMenus.get(5));
         baseFunc.findElement(REQUEST_FORM_MENU);
@@ -437,6 +408,48 @@ public class HomePage {
         int randomIndexClass = baseFunc.getRandomIndex(classTypes.size());
         WebElement selectedFlightClass = classTypes.get(randomIndexClass);
         baseFunc.click(selectedFlightClass);
+    }
+    public boolean isElementsInMultiCityFlightRequestFormDisplayed() {
+        LOGGER.info("Select Multi city flight type for flight request");
+        List<WebElement> allDropDownMenus = baseFunc.list(DROP_DOWN_BUTTONS);
+        baseFunc.click(allDropDownMenus.get(3));
+        baseFunc.findElement(REQUEST_FORM_MENU);
+        List<WebElement> allRequestOptions = baseFunc.list(REQUEST_OPTIONS);
+        List<WebElement> flightTypes = allRequestOptions.subList(5, 8);
+        for (WebElement flightType : flightTypes) {
+            if (baseFunc.getTextOfElement(flightType).equals("Multi city")) {
+                baseFunc.click(flightType);
+                break;
+            }
+        }
+        LOGGER.info("Checking if multi city request form displayed for homepage");
+        Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
+        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
+        LOGGER.info("Checking text in input fields in request form");
+        List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
+        for (WebElement input : inputFields) {
+            Assertions.assertTrue(baseFunc.getTextOfElement(input).length() > 0, "no default text in placeholders in request form");
+            Assertions.assertTrue(baseFunc.getTextOfElement(input).contains("This field is required."), "No error text in placeholders in request form ");
+        }
+        LOGGER.info("Checking if depart calendar opens in request form");
+        List<WebElement> datePickersMultiCity = baseFunc.list(DATE_PICKERS);
+        baseFunc.click(datePickersMultiCity.get(0));
+        WebElement calendarOpened = baseFunc.findElement(DATE_PICKERS_OPENED);
+        Assertions.assertTrue(calendarOpened.isDisplayed(), "calendar for depart date not displayed");
+        baseFunc.click(allDropDownMenus.get(3));
+        //baseFunc.switchIframeIndex(0);
+        //baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
+        //baseFunc.switchToMainPage();
+        LOGGER.info("Checking add flight and remove flight buttons enabled in request form");
+        Assertions.assertTrue(baseFunc.list(ADD_FLIGHT_BUTTON).get(2).isEnabled(), "Add flight button is disabled in multi city flight request");
+        baseFunc.click(baseFunc.list(ADD_FLIGHT_BUTTON).get(2));
+        Assertions.assertTrue(baseFunc.list(REMOVE_FLIGHT_BUTTON).get(2).isEnabled(), "Remove flight button is disabled in multi city flight request");
+        baseFunc.click(baseFunc.list(REMOVE_FLIGHT_BUTTON).get(2));
+        return true;
+    }
+    public void openAboutUsPage() {
+        LOGGER.info("Opening next page - About us");
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2,5);
     }
 
     public void fillInPassengerInfo(Passenger passenger) {
@@ -460,6 +473,7 @@ public class HomePage {
         baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
         boolean isFoundFrom = false;
         for (WebElement we : suggestionsFrom) {
+            System.out.println(we.getText());
             if (baseFunc.getTextOfElement(we).equals(locationFrom)) {
                 we.click();
                 isFoundFrom = true;
@@ -468,38 +482,25 @@ public class HomePage {
         }
         Assertions.assertTrue(isFoundFrom, "Location " + locationFrom + " can't be found in a suggestion list");
 
-        LOGGER.info("Selecting country code " + countryCode + " from suggestion lists");
-        WebElement inputCountryCode = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(7);
-        baseFunc.click(inputCountryCode);
-        WebElement inputCode = baseFunc.list(INPUT_COUNTRY_CODE).get(1);
-        baseFunc.click(inputCode);
-        baseFunc.type(inputCode, passenger.getCountryCode());
-        WebElement suggestionsCode = baseFunc.list(PHONE_CODES).get(1);
-        baseFunc.waitElementPresented(PHONE_CODES);
-        boolean isFoundCode = false;
-        if (baseFunc.getTextOfElement(suggestionsCode).equals(countryCode)) {
-            baseFunc.click(suggestionsCode);
-            isFoundCode = true;
-        }
-        //Assertions.assertTrue(isFoundCode, "Country phone code " + countryCode + " can't be found in a suggestion list");
-
         LOGGER.info("Selecting airports " + locationTo + " from suggestion lists");
         WebElement inputAirportTo = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(6);
         baseFunc.click(inputAirportTo);
         WebElement inputTo = baseFunc.list(INPUT_TO).get(1);
         baseFunc.click(inputTo);
         baseFunc.type(inputTo, passenger.getAirportTo());
+        //baseFunc.waitForDisplayedElement(baseFunc.list(CHOICES_LIST).get(4), "choices__list choices__list--dropdown is-active");
         List<WebElement> suggestionsTo = baseFunc.list(AIRPORTS_SUGGESTION);
         baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
         boolean isFoundTo = false;
         for (WebElement we : suggestionsTo) {
+            System.out.println(we.getText());
             if (baseFunc.getTextOfElement(we).equals(locationTo)) {
-                baseFunc.click(we);
+                we.click();
                 isFoundTo = true;
                 break;
             }
         }
-        //Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
+        Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
     }
 
     public void getAndSelectDepartAndReturnDates(String expectedDepartDate) {
@@ -562,46 +563,5 @@ public class HomePage {
         }
         //baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
     }
-    public void openAboutUsPage() {
-        LOGGER.info("Opening next page - About us");
-        baseFunc.openNextPage(DROP_DOWN_BUTTONS,DROP_DOWN_ELEMENTS, 2 );
-    }
 
-    public void selectMultiCityFlight() {
-        LOGGER.info("Select Multi city flight type for flight request");
-        List<WebElement> allDropDownMenus = baseFunc.list(DROP_DOWN_BUTTONS);
-        baseFunc.click(allDropDownMenus.get(3));
-        baseFunc.findElement(REQUEST_FORM_MENU);
-        List<WebElement> allRequestOptions = baseFunc.list(REQUEST_OPTIONS);
-        List<WebElement> flightTypes = allRequestOptions.subList(5, 8);
-        for (WebElement flightType : flightTypes) {
-            if(baseFunc.getTextOfElement(flightType).equals("Multi city")) {
-                baseFunc.click(flightType);
-                break;
-            }
-        }
-        LOGGER.info("Checking if multi city request form displayed for homepage");
-        Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
-        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
-        LOGGER.info("Checking text in input fields in request form");
-        List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
-        for (WebElement input : inputFields) {
-            Assertions.assertTrue(baseFunc.getTextOfElement(input).length() > 0, "no default text in placeholders in request form");
-            Assertions.assertTrue(baseFunc.getTextOfElement(input).contains("This field is required."), "No error text in placeholders in request form ");
-        }
-        LOGGER.info("Checking if depart calendar opens in request form");
-        List<WebElement> datePickersMultiCity = baseFunc.list(DATE_PICKERS);
-        baseFunc.click(datePickersMultiCity.get(0));
-        WebElement calendarOpened = baseFunc.findElement(DATE_PICKERS_OPENED);
-        Assertions.assertTrue(calendarOpened.isDisplayed(), "calendar for depart date not displayed");
-        baseFunc.click(allDropDownMenus.get(3));
-        baseFunc.switchIframeIndex(0);
-        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-        baseFunc.switchToMainPage();
-        LOGGER.info("Checking add flight and remove flight buttons enabled in request form");
-        Assertions.assertTrue(baseFunc.list(ADD_FLIGHT_BUTTON).get(2).isEnabled(), "Add flight button is disabled in multi city flight request");
-        baseFunc.click(baseFunc.list(ADD_FLIGHT_BUTTON).get(2));
-        Assertions.assertTrue(baseFunc.list(REMOVE_FLIGHT_BUTTON).get(2).isEnabled(), "Remove flight button is disabled in multi city flight request");
-        baseFunc.click(baseFunc.list(REMOVE_FLIGHT_BUTTON).get(2));
-    }
 }
