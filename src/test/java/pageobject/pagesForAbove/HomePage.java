@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 import pageobject.model.Passenger;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -107,10 +108,16 @@ public class HomePage {
     private final By YEAR_SELECTORS = By.xpath(".//select[@class='lightpick__select lightpick__select-years']/option");
     private final By DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__days']");
     private final By AVAILABLE_DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__day is-available ']");
-    private final By AVAILABLE_DAYS_DATE_PICKER_RETURN = By.xpath(".//div[@class='lightpick__day is-available']");
     private final By DATE_PICKERS_OPENED = By.xpath(".//section[@class='lightpick lightpick--1-columns']");
     private final By ADD_FLIGHT_BUTTON = By.xpath(".//button[@data-trip-add='data-trip-add']");
     private final By REMOVE_FLIGHT_BUTTON = By.xpath(".//button[@ data-trip-remove='data-trip-remove']");
+
+
+    private final By MONTHS = By.xpath(".//section[@class='lightpick__month]");
+    private final By AVAILABLE_DATES_RETURN = By.xpath(".//div[contains(@class, 'lightpick__day is-available')]");
+
+
+
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
@@ -118,20 +125,27 @@ public class HomePage {
     public HomePage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
     }
+
     public void acceptCookies() {
         LOGGER.info("Accepting cookies");
         baseFunc.click(ACCEPT_COOKIES_BTN);
     }
+
     public boolean isLogoAppearsInHeader() {
         LOGGER.info("Checking logo in header for homepage");
         WebElement logo = baseFunc.findElement(HEADER_LOGO);
         Assertions.assertTrue(logo.isDisplayed(), "No logo on homepage");
         return true;
     }
+
     public void switchToIframeFacebookButton() {
         LOGGER.info("Switching to Facebook iframe dialog in homepage");
         baseFunc.switchIframeIndex(0);
     }
+    public void closeIframeFacebook() {
+        baseFunc.switchToMainPage();
+    }
+
     public boolean isIframeElementsDisplayed() {
         LOGGER.info("Checking elements in Facebook iframe dialog in homepage");
         baseFunc.waitElementToBeVisible(IFRAME_FACEBOOK_IMAGE);
@@ -139,22 +153,25 @@ public class HomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TITTLE).length() > 0, "No tittle in Facebook iframe");
         Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TEXT).length() > 0, "No text in Facebook iframe");
         baseFunc.click(IFRAME_FACEBOOK_MORE_BTN);
-        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(IFRAME_FACEBOOK_MENU_ITEMS) > 0, "No menu items in 'More' option in Facebook iframe" );
+        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(IFRAME_FACEBOOK_MENU_ITEMS) > 0, "No menu items in 'More' option in Facebook iframe");
         Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_START_CHAT_BTN).isEnabled(), "Start chat button is disabled in Facebook iframe");
         baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
         baseFunc.switchToMainPage();
         return true;
     }
+
     public boolean isReviewLinkAppearsInHeader() {
         LOGGER.info("Checking Trustpilot link in header for homepage");
         baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK, REVIEW_IMG, REVIEW_HEADER_LINK, TRUSTPILOT_ABOVE_TITTLE);
         return true;
     }
+
     public boolean isPhoneNumberLinkWorkInHeader() {
         LOGGER.info("Checking phone number in header");
         baseFunc.checkPhoneNumberLinkInHeader(PHONE);
         return true;
     }
+
     public boolean isDropDownMenuOpen() {
         LOGGER.info("Checking presence of elements in all dropdown menu");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
@@ -184,6 +201,7 @@ public class HomePage {
         baseFunc.click(menuButtons.get(2));
         return true;
     }
+
     public boolean isLogInModalWindowOpens() {
         LOGGER.info("Checking elements in Login modal window");
         baseFunc.checkLogInModalWindow(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, LOG_IN_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS);
@@ -201,10 +219,12 @@ public class HomePage {
         }
         return true;
     }
+
     public void loginModalClose() {
         LOGGER.info("Closing Login modal window");
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(1));
     }
+
     public boolean isSignUpModalWindowOpen() {
         LOGGER.info("Checking elements in Sign up modal window");
         baseFunc.checkSignUpModalWindow(DROP_DOWN_BUTTONS, CREATE_PROFILE_BUTTON, SIGN_UP_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS);
@@ -219,15 +239,18 @@ public class HomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(MODAL_WINDOW_BUTTONS).get(2)).length() > 0, "Button hasn't name in Sign up modal window");
         return true;
     }
+
     public void signUpModalClose() {
         LOGGER.info("Closing sign up modal window");
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(2));
     }
+
     public boolean isHomePageWelcomeTextAppears() {
         LOGGER.info("Checking if Welcome text on page for homepage");
         Assertions.assertTrue(baseFunc.getTextOfElement(HOME_PAGE_WELCOME_TEXT).length() > 0, "No text here");
         return baseFunc.findElement(HOME_PAGE_WELCOME_TEXT).isDisplayed();
     }
+
     public boolean isTextOneAppears() {
         LOGGER.info("Checking if text displayed for homepage");
         Assertions.assertTrue(baseFunc.getTextOfElement(HOME_PAGE_TEXT_ONE).length() > 0, "No text here");
@@ -303,24 +326,29 @@ public class HomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "No phone number");
         return true;
     }
+
     public boolean isPaymentsDisplayed() {
         LOGGER.info("Checking if payment info displayed in footer");
         Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS), "No payments in footer");
         return true;
     }
+
     public boolean isPaymentMethodImageDisplayed() {
         LOGGER.info("Checking if payment methods displayed in footer");
         return baseFunc.isPaymentMethodImageDisplayed(PAYMENTS_METHODS);
     }
+
     public boolean isPartnersDisplayed() {
         LOGGER.info("Checking if block about rights displayed in footer");
         return baseFunc.isPartnersDisplayed(AIRLINES_PARTNERS);
     }
+
     public boolean isAllRightsTextDisplayed() {
         LOGGER.info("Checking if block about rights displayed in footer");
         Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
         return true;
     }
+
     public boolean isRequestFormAppears() {
         LOGGER.info("Checking if request form displayed for homepage");
         Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
@@ -332,6 +360,7 @@ public class HomePage {
         }
         return true;
     }
+
     public void selectFlightAndPassengerParameters(int adultPassengerToSelect) {
         LOGGER.info("Select random flight type for flight request: Return or One Way");
         List<WebElement> allDropDownMenus = baseFunc.list(DROP_DOWN_BUTTONS);
@@ -405,6 +434,7 @@ public class HomePage {
         WebElement selectedFlightClass = classTypes.get(randomIndexClass);
         baseFunc.click(selectedFlightClass);
     }
+
     public boolean isElementsInMultiCityFlightRequestFormDisplayed() {
         LOGGER.info("Select Multi city flight type for flight request");
         List<WebElement> allDropDownMenus = baseFunc.list(DROP_DOWN_BUTTONS);
@@ -443,9 +473,10 @@ public class HomePage {
         baseFunc.click(baseFunc.list(REMOVE_FLIGHT_BUTTON).get(2));
         return true;
     }
+
     public void openAboutUsPage() {
         LOGGER.info("Opening next page - About us");
-        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2,5);
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2, 5);
     }
 
     public void fillInPassengerInfo(Passenger passenger) {
@@ -498,28 +529,24 @@ public class HomePage {
         Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
     }
 
-    public void getAndSelectDepartAndReturnDates(String expectedDepartDate) {
+    public void getAndSelectDepartAndReturnDates(String expectedDepartDate, String expectedReturnDate) {
         LOGGER.info("Find depart date picker");
-        baseFunc.click(baseFunc.list(DATE_PICKERS).get(0));
-        LOGGER.info("Selecting depart date from date picker equals to " + expectedDepartDate);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate expectedLocalDepartDate = LocalDate.parse(expectedDepartDate, dtf);
-        LocalDate expectedLocalReturnDate = expectedLocalDepartDate.plusDays(5);
-
+        LocalDate expectedLocalReturnDate = LocalDate.parse(expectedReturnDate, dtf);
         int expectedDepartDay = expectedLocalDepartDate.getDayOfMonth();
         int expectedDepartMonth = expectedLocalDepartDate.getMonthValue();
         int expectedDepartYear = expectedLocalDepartDate.getYear();
-        int expectedReturnDay = expectedLocalReturnDate.getDayOfMonth();
-        int expectedReturnMonth = expectedLocalReturnDate.getMonthValue();
-        int expectedReturnYear = expectedLocalReturnDate.getYear();
 
+        baseFunc.click(baseFunc.list(DATE_PICKERS).get(0));
+        LOGGER.info("Selecting depart date from date picker equals to " + expectedDepartDate);
         LOGGER.info("Selecting month from date picker equals to " + expectedDepartMonth);
-        //WebElement departMonth = baseFunc.findElement(MONTH);
-        List<WebElement> months = baseFunc.list(MONTH_SELECTORS);
+        List<WebElement> months = baseFunc.list(MONTH_SELECTORS).subList(0, 12);
+        for (WebElement month : months) {
+            System.out.println(month.getText());
+        }
         baseFunc.click(months.get(expectedDepartMonth - 1));
-
         LOGGER.info("Selecting return year from date picker equals to " + expectedDepartYear);
-        //WebElement departYear = baseFunc.findElement(YEAR);
         List<WebElement> years = baseFunc.list(YEAR_SELECTORS);
         for (WebElement yearToSelect : years) {
             if (baseFunc.getTextOfElement(yearToSelect).equals(String.valueOf(expectedDepartYear))) {
@@ -540,23 +567,45 @@ public class HomePage {
         } catch (Exception e) {
             System.out.println("Invalid date!" + ":" + expectedDepartDay + " " + expectedDepartMonth);
         }
+
         LOGGER.info("Selecting return date from date picker equals to " + expectedLocalReturnDate);
+        int expectedReturnDay = expectedLocalReturnDate.getDayOfMonth();
+        int expectedReturnMonth = expectedLocalReturnDate.getMonthValue();
+        int expectedReturnYear = expectedLocalReturnDate.getYear();
+
         if (baseFunc.getTextOfElement(baseFunc.list(FLIGHT_TYPE_SELECTED).get(6)).equals("Round trip")) {
-            try {
-                //WebElement returnDays = baseFunc.list(DAYS_DATE_PICKER).get(1);
-                //List<WebElement> availableDaysToSelect = returnDays.findElements(AVAILABLE_DAYS_DATE_PICKER_RETURN);
-                List<WebElement> availableDaysToSelect = baseFunc.list(AVAILABLE_DAYS_DATE_PICKER_RETURN);
-                for (WebElement returnDay : availableDaysToSelect) {
-                    if (baseFunc.getTextOfElement(returnDay).equals(String.valueOf(expectedReturnDay))) {
-                        baseFunc.click(returnDay);
-                        break;
+            //try {
+                if (expectedReturnMonth == expectedDepartMonth) {
+                    WebElement returnDays = baseFunc.list(DAYS_DATE_PICKER).get(0);
+                    List<WebElement> availableDaysToSelect = baseFunc.list(AVAILABLE_DATES_RETURN);
+                    for (WebElement day : availableDaysToSelect) {
+                        if (baseFunc.getTextOfElement(day).equals(String.valueOf(expectedReturnDay))) {
+                            baseFunc.click(day);
+                            break;
+                        }
                     }
                 }
-            } catch (Exception e) {
-                LOGGER.info("Invalid date!" + ":" + expectedReturnDay + " " + expectedReturnMonth);
-            }
+                if (expectedReturnMonth != expectedDepartMonth) {
+                    WebElement returnDays = baseFunc.list(DAYS_DATE_PICKER).get(1);
+                    List<WebElement> returnMonths = baseFunc.list(MONTH_SELECTORS).subList(12, 24);
+                    for (WebElement returnMonth : returnMonths) {
+                        System.out.println(returnMonth.getText());
+                    }
+                    baseFunc.click(returnMonths.get(expectedReturnMonth - 1));
+                    System.out.println(returnMonths.get(expectedReturnMonth - 1).getText());
+                    WebElement returnDaysOtherMonth = baseFunc.list(DAYS_DATE_PICKER).get(1);
+                    List<WebElement> availableDaysToSelect = returnDaysOtherMonth.findElements(AVAILABLE_DATES_RETURN);
+                    for (WebElement day : availableDaysToSelect) {
+                        if (baseFunc.getTextOfElement(day).equals(String.valueOf(expectedReturnDay))) {
+                            baseFunc.click(day);
+                            break;
+                        }
+                    }
+                }
+            //} catch (Exception e) {
+             //   System.out.println("Invalid date!" + ":" + expectedDepartDay + " " + expectedDepartMonth);
+           // }
         }
-        //baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
     }
 
 }

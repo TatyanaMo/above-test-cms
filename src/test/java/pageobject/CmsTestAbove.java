@@ -16,6 +16,7 @@ public class CmsTestAbove {
     private final String SECOND_TO_AIRPORT_MULTI_CITY = "BCD";
     private final String COUNTRY_CODE = "372";
     public final String expectedDepartDate = "01-08-2023";
+    public final String expectedReturnDate = "06-09-2023";
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
@@ -24,7 +25,6 @@ public class CmsTestAbove {
 
     @Test
     public void ElementsCheck() {
-        //int adultPassengerToSelect = 1;
 
         Passenger passenger = new Passenger("Test", 28745640, "tanjatest2@inbox.lv", "VBS",
                 "372", "RIX", "BCN", "BCD");
@@ -204,7 +204,8 @@ public class CmsTestAbove {
         homePage.acceptCookies();
         homePage.selectFlightAndPassengerParameters(adultPassengerToSelect);
         homePage.fillInPassengerInfo(passenger);
-        homePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
+        homePage.getAndSelectDepartAndReturnDates(expectedDepartDate, expectedReturnDate);
+        //homePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
     }
 
 }
