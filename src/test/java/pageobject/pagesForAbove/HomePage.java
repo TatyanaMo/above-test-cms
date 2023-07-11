@@ -117,7 +117,6 @@ public class HomePage {
     private final By AVAILABLE_DATES_RETURN = By.xpath(".//div[contains(@class, 'lightpick__day is-available')]");
 
 
-
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
@@ -142,6 +141,7 @@ public class HomePage {
         LOGGER.info("Switching to Facebook iframe dialog in homepage");
         baseFunc.switchIframeIndex(0);
     }
+
     public void closeIframeFacebook() {
         baseFunc.switchToMainPage();
     }
@@ -557,7 +557,7 @@ public class HomePage {
         LOGGER.info("Selecting depart day from date picker equals to " + expectedDepartDay);
         try {
             WebElement departDays = baseFunc.list(DAYS_DATE_PICKER).get(0);
-            List<WebElement> availableDaysToSelect = baseFunc.list(AVAILABLE_DAYS_DATE_PICKER);
+            List<WebElement> availableDaysToSelect = departDays.findElements(AVAILABLE_DAYS_DATE_PICKER);
             for (WebElement day : availableDaysToSelect) {
                 if (baseFunc.getTextOfElement(day).equals(String.valueOf(expectedDepartDay))) {
                     baseFunc.click(day);
@@ -574,10 +574,10 @@ public class HomePage {
         int expectedReturnYear = expectedLocalReturnDate.getYear();
 
         if (baseFunc.getTextOfElement(baseFunc.list(FLIGHT_TYPE_SELECTED).get(6)).equals("Round trip")) {
-            //try {
+            try {
                 if (expectedReturnMonth == expectedDepartMonth) {
                     WebElement returnDays = baseFunc.list(DAYS_DATE_PICKER).get(0);
-                    List<WebElement> availableDaysToSelect = baseFunc.list(AVAILABLE_DATES_RETURN);
+                    List<WebElement> availableDaysToSelect = returnDays.findElements(AVAILABLE_DATES_RETURN);
                     for (WebElement day : availableDaysToSelect) {
                         if (baseFunc.getTextOfElement(day).equals(String.valueOf(expectedReturnDay))) {
                             baseFunc.click(day);
@@ -586,7 +586,6 @@ public class HomePage {
                     }
                 }
                 if (expectedReturnMonth != expectedDepartMonth) {
-                    WebElement returnDays = baseFunc.list(DAYS_DATE_PICKER).get(1);
                     List<WebElement> returnMonths = baseFunc.list(MONTH_SELECTORS).subList(12, 24);
                     for (WebElement returnMonth : returnMonths) {
                         System.out.println(returnMonth.getText());
@@ -602,9 +601,9 @@ public class HomePage {
                         }
                     }
                 }
-            //} catch (Exception e) {
-             //   System.out.println("Invalid date!" + ":" + expectedDepartDay + " " + expectedDepartMonth);
-           // }
+            } catch (Exception e) {
+                System.out.println("Invalid date!" + ":" + expectedDepartDay + " " + expectedDepartMonth);
+            }
         }
     }
 
