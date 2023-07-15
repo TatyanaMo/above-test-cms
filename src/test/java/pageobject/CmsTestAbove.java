@@ -44,7 +44,7 @@ public class CmsTestAbove {
         homePage.isTextOneAppears();
         homePage.isTextTwoAppears();
         homePage.isTextThreeAppears();
-        homePage.WhyChooseAboveBlockCheck();
+        homePage.whyChooseAboveBlockCheck();
         homePage.isInstructionBlockAppears();
         homePage.reviewBlockCheck();
         homePage.switchToIframeFacebookButton();
@@ -196,7 +196,7 @@ public class CmsTestAbove {
 
     @Test
     public void successfulFlightRequest() {
-        Passenger passenger = new Passenger("Test", 28745640, "tanjatest2@inbox.lv", "VBS",
+        Passenger passenger = new Passenger("client AT", 28745640, "tanjatest2@inbox.lv", "VBS",
                 "372", "RIX", "BCN", "BCD");
 
         baseFunc.openUrl(URL);
@@ -205,7 +205,7 @@ public class CmsTestAbove {
         homePage.selectFlightAndPassengerParameters(adultPassengerToSelect);
         homePage.fillInPassengerInfo(passenger);
         homePage.getAndSelectDepartAndReturnDates(expectedDepartDate, expectedReturnDate);
-        //homePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
+        homePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
     }
 
 }

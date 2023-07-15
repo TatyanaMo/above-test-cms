@@ -302,4 +302,13 @@ public class BaseFunc {
         }
         return totalLength;
     }
+
+    public void waitForElementsToBeAtLeast(By locator, int minCount) {
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, minCount - 1));
+    }
+
+    public void waitForElementAttributeToBe(By locator, String attribute, String value) {
+        waitForElementsToBeAtLeast(locator, 2);
+        wait.until(ExpectedConditions.attributeToBe(browser.findElements(locator).get(1), attribute, value));
+    }
 }

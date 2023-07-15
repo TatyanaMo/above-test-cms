@@ -13,41 +13,37 @@ public class PrivacyPolicyPage {
     private final By FACEBOOK_BTN = By.xpath(".//iframe[@name='blank_f1ec71e7392dea8']");
     private final By IFRAME_HEADER = By.xpath(".//div[@class='_4ik4 _4ik5']");
     private final By IFRAME_TEXT = By.xpath(".//div[@class='_a2zt _a6s6 _4ik4 _4ik5']");
-    private final By CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
     private final By START_CHAT_BTN = By.xpath(".//span[@class = 'continueText _4mr9 _6i6a']");
+    private final By CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
 
     private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     private final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
     private final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
     private final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
-    private final By DROP_DOWN_BUTTONS = By.xpath(".//button[@class='h-full flex items-center space-x-2 px-2" +
-            " py-1 font-medium rounded appearance-none transition-colors focus:outline-none hover:bg-black hover:bg-opacity-10 focus:bg-black focus:bg-opacity-25 focus:text-white']");
-    private final By LOG_IN_BUTTON = By.xpath(".//button[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full " +
-            "text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
+    private final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
+    private final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
-    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
-    private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[@class='block py-3 lg:py-2 px-5 lg:pr-10 w-full " +
-            "text-center lg:text-left whitespace-nowrap rounded-md lg:rounded-none after-checked:bg-gray-100 after-checked:text-orange-400 after-checked:font-medium hover:text-orange-400 focus:bg-gray-100 focus:outline-none']");
-
     private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
-    private final By MODAL_INPUT_FIELDS = By.xpath(".//div[@class='space-y-4']/div/div/div/input");
+    private final By MODAL_INPUT_FIELDS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0" +
+            " py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-gray-300 disabled:border-gray-300" +
+            " text-black group-invalid:text-red-500 placeholder-gray-500 disabled:text-gray-500 hover:border-orange-400 focus:border-orange-400" +
+            " placeholder-opacity-75 focus:outline-none']");
     private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
-    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//div[@class='pt-6 -mx-2 flex items-baseline flex-wrap" +
-            " justify-between']/span/button");
+    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     private final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
 
-    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[@class='typography_display-s__qOjh6 typography" +
-            "_appearance-default__AAY17 title_displayName__TtDDM']");
+    private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
+    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
+    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
     private final By TEXT_TITTLES = By.xpath(".//div[@class='py-16 container rich-content']/h2");
     private final By TEXT = By.xpath(".//div[@class='py-16 container rich-content']/p");
     private final By TEXT_LIST = By.xpath(".//div[@class='py-16 container rich-content']/ul");
-    private final By LINKS_IN_TEXT = By.xpath(".//div[@class='py-16 container rich-content']/p/a");
-    private final By LINKS_IN_LISTS = By.xpath(".//div[@class='py-16 container rich-content']/ul/li/a");
+    private final By LINKS_IN_TEXT = By.xpath(".//a[@target='_blank']");
     private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
     private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
     private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
-    private final By PAYMENTS_METHODS = By.xpath(".//li[@class='w-9 md:w-12']/img");
+    private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
     private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -169,13 +165,6 @@ public class PrivacyPolicyPage {
             String textLinkHref = textLink.getAttribute("href");
             if (textLinkHref != null && !textLinkHref.startsWith("mailto:")) {
                 baseFunc.linksStatusCheck(textLinkHref);
-            }
-        }
-        List<WebElement> listLinks = baseFunc.list(LINKS_IN_LISTS);
-        for (WebElement listLink : listLinks) {
-            String listLinkHref = listLink.getAttribute("href");
-            if (listLinkHref != null && !listLinkHref.startsWith("mailto:")) {
-                baseFunc.linksStatusCheck(listLinkHref);
             }
         }
         return true;
