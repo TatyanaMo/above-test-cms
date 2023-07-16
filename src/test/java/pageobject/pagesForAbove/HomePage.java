@@ -92,6 +92,11 @@ public class HomePage {
     private final By REMOVE_FLIGHT_BUTTON = By.xpath(".//button[@ data-trip-remove='data-trip-remove']");
     private final By AVAILABLE_DATES_RETURN = By.xpath(".//div[contains(@class, 'lightpick__day is-available')]");
 
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW = By.xpath(".//div[@data-modal='request-success']");
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE = By.id("request-success-title");
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT = By.xpath(".//div[@class='pt-6']/p");
+
+
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
@@ -438,9 +443,6 @@ public class HomePage {
         WebElement calendarOpened = baseFunc.findElement(DATE_PICKERS_OPENED);
         Assertions.assertTrue(calendarOpened.isDisplayed(), "calendar for depart date not displayed");
         baseFunc.click(allDropDownMenus.get(3));
-        //baseFunc.switchIframeIndex(0);
-        //baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-        //baseFunc.switchToMainPage();
         LOGGER.info("Checking add flight and remove flight buttons enabled in request form");
         Assertions.assertTrue(baseFunc.list(ADD_FLIGHT_BUTTON).get(2).isEnabled(), "Add flight button is disabled in multi city flight request");
         baseFunc.click(baseFunc.list(ADD_FLIGHT_BUTTON).get(2));
@@ -462,50 +464,6 @@ public class HomePage {
         baseFunc.type(inputName, passenger.getName());
         baseFunc.type(inputPhone, passenger.getPhoneNumber());
         baseFunc.type(inputEmail, passenger.getEmail());
-    }
-
-    public void selectAirportsAndCountryCodeFromSuggestionLists(String locationFrom, String locationTo, Passenger passenger) {
-        LOGGER.info("Selecting airports " + locationFrom + " from suggestion lists");
-        WebElement inputAirportFrom = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(4);
-        baseFunc.click(inputAirportFrom);
-        WebElement inputFrom = baseFunc.list(INPUT_FROM).get(1);
-        baseFunc.click(inputFrom);
-        baseFunc.type(inputFrom, passenger.getAirportFrom());
-        List<WebElement> suggestionsFrom = baseFunc.list(AIRPORTS_SUGGESTION);
-        baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
-        boolean isFoundFrom = false;
-        for (WebElement we : suggestionsFrom) {
-            System.out.println(we.getText());
-            if (baseFunc.getTextOfElement(we).equals(locationFrom)) {
-                we.click();
-                isFoundFrom = true;
-                break;
-            }
-        }
-        Assertions.assertTrue(isFoundFrom, "Location " + locationFrom + " can't be found in a suggestion list");
-
-        LOGGER.info("Selecting airports " + locationTo + " from suggestion lists");
-        WebElement inputAirportTo = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(6);
-        baseFunc.click(inputAirportTo);
-        WebElement inputTo = baseFunc.list(INPUT_TO).get(1);
-        baseFunc.click(inputTo);
-        baseFunc.type(inputTo, passenger.getAirportTo());
-        baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
-
-        baseFunc.waitForElementAttributeToBe(ACTIVE_AIRPORTS_TO_LIST, "data-value", locationTo);
-        WebElement activeAirportsList = baseFunc.findElement(CHOICES_LIST_TO);
-        List<WebElement> suggestionsTo = activeAirportsList.findElements(AIRPORTS_SUGGESTION);
-//.//div[contains(@class, 'is-parent choices__item')]
-        boolean isFoundTo = false;
-        for (WebElement we : suggestionsTo) {
-            System.out.println(we.getText());
-            if (baseFunc.getTextOfElement(we).equals(locationTo)) {
-                we.click();
-                isFoundTo = true;
-                break;
-            }
-        }
-        Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
     }
 
     public void getAndSelectDepartAndReturnDates(String expectedDepartDate, String expectedReturnDate) {
@@ -550,7 +508,6 @@ public class HomePage {
         LOGGER.info("Selecting return date from date picker equals to " + expectedLocalReturnDate);
         int expectedReturnDay = expectedLocalReturnDate.getDayOfMonth();
         int expectedReturnMonth = expectedLocalReturnDate.getMonthValue();
-        int expectedReturnYear = expectedLocalReturnDate.getYear();
 
         if (baseFunc.getTextOfElement(baseFunc.list(FLIGHT_TYPE_SELECTED).get(6)).equals("Round trip")) {
             try {
@@ -579,10 +536,69 @@ public class HomePage {
                             break;
                         }
                     }
+                    baseFunc.switchIframeIndex(0);
+                    baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
+                    baseFunc.switchToMainPage();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid date!" + ":" + expectedDepartDay + " " + expectedDepartMonth);
             }
         }
     }
+    public void selectAirportsAndCountryCodeFromSuggestionLists(String locationFrom, String locationTo, Passenger passenger) {
+        LOGGER.info("Selecting airports " + locationFrom + " from suggestion lists");
+        WebElement inputAirportFrom = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(4);
+        baseFunc.click(inputAirportFrom);
+        WebElement inputFrom = baseFunc.list(INPUT_FROM).get(1);
+        baseFunc.click(inputFrom);
+        baseFunc.type(inputFrom, passenger.getAirportFrom());
+        List<WebElement> suggestionsFrom = baseFunc.list(AIRPORTS_SUGGESTION);
+        baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
+        boolean isFoundFrom = false;
+        for (WebElement we : suggestionsFrom) {
+            System.out.println(we.getText());
+            if (baseFunc.getTextOfElement(we).equals(locationFrom)) {
+                we.click();
+                isFoundFrom = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(isFoundFrom, "Location " + locationFrom + " can't be found in a suggestion list");
+
+        LOGGER.info("Selecting airports " + locationTo + " from suggestion lists");
+        WebElement inputAirportTo = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(6);
+        baseFunc.click(inputAirportTo);
+        WebElement inputTo = baseFunc.list(INPUT_TO).get(1);
+        baseFunc.click(inputTo);
+        baseFunc.type(inputTo, passenger.getAirportTo());
+        baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
+
+        baseFunc.waitForElementAttributeToBe(ACTIVE_AIRPORTS_TO_LIST, "data-value", locationTo);
+        WebElement activeAirportsList = baseFunc.findElement(CHOICES_LIST_TO);
+        List<WebElement> suggestionsTo = activeAirportsList.findElements(AIRPORTS_SUGGESTION);
+        boolean isFoundTo = false;
+        for (WebElement we : suggestionsTo) {
+            System.out.println(we.getText());
+            if (baseFunc.getTextOfElement(we).equals(locationTo)) {
+                we.click();
+                isFoundTo = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
+        baseFunc.switchIframeIndex(0);
+        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
+        baseFunc.switchToMainPage();
+
+    }
+    public void submitFlightRequest () {
+        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
+    }
+    public boolean isSuccessfulRequestMessageIsDisplayed() {
+        baseFunc.waitElementToBeVisible(SUCCESSFUL_REQUEST_MODAL_WINDOW);
+        Assertions.assertTrue(baseFunc.getTextOfElement(SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE).length() > 0, "No tittle in successful request message");
+        Assertions.assertTrue(baseFunc.getTextOfElement(SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT).length() > 0, "No text in successful request message");
+        return true;
+    }
+
 }

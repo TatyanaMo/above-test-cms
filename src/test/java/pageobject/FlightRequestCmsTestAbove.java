@@ -18,7 +18,7 @@ public class FlightRequestCmsTestAbove {
 
     @Test
     public void successfulFlightRequest() {
-        Passenger passenger = new Passenger("client AT", 28745640, "tanjatest2@inbox.lv", "VBS",
+        Passenger passenger = new Passenger("AT client", 28745640, "koltekiyde@gufum.com", "VBS",
                 "371", "RIX");
 
         baseFunc.openUrl(URL);
@@ -28,5 +28,8 @@ public class FlightRequestCmsTestAbove {
         homePage.fillInPassengerInfo(passenger);
         homePage.getAndSelectDepartAndReturnDates(expectedDepartDate, expectedReturnDate);
         homePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
+        homePage.submitFlightRequest();
+        homePage.isSuccessfulRequestMessageIsDisplayed();
+        baseFunc.closeBrowser();
     }
 }

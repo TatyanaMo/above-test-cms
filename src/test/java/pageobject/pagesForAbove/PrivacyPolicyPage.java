@@ -9,12 +9,8 @@ import pageobject.BaseFunc;
 import java.util.List;
 
 public class PrivacyPolicyPage {
-    private final By FACEBOOK_IFRAME = By.xpath(".//div[@class='welcomePageModalSheetContent']");
-    private final By FACEBOOK_BTN = By.xpath(".//iframe[@name='blank_f1ec71e7392dea8']");
-    private final By IFRAME_HEADER = By.xpath(".//div[@class='_4ik4 _4ik5']");
-    private final By IFRAME_TEXT = By.xpath(".//div[@class='_a2zt _a6s6 _4ik4 _4ik5']");
-    private final By START_CHAT_BTN = By.xpath(".//span[@class = 'continueText _4mr9 _6i6a']");
-    private final By CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
+
+    private final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
 
     private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     private final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
@@ -173,7 +169,7 @@ public class PrivacyPolicyPage {
     public void switchAndCloseIframeFacebook() {
         LOGGER.info("Switching to and closing Facebook iframe dialog in privacy policy page");
         baseFunc.switchIframeIndex(0);
-        baseFunc.click(CLOSE_CHAT_BTN);
+        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
         baseFunc.switchToMainPage();
     }
 

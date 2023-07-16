@@ -311,4 +311,8 @@ public class BaseFunc {
         waitForElementsToBeAtLeast(locator, 2);
         wait.until(ExpectedConditions.attributeToBe(browser.findElements(locator).get(1), attribute, value));
     }
+    public void waitForElementAttributeToBeNew(By locator, String attribute, String value) {
+        waitForElementsToBeAtLeast(locator, 3);
+        wait.until(ExpectedConditions.attributeToBe(browser.findElements(locator).get(2), attribute, value));
+    }
 }

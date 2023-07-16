@@ -2,32 +2,19 @@ package pageobject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.objenesis.instantiator.sun.SunReflectionFactoryInstantiator;
-import pageobject.model.Passenger;
 import pageobject.pagesForAbove.*;
 
-public class CmsTestAbove {
+public class ElementsCheckCmsTestAbove {
     private final String URL = "http://staging.above9.travel/";
-    private final String FROM_AIRPORT = "VBS";
-    private final String TO_AIRPORT = "RIX";
-    private final String SECOND_FROM_AIRPORT_MULTI_CITY = "BCN";
-    private final String SECOND_TO_AIRPORT_MULTI_CITY = "BCD";
-    private final String COUNTRY_CODE = "372";
-    public final String expectedDepartDate = "01-08-2023";
-    public final String expectedReturnDate = "06-09-2023";
+    int adultPassengerToSelect = 1;
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc = new BaseFunc();
-    int adultPassengerToSelect = 1;
 
     @Test
     public void ElementsCheck() {
-
-        Passenger passenger = new Passenger("Test", 28745640, "tanjatest2@inbox.lv", "VBS",
-                "372", "RIX", "BCN", "BCD");
 
         baseFunc.openUrl(URL);
         HomePage homePage = new HomePage(baseFunc);
@@ -193,20 +180,5 @@ public class CmsTestAbove {
         contactUsPage.manageCookiesPreferencesModalClose();
         contactUsPage.closeBrowser();
     }
-
-    @Test
-    public void successfulFlightRequest() {
-        Passenger passenger = new Passenger("client AT", 28745640, "tanjatest2@inbox.lv", "VBS",
-                "372", "RIX", "BCN", "BCD");
-
-        baseFunc.openUrl(URL);
-        HomePage homePage = new HomePage(baseFunc);
-        homePage.acceptCookies();
-        homePage.selectFlightAndPassengerParameters(adultPassengerToSelect);
-        homePage.fillInPassengerInfo(passenger);
-        homePage.getAndSelectDepartAndReturnDates(expectedDepartDate, expectedReturnDate);
-        homePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
-    }
-
 }
 

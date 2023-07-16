@@ -7,19 +7,15 @@ public class Passenger {
     private String airportFrom;
     private String countryCode;
     private String airportTo;
-    private String secondAirportFrom;
-    private String secondAirportTo;
 
 
-    public Passenger(String name, int phoneNumber, String email, String airportFrom, String countryCode, String airportTo, String secondAirportFrom, String secondAirportTo) {
+    public Passenger(String name, int phoneNumber, String email, String airportFrom, String countryCode, String airportTo) {
         Name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.airportFrom = airportFrom;
         this.countryCode = countryCode;
         this.airportTo = airportTo;
-        this.secondAirportFrom = secondAirportFrom;
-        this.secondAirportTo = secondAirportTo;
 
     }
 
@@ -47,11 +43,4 @@ public class Passenger {
         return airportTo;
     }
 
-    public String getSecondAirportFrom() {
-        return secondAirportFrom;
-    }
-
-    public String getSecondAirportTo() {
-        return secondAirportTo;
-    }
 }
