@@ -6,11 +6,9 @@ import org.junit.jupiter.api.Test;
 import pageobject.pagesForAbove.*;
 
 public class ElementsCheckCmsTestAbove {
-    private final String URL = "http://staging.above9.travel/";
+    private final String URL = "https://staging.above9.travel/";
     int adultPassengerToSelect = 1;
-
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
-
     private BaseFunc baseFunc = new BaseFunc();
 
     @Test

@@ -7,15 +7,17 @@ public class Passenger {
     private String airportFrom;
     private String countryCode;
     private String airportTo;
+    private String password;
 
 
-    public Passenger(String name, int phoneNumber, String email, String airportFrom, String countryCode, String airportTo) {
+    public Passenger(String name, int phoneNumber, String email, String airportFrom, String countryCode, String airportTo, String password) {
         Name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.airportFrom = airportFrom;
         this.countryCode = countryCode;
         this.airportTo = airportTo;
+        this.password = password;
 
     }
 
@@ -43,4 +45,7 @@ public class Passenger {
         return airportTo;
     }
 
+    public String getPassword() {
+        return password;
+    }
 }

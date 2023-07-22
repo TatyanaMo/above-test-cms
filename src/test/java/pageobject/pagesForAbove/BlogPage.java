@@ -19,7 +19,6 @@ public class BlogPage {
     private final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
     private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
-
     private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
     private final By MODAL_INPUT_FIELDS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0" +
             " py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-gray-300 disabled:border-gray-300" +
@@ -29,7 +28,6 @@ public class BlogPage {
     private final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     private final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
-
     private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
     private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
     private final By BLOG_CONTAINER = By.xpath(".//div[contains(@class, 'overflow-x-auto gap-4 mb-2 sm:px-10 xl:px-32')]");
@@ -43,7 +41,6 @@ public class BlogPage {
     private final By BLOG_CARDS_TEXT = By.xpath(".//div[@class='flex flex-col absolute text-white gap-y-4 " +
             "z-20 px-10 mb-8']/span");
     private final By BLOG_BUTTONS = By.xpath(".//button[@data-blog-tag='data-blog-tag']");
-
     private final By POST_TITTLE = By.xpath(".//span[contains(@class, 'text-center text-lg md:text-3xl lg:pr-12')]");
     private final By POST_SUBTITLE = By.xpath(".//div[@class='flex justify-center text-base font-normal mb-8']");
     private final By POST_TEXT = By.xpath(".//div[@class='text-base rich-content leading-normal mb-16']");
@@ -56,7 +53,6 @@ public class BlogPage {
     private final By SUBMIT_REQUEST_BUTTON = By.id("submit-request");
     private final By BACK_LINK = By.xpath(".//div[@class='flex flex-col lg:flex-row lg:items-center mb-6']/a");
     private final By LOAD_MORE_BTN = By.id("load-more");
-
     private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
     private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
     private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");

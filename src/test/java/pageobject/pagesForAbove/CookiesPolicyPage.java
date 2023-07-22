@@ -15,7 +15,6 @@ public class CookiesPolicyPage {
     private final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
     private final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
     private final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
-
     private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
     private final By MODAL_INPUT_FIELDS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0" +
             " py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-gray-300 disabled:border-gray-300" +
@@ -25,7 +24,6 @@ public class CookiesPolicyPage {
     private final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     private final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
-
     private final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
     private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
