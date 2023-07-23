@@ -23,10 +23,9 @@ public class HomePage {
     private final By IFRAME_FACEBOOK_START_CHAT_BTN = By.xpath(".//div[@class='_a2zm']");
     private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     private final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
-    private final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
+    private final By REVIEW_IMG = By.xpath(".//img[@class='-mt-1 w-20 md:w-28 h-6']");
     private final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
     private final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
-    private final By DROP_DOWN_BUTTONS_NEW = By.xpath(".//button[@data-dropdown='closed']");
     private final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     private final By MY_PROFILE_BUTTON = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
@@ -104,11 +103,9 @@ public class HomePage {
         baseFunc.click(ACCEPT_COOKIES_BTN);
     }
 
-    public boolean isLogoAppearsInHeader() {
+    public void logoInHeader() {
         LOGGER.info("Checking logo in header for homepage");
-        WebElement logo = baseFunc.findElement(HEADER_LOGO);
-        Assertions.assertTrue(logo.isDisplayed(), "No logo on homepage");
-        return true;
+        baseFunc.checkLogoInHeader(HEADER_LOGO);
     }
 
     public void switchToIframeFacebookButton() {
@@ -141,35 +138,9 @@ public class HomePage {
         baseFunc.checkPhoneNumberLinkInHeader(PHONE);
         return true;
     }
-
-    public boolean isDropDownMenuOpen() {
+    public void checkDropDownMenu() {
         LOGGER.info("Checking presence of elements in all dropdown menu");
-        List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
-        baseFunc.click(menuButtons.get(0));
-        Assertions.assertTrue(baseFunc.findElement(LOG_IN_BUTTON).isEnabled(), "button is disabled");
-        Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
-
-        menuButtons.get(1).click();
-        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
-        List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
-        Assertions.assertEquals("USD", baseFunc.getTextOfElement(currencies.get(0)), "wrong currency");
-        Assertions.assertEquals("EUR", baseFunc.getTextOfElement(currencies.get(1)), "wrong currency");
-        Assertions.assertEquals("CAD", baseFunc.getTextOfElement(currencies.get(2)), "wrong currency");
-        Assertions.assertEquals("AUD", baseFunc.getTextOfElement(currencies.get(3)), "wrong currency");
-        Assertions.assertEquals("GBP", baseFunc.getTextOfElement(currencies.get(4)), "wrong currency");
-
-        baseFunc.click(menuButtons.get(2));
-        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
-        List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
-        Assertions.assertEquals("About Us", baseFunc.getTextOfElement(submenuItems.get(5)), "No submenu item");
-        Assertions.assertEquals("Blog", baseFunc.getTextOfElement(submenuItems.get(6)), "No submenu item");
-        Assertions.assertEquals("Terms Of Use", baseFunc.getTextOfElement(submenuItems.get(7)), "No submenu item");
-        Assertions.assertEquals("Privacy Policy", baseFunc.getTextOfElement(submenuItems.get(8)), "No submenu item");
-        Assertions.assertEquals("Cookies Policy", baseFunc.getTextOfElement(submenuItems.get(9)), "No submenu item");
-        Assertions.assertEquals("Contact us", baseFunc.getTextOfElement(submenuItems.get(10)), "No submenu item");
-        Assertions.assertEquals("Manage cookie preferences", baseFunc.getTextOfElement(submenuItems.get(11)), "No submenu item");
-        baseFunc.click(menuButtons.get(2));
-        return true;
+        baseFunc.isDropDownMenuOpen(DROP_DOWN_BUTTONS,LOG_IN_BUTTON,CREATE_PROFILE_BUTTON,DROP_DOWN_ELEMENTS);
     }
 
     public boolean isLogInModalWindowOpens() {

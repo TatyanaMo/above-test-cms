@@ -48,10 +48,9 @@ public class PrivacyPolicyPage {
         this.baseFunc = baseFunc;
     }
 
-    public boolean isLogoAppearsInHeader() {
-        LOGGER.info("Checking logo in header for privacy policy page");
-        baseFunc.findElement(HEADER_LOGO);
-        return true;
+    public void logoInHeader() {
+        LOGGER.info("Checking logo in header for Privacy policy page");
+        baseFunc.checkLogoInHeader(HEADER_LOGO);
     }
 
     public boolean isReviewLinkAppearsInHeader() {
@@ -65,35 +64,9 @@ public class PrivacyPolicyPage {
         baseFunc.checkPhoneNumberLinkInHeader(PHONE);
         return true;
     }
-
-    public boolean isDropDownMenuOpen() {
+    public void checkDropDownMenu() {
         LOGGER.info("Checking presence of elements in all dropdown menu");
-        List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
-        baseFunc.click(menuButtons.get(0));
-        Assertions.assertTrue(baseFunc.findElement(LOG_IN_BUTTON).isEnabled(), "button is disabled");
-        Assertions.assertTrue(baseFunc.findElement(CREATE_PROFILE_BUTTON).isEnabled(), "button is disabled");
-
-        menuButtons.get(1).click();
-        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
-        List<WebElement> currencies = baseFunc.list(DROP_DOWN_ELEMENTS);
-        Assertions.assertEquals("USD", baseFunc.getTextOfElement(currencies.get(0)), "wrong currency");
-        Assertions.assertEquals("EUR", baseFunc.getTextOfElement(currencies.get(1)), "wrong currency");
-        Assertions.assertEquals("CAD", baseFunc.getTextOfElement(currencies.get(2)), "wrong currency");
-        Assertions.assertEquals("AUD", baseFunc.getTextOfElement(currencies.get(3)), "wrong currency");
-        Assertions.assertEquals("GBP", baseFunc.getTextOfElement(currencies.get(4)), "wrong currency");
-
-        baseFunc.click(menuButtons.get(2));
-        baseFunc.waitForElementsCountAtLeast(DROP_DOWN_ELEMENTS, 5);
-        List<WebElement> submenuItems = baseFunc.list(DROP_DOWN_ELEMENTS);
-        Assertions.assertEquals("About Us", baseFunc.getTextOfElement(submenuItems.get(5)), "No submenu item");
-        Assertions.assertEquals("Blog", baseFunc.getTextOfElement(submenuItems.get(6)), "No submenu item");
-        Assertions.assertEquals("Terms Of Use", baseFunc.getTextOfElement(submenuItems.get(7)), "No submenu item");
-        Assertions.assertEquals("Privacy Policy", baseFunc.getTextOfElement(submenuItems.get(8)), "No submenu item");
-        Assertions.assertEquals("Cookies Policy", baseFunc.getTextOfElement(submenuItems.get(9)), "No submenu item");
-        Assertions.assertEquals("Contact us", baseFunc.getTextOfElement(submenuItems.get(10)), "No submenu item");
-        Assertions.assertEquals("Manage cookie preferences", baseFunc.getTextOfElement(submenuItems.get(11)), "No submenu item");
-        baseFunc.click(menuButtons.get(2));
-        return true;
+        baseFunc.isDropDownMenuOpen(DROP_DOWN_BUTTONS,LOG_IN_BUTTON,CREATE_PROFILE_BUTTON,DROP_DOWN_ELEMENTS);
     }
 
     public boolean isLogInModalWindowOpens() {

@@ -225,6 +225,9 @@ public class BaseFunc {
             }
         }
     }
+    public boolean checkLogoInHeader(By locator) {
+         return findElement(locator).isDisplayed();
+    }
 
     public void checkLogInModalWindow(By locatorOne, By locatorTwo, By locatorThree, By locatorFour, By locatorFive, By locatorSix) {
         List<WebElement> menuButtons = list(locatorOne);
@@ -268,6 +271,33 @@ public class BaseFunc {
     }
     public void checkPhoneNumberLinkInHeader( By locator) {
         Assertions.assertTrue(list(locator).get(0).getAttribute("href").length() > 0, "no phone number");
+    }
+    public boolean isDropDownMenuOpen(By locatorOne,By locatorTwo,By locatorThree,By locatorFour  ) {
+        List<WebElement> menuButtons = list(locatorOne);
+        click(menuButtons.get(0));
+        findElement(locatorTwo).isEnabled();
+        findElement(locatorThree).isEnabled();
+
+        menuButtons.get(1).click();
+        waitForElementsCountAtLeast(locatorFour, 5);
+        List<WebElement> currencies = list(locatorFour);
+        getTextOfElement(currencies.get(0)).equals("USD");
+        getTextOfElement(currencies.get(1)).equals("EUR");
+        getTextOfElement(currencies.get(2)).equals("CAD");
+        getTextOfElement(currencies.get(3)).equals("AUD");
+        getTextOfElement(currencies.get(4)).equals("GBP");
+
+        click(menuButtons.get(2));
+        waitForElementsCountAtLeast(locatorFour, 5);
+        List<WebElement> submenuItems = list(locatorFour);
+        getTextOfElement(submenuItems.get(5)).equals("About Us");
+        getTextOfElement(submenuItems.get(6)).equals("Blog");
+        getTextOfElement(submenuItems.get(7)).equals("Terms Of Use");
+        getTextOfElement(submenuItems.get(8)).equals("Privacy Policy");
+        getTextOfElement(submenuItems.get(9)).equals("Cookies Policy");
+        getTextOfElement(submenuItems.get(10)).equals("Contact us");
+        click(menuButtons.get(2));
+        return true;
     }
     public void openNextPage(By locatorOne, By locatorTwo,int indexOne, int indexTwo ) {
         click(list(locatorOne).get(indexOne));
@@ -320,4 +350,5 @@ public class BaseFunc {
     public void pageRefresh() {
         browser.navigate().refresh();
     }
+
 }

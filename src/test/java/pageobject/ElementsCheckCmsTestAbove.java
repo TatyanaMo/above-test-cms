@@ -17,10 +17,10 @@ public class ElementsCheckCmsTestAbove {
         baseFunc.openUrl(URL);
         HomePage homePage = new HomePage(baseFunc);
         homePage.acceptCookies();
-        homePage.isLogoAppearsInHeader();
+        homePage.logoInHeader();
         homePage.isReviewLinkAppearsInHeader();
         homePage.isPhoneNumberLinkWorkInHeader();
-        homePage.isDropDownMenuOpen();
+        homePage.checkDropDownMenu();
         homePage.isLogInModalWindowOpens();
         homePage.loginModalClose();
         homePage.isSignUpModalWindowOpen();
@@ -47,10 +47,10 @@ public class ElementsCheckCmsTestAbove {
         homePage.openAboutUsPage();
 
         AboutUsPage aboutUsPage = new AboutUsPage(baseFunc);
-        aboutUsPage.isLogoAppearsInHeader();
+        aboutUsPage.logoInHeader();
         aboutUsPage.isReviewLinkAppearsInHeader();
         aboutUsPage.isPhoneNumberLinkWorkInHeader();
-        aboutUsPage.isDropDownMenuOpen();
+        aboutUsPage.checkDropDownMenu();
         aboutUsPage.isLogInModalWindowOpens();
         aboutUsPage.loginModalClose();
         aboutUsPage.isSignUpModalWindowOpen();
@@ -67,7 +67,7 @@ public class ElementsCheckCmsTestAbove {
         aboutUsPage.openBlogPage();
 
         BlogPage blogPage = new BlogPage(baseFunc);
-        blogPage.isLogoAppearsInHeader();
+        blogPage.logoInHeader();
         blogPage.isReviewLinkAppearsInHeader();
         blogPage.isDropDownMenuOpen();
         blogPage.isLogInModalWindowOpens();
@@ -91,10 +91,10 @@ public class ElementsCheckCmsTestAbove {
         blogPage.openTermsOfUsePage();
 
         TermsOfUsePage termsOfUsePage = new TermsOfUsePage(baseFunc);
-        termsOfUsePage.isLogoAppearsInHeader();
+        termsOfUsePage.logoInHeader();
         termsOfUsePage.isReviewLinkAppearsInHeader();
         termsOfUsePage.isPhoneNumberLinkWorkInHeader();
-        termsOfUsePage.isDropDownMenuOpen();
+        termsOfUsePage.checkDropDownMenu();
         termsOfUsePage.isLogInModalWindowOpens();
         termsOfUsePage.loginModalClose();
         termsOfUsePage.isSignUpModalWindowOpen();
@@ -111,10 +111,10 @@ public class ElementsCheckCmsTestAbove {
         termsOfUsePage.openPrivacyPolicyPage();
 
         PrivacyPolicyPage privacyPolicyPage = new PrivacyPolicyPage(baseFunc);
-        privacyPolicyPage.isLogoAppearsInHeader();
+        privacyPolicyPage.logoInHeader();
         privacyPolicyPage.isReviewLinkAppearsInHeader();
         privacyPolicyPage.isPhoneNumberLinkWorkInHeader();
-        privacyPolicyPage.isDropDownMenuOpen();
+        privacyPolicyPage.checkDropDownMenu();
         privacyPolicyPage.isLogInModalWindowOpens();
         privacyPolicyPage.loginModalClose();
         privacyPolicyPage.isSignUpModalWindowOpen();
@@ -133,10 +133,10 @@ public class ElementsCheckCmsTestAbove {
         privacyPolicyPage.openCookiesPolicyPage();
 
         CookiesPolicyPage cookiesPolicyPage = new CookiesPolicyPage(baseFunc);
-        cookiesPolicyPage.isLogoAppearsInHeader();
+        cookiesPolicyPage.logoInHeader();
         cookiesPolicyPage.isReviewLinkAppearsInHeader();
         cookiesPolicyPage.isPhoneNumberLinkWorkInHeader();
-        cookiesPolicyPage.isDropDownMenuOpen();
+        cookiesPolicyPage.checkDropDownMenu();
         cookiesPolicyPage.isLogInModalWindowOpens();
         cookiesPolicyPage.loginModalClose();
         cookiesPolicyPage.isSignUpModalWindowOpen();
@@ -153,10 +153,10 @@ public class ElementsCheckCmsTestAbove {
         cookiesPolicyPage.openContactUsPage();
 
         ContactUsPage contactUsPage = new ContactUsPage(baseFunc);
-        contactUsPage.isLogoAppearsInHeader();
+        contactUsPage.logoInHeader();
         contactUsPage.isReviewLinkAppearsInHeader();
         contactUsPage.isPhoneNumberLinkWorkInHeader();
-        contactUsPage.isDropDownMenuOpen();
+        contactUsPage.checkDropDownMenu();
         contactUsPage.isLogInModalWindowOpens();
         contactUsPage.loginModalClose();
         contactUsPage.isSignUpModalWindowOpen();

@@ -67,14 +67,13 @@ public class BlogPage {
         this.baseFunc = baseFunc;
     }
 
-    public boolean isLogoAppearsInHeader() {
+    public void logoInHeader() {
         LOGGER.info("Checking logo in header for blog page");
-        WebElement logo = baseFunc.findElement(HEADER_LOGO);
-        return true;
+        baseFunc.checkLogoInHeader(HEADER_LOGO);
     }
 
     public boolean isReviewLinkAppearsInHeader() {
-        LOGGER.info("Checking Trustpilot link in header for homepage");
+        LOGGER.info("Checking Trustpilot link in header for blog page");
         baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK, REVIEW_IMG, REVIEW_HEADER_LINK, TRUSTPILOT_ABOVE_TITTLE);
         return true;
     }

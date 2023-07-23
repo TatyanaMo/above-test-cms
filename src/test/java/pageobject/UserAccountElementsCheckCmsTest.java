@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import pageobject.model.Passenger;
 import pageobject.pagesForAbove.HomePage;
+import pageobject.pagesForAbove.UserProfilePage;
 
 public class UserAccountElementsCheckCmsTest {
     private final String URL = "http://staging.above9.travel/";
@@ -22,5 +23,13 @@ public class UserAccountElementsCheckCmsTest {
         homePage.isLogInModalWindowOpens();
         homePage.fillLogInForm(passenger);
         homePage.openUserProfilePage();
+
+        UserProfilePage userProfilePage = new UserProfilePage(baseFunc);
+        userProfilePage.logoInHeader();
+        userProfilePage.isReviewLinkAppearsInHeader();
+        userProfilePage.isPhoneNumberLinkWorkInHeader();
+        userProfilePage.isDropDownMenuOpen();
+        userProfilePage.isMyProfileTittleDisplayed();
+        userProfilePage.isMyProfileOptionsDisplayed();
     }
 }
