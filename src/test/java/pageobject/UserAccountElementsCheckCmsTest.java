@@ -31,5 +31,6 @@ public class UserAccountElementsCheckCmsTest {
         userProfilePage.isDropDownMenuOpen();
         userProfilePage.isMyProfileTittleDisplayed();
         userProfilePage.isMyProfileOptionsDisplayed();
+        userProfilePage.isPersonalInfoBlockElementsDisplayed();
     }
 }

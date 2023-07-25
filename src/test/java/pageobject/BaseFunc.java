@@ -344,6 +344,7 @@ public class BaseFunc {
     public void waitForElementAttributeToBeNew(WebElement we, String attribute, String value) {
         wait.until(ExpectedConditions.attributeToBe(we, attribute, value));
     }
+
     public void waitElementToBeClickable(By locator) {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
     }

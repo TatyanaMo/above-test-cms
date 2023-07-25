@@ -2,6 +2,7 @@ package pageobject.pagesForAbove;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,14 @@ public class UserProfilePage {
     private final By MY_PROFILE_TITTLE = By.xpath(".//h2[@class='text-xl lg:text-2xl font-medium']");
     private final By MY_PROFILE_OPTIONS = By.xpath(".//li[@class='flex-shrink-0']");
     private final By PERSONAL_INFO_BLOCK = By.xpath(".//div[@data-tab='personal-info']");
+    private final By PERSONAL_INFO_FIELDS_NAMES = By.xpath(".//legend[@class='text-xs text-gray-500 cursor-default']");
+    private final By PERSONAL_INFO_PLACEHOLDERS = By.xpath(".//input[contains(@class,'appearance-none block h-10 leading-8 px-0 py-1 w-full text-sm rounded-none')]");
+    private final By GENDER_RADIO_BUTTONS = By.xpath(".//input[@type='radio']");
+    private final By GENDER_RADIO_BUTTON_NAMES = By.xpath(".//span[@class='pl-3 font-medium leading-5 cursor-pointer after-disabled:cursor-default ']");
+    private final By CHOICES_FIELDS = By.xpath(".//div[@class='choices__inner']");
+    private final By DROPDOWN_LISTS = By.xpath(".//div[contains(@class,'choices__list choices__list--dropdown')]");
+    private final By CHOICES_LISTS = By.xpath(".//div[contains(@class,'choices__item choices__item--choice choices__item--selectable')]");
+
 
 
 
@@ -86,9 +95,44 @@ public class UserProfilePage {
             Assertions.assertEquals(4, options.size(), "Not all options displayed in My profile page");
             Assertions.assertTrue(baseFunc.getTextOfElement(option).length() >0 , "No text in my profile option");
         }
-        LOGGER.info("Checking personal info block");
-        Assertions.assertTrue(baseFunc.findElement(PERSONAL_INFO_BLOCK).isDisplayed(), "Personal info block not displayed in My profile page");
 
+        return true;
+    }
+    public boolean isPersonalInfoBlockElementsDisplayed () {
+        LOGGER.info("Check placeholders names and text in input fields in personal info block");
+        Assertions.assertTrue(baseFunc.findElement(PERSONAL_INFO_BLOCK).isDisplayed(), "Personal info block not displayed in My profile page");
+        List<WebElement> personalInfoFieldsName = baseFunc.list(PERSONAL_INFO_FIELDS_NAMES);
+        for (WebElement name : personalInfoFieldsName) {
+            Assertions.assertTrue(baseFunc.getTextOfElement(name).length() > 0, "No names in input fields in personal info block");
+        }
+        List<WebElement> personalInfoPlaceholders = baseFunc.list(PERSONAL_INFO_PLACEHOLDERS);
+        for (int i =0; i < personalInfoPlaceholders.size(); i++) {
+            if (i==5) {
+                continue;
+            }
+            if (personalInfoPlaceholders.get(i).getAttribute("value").length()==0) {
+                continue;
+            }
+            Assertions.assertTrue(personalInfoPlaceholders.get(i).getAttribute("placeholder").length() > 0 , "No default text in placeholders in personal info block");
+            Assertions.assertTrue(personalInfoPlaceholders.get(i).getAttribute("value").length() > 0, "No entered text in input fields in personal info block");
+        }
+        LOGGER.info("Check gender radio buttons");
+        List<WebElement> radioButtons = baseFunc.list(GENDER_RADIO_BUTTONS);
+        for (WebElement radioButton : radioButtons) {
+            Assertions.assertTrue(radioButton.isEnabled(), "Gender radio button is disabled in personal info block");
+        }
+        List<WebElement> buttonsNames = baseFunc.list(GENDER_RADIO_BUTTON_NAMES);
+        for (WebElement buttonName :buttonsNames ) {
+            Assertions.assertTrue(baseFunc.getTextOfElement(buttonName).length() > 0, "No buttons names for gender radio buttons in personal info block");
+        }
+        LOGGER.info("Check nationality and phone codes dropdown lists");
+        List<WebElement> choicesOptions = baseFunc.list(CHOICES_FIELDS);
+        baseFunc.click(choicesOptions.get(0));
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(DROPDOWN_LISTS).get(0), "class", "choices__list choices__list--dropdown is-active");
+        List <WebElement> choicesLists = baseFunc.list(DROPDOWN_LISTS).get(0).findElements(CHOICES_LISTS);
+        for (WebElement choiceList : choicesLists) {
+            System.out.println(choiceList.getText());
+        }
         return true;
     }
 }
