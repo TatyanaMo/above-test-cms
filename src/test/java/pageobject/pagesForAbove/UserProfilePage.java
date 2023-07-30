@@ -5,10 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserProfilePage {
     private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
@@ -30,20 +33,35 @@ public class UserProfilePage {
     private final By CHOICES_FIELDS = By.xpath(".//div[@class='choices__inner']");
     private final By DROPDOWN_LISTS = By.xpath(".//div[contains(@class,'choices__list choices__list--dropdown')]");
     private final By CHOICES_LISTS = By.xpath(".//div[contains(@class,'choices__item choices__item--choice choices__item--selectable')]");
-
-
+    private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
+    private final By SIDE_INFO_BLOCK_TEXT = By.xpath(".//div[@class='sticky top-8 bg-white border rounded p-6 leading-5 space-y-4 break-words']/p");
+    private final By SIDE_INFO_BLOCK_SUB_TITTLES = By.xpath(".//p[@class='font-semibold']");
+    private final By SIDE_INFO_BLOCK_CONTACT_LINKS = By.xpath(".//a[@class='text-orange-400 hover:underline hover:text-orange-500']");
+    private final By SIDE_INFO_BLOCK_GENERAL_LINE_SECTION = By.xpath(".//ul[@class='pt-3 pl-3 space-y-1 break-all']");
+    private final By SIDE_INFO_BLOCK_IMAGES = By.xpath(".//*[name()='svg' and contains(@class, 'w-4 h-4 text-orange-400')]");
+    private final By SIDE_INFO_BLOCK_AGENT_SECTION = By.xpath(".//ul[@class='pt-3 pl-3 space-y-1']");
+    private final By USER_PROFILE_OPTIONS = By.xpath(".//a[@data-toggle='tab']");
+    private final By FLIGHT_COUNTER = By.xpath(".//b[contains(@class,'ml-0.5 px-2 leading-4 inline-block rounded-full')]");
+    private final By UPCOMING_FLIGHT_BLOCK = By.xpath(".//div[@data-tab='upcoming-flights']");
+    private final By FLIGHT_ELEMENTS = By.xpath(".//button[@data-toggle='slide']");
+    private final By ALERT_MESSAGES = By.xpath(".//div[contains(@class,'border rounded bg-white flex items-center text-sm ')]");
+    private final By SECTIONS_TITTLE = By.xpath(".//h2[@class='text-base font-medium flex-grow flex items-center']");
+    private final By FLIGHTS_INFO_ROUTES = By.xpath(".//span[@class='block sm:inline']");
+    private final By FLIGHTS_OTHER_INFO = By.xpath(".//span[@class='flex items-center space-x-2 text-sm text-gray-500']/span");
 
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc;
 
-    public UserProfilePage (BaseFunc baseFunc) {
+    public UserProfilePage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
     }
+
     public void logoInHeader() {
         LOGGER.info("Checking logo in header for User profile page");
         baseFunc.checkLogoInHeader(HEADER_LOGO);
     }
+
     public boolean isReviewLinkAppearsInHeader() {
         LOGGER.info("Checking Trustpilot link in header for User profile page");
         baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK, REVIEW_IMG, REVIEW_HEADER_LINK, TRUSTPILOT_ABOVE_TITTLE);
@@ -55,6 +73,7 @@ public class UserProfilePage {
         baseFunc.checkPhoneNumberLinkInHeader(PHONE);
         return true;
     }
+
     public boolean isDropDownMenuOpen() {
         LOGGER.info("Checking presence of elements in all dropdown menu");
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
@@ -85,53 +104,128 @@ public class UserProfilePage {
 
     public boolean isMyProfileTittleDisplayed() {
         LOGGER.info("Checking tittle in My profile page");
-        Assertions.assertTrue(baseFunc.getTextOfElement(MY_PROFILE_TITTLE).length() >0 , "No tittle in My profile page");
+        Assertions.assertTrue(baseFunc.getTextOfElement(MY_PROFILE_TITTLE).length() > 0, "No tittle in My profile page");
         return true;
     }
+
     public boolean isMyProfileOptionsDisplayed() {
         LOGGER.info("Checking all options in My profile page");
         List<WebElement> options = baseFunc.list(MY_PROFILE_OPTIONS);
         for (WebElement option : options) {
             Assertions.assertEquals(4, options.size(), "Not all options displayed in My profile page");
-            Assertions.assertTrue(baseFunc.getTextOfElement(option).length() >0 , "No text in my profile option");
+            Assertions.assertTrue(baseFunc.getTextOfElement(option).length() > 0, "No text in my profile option");
         }
 
         return true;
     }
-    public boolean isPersonalInfoBlockElementsDisplayed () {
+
+    public boolean isPersonalInfoBlockElementsDisplayed() {
         LOGGER.info("Check placeholders names and text in input fields in personal info block");
-        Assertions.assertTrue(baseFunc.findElement(PERSONAL_INFO_BLOCK).isDisplayed(), "Personal info block not displayed in My profile page");
-        List<WebElement> personalInfoFieldsName = baseFunc.list(PERSONAL_INFO_FIELDS_NAMES);
+        WebElement personalInfoBlock = baseFunc.findElement(PERSONAL_INFO_BLOCK);
+        Assertions.assertTrue(personalInfoBlock.isDisplayed(), "Personal info block not displayed in My profile page");
+        Assertions.assertTrue(personalInfoBlock.findElement(SECTIONS_TITTLE).isDisplayed(), "Personal info block tittle not displayed in My profile page");
+        List<WebElement> personalInfoFieldsName = personalInfoBlock.findElements(PERSONAL_INFO_FIELDS_NAMES);
         for (WebElement name : personalInfoFieldsName) {
             Assertions.assertTrue(baseFunc.getTextOfElement(name).length() > 0, "No names in input fields in personal info block");
         }
         List<WebElement> personalInfoPlaceholders = baseFunc.list(PERSONAL_INFO_PLACEHOLDERS);
-        for (int i =0; i < personalInfoPlaceholders.size(); i++) {
-            if (i==5) {
+        for (int i = 0; i < personalInfoPlaceholders.size(); i++) {
+            if (i == 5) {
                 continue;
             }
-            if (personalInfoPlaceholders.get(i).getAttribute("value").length()==0) {
+            if (personalInfoPlaceholders.get(i).getAttribute("value").length() == 0) {
                 continue;
             }
-            Assertions.assertTrue(personalInfoPlaceholders.get(i).getAttribute("placeholder").length() > 0 , "No default text in placeholders in personal info block");
+            Assertions.assertTrue(personalInfoPlaceholders.get(i).getAttribute("placeholder").length() > 0, "No default text in placeholders in personal info block");
             Assertions.assertTrue(personalInfoPlaceholders.get(i).getAttribute("value").length() > 0, "No entered text in input fields in personal info block");
         }
         LOGGER.info("Check gender radio buttons");
-        List<WebElement> radioButtons = baseFunc.list(GENDER_RADIO_BUTTONS);
+        List<WebElement> radioButtons = personalInfoBlock.findElements(GENDER_RADIO_BUTTONS);
         for (WebElement radioButton : radioButtons) {
             Assertions.assertTrue(radioButton.isEnabled(), "Gender radio button is disabled in personal info block");
         }
-        List<WebElement> buttonsNames = baseFunc.list(GENDER_RADIO_BUTTON_NAMES);
-        for (WebElement buttonName :buttonsNames ) {
+        List<WebElement> buttonsNames = personalInfoBlock.findElements(GENDER_RADIO_BUTTON_NAMES);
+        for (WebElement buttonName : buttonsNames) {
             Assertions.assertTrue(baseFunc.getTextOfElement(buttonName).length() > 0, "No buttons names for gender radio buttons in personal info block");
         }
-        LOGGER.info("Check nationality and phone codes dropdown lists");
-        List<WebElement> choicesOptions = baseFunc.list(CHOICES_FIELDS);
+        LOGGER.info("Check nationality dropdown lists");
+        List<WebElement> choicesOptions = personalInfoBlock.findElements(CHOICES_FIELDS);
         baseFunc.click(choicesOptions.get(0));
-        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(DROPDOWN_LISTS).get(0), "class", "choices__list choices__list--dropdown is-active");
-        List <WebElement> choicesLists = baseFunc.list(DROPDOWN_LISTS).get(0).findElements(CHOICES_LISTS);
-        for (WebElement choiceList : choicesLists) {
-            System.out.println(choiceList.getText());
+        baseFunc.waitForElementAttributeToBeNew(personalInfoBlock.findElements(DROPDOWN_LISTS).get(0), "class", "choices__list choices__list--dropdown is-active");
+        List<WebElement> choicesLists = personalInfoBlock.findElements(DROPDOWN_LISTS).get(0).findElements(CHOICES_LISTS);
+        Assertions.assertTrue(choicesLists.size() > 0, "No nationalities in choices list in personal info block");
+        LOGGER.info("Check country phone codes dropdown lists");
+        baseFunc.click(choicesOptions.get(1));
+        baseFunc.waitForElementAttributeToBeNew(personalInfoBlock.findElements(DROPDOWN_LISTS).get(1), "class", "choices__list choices__list--dropdown is-active");
+        List<WebElement> choicesListsCodes = personalInfoBlock.findElements(DROPDOWN_LISTS).get(1).findElements(CHOICES_LISTS);
+        Assertions.assertTrue(choicesListsCodes.size() > 0, "No country phone codes in choices list in personal info block");
+        baseFunc.click(choicesOptions.get(1));
+        LOGGER.info("Check save button");
+        Assertions.assertTrue(personalInfoBlock.findElement(SUBMIT_BUTTONS).isDisplayed() && personalInfoBlock.findElement(SUBMIT_BUTTONS).isEnabled(), "Save button is disabled in personal info block");
+        return true;
+    }
+
+    public boolean isSideInfoBlockElementsDisplayed() {
+        LOGGER.info("Check text in side info block");
+        Assertions.assertTrue(baseFunc.getTextOfElement(SIDE_INFO_BLOCK_TEXT).length() > 0, "No text in side info block in profile page");
+        LOGGER.info("Check general line contact in side info block");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SIDE_INFO_BLOCK_SUB_TITTLES).get(0)).length() > 0, "No tittle in general line section in side info block");
+        List<WebElement> generalLineImages = baseFunc.findElement(SIDE_INFO_BLOCK_GENERAL_LINE_SECTION).findElements(SIDE_INFO_BLOCK_IMAGES);
+        for (WebElement image : generalLineImages) {
+            Assertions.assertTrue(image.isDisplayed(), "No image in general line section in side info block");
+        }
+        List<WebElement> generalLineLinks = baseFunc.findElement(SIDE_INFO_BLOCK_GENERAL_LINE_SECTION).findElements(SIDE_INFO_BLOCK_CONTACT_LINKS);
+        Assertions.assertTrue(generalLineLinks.get(0).getAttribute("href").length() > 0, "No phone number in general line section in side info block");
+        String generalEmailLink = generalLineLinks.get(1).getAttribute("href");
+        Assertions.assertTrue(baseFunc.getTextOfElement(generalLineLinks.get(1)).length() > 0, "No email in general line section in side info block");
+        if (generalEmailLink != null && !generalEmailLink.startsWith("mailto:")) {
+            baseFunc.linksStatusCheck(generalEmailLink);
+        }
+        Assertions.assertTrue(baseFunc.getTextOfElement(generalLineLinks.get(1)).length() > 0, "No email");
+
+        LOGGER.info("Check agent contact in side info block");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SIDE_INFO_BLOCK_SUB_TITTLES).get(1)).length() > 0, "No tittle in agent section in side info block");
+        List<WebElement> agentImages = baseFunc.findElement(SIDE_INFO_BLOCK_AGENT_SECTION).findElements(SIDE_INFO_BLOCK_IMAGES);
+        for (WebElement image : agentImages) {
+            Assertions.assertTrue(image.isDisplayed(), "No image in agent section in side info block");
+        }
+        List<WebElement> agentLinks = baseFunc.findElement(SIDE_INFO_BLOCK_AGENT_SECTION).findElements(SIDE_INFO_BLOCK_CONTACT_LINKS);
+        Assertions.assertTrue(agentLinks.get(0).getAttribute("href").length() > 0, "No phone number in agent section in side info block");
+        String agentEmailLink = agentLinks.get(1).getAttribute("href");
+        Assertions.assertTrue(baseFunc.getTextOfElement(agentLinks.get(1)).length() > 0, "No email in agent section in side info block");
+        if (agentEmailLink != null && !agentEmailLink.startsWith("mailto:")) {
+            baseFunc.linksStatusCheck(agentEmailLink);
+        }
+        Assertions.assertTrue(baseFunc.getTextOfElement(agentLinks.get(1)).length() > 0, "No email");
+        return true;
+    }
+
+    public boolean isUpcomingFlightsBlockElementsDisplayed() {
+        LOGGER.info("Check upcoming flight option in personal info block");
+        baseFunc.click(baseFunc.list(USER_PROFILE_OPTIONS).get(1));
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(USER_PROFILE_OPTIONS).get(1), "class", "-mx-4" +
+                " group relative px-4 py-2 font-medium rounded hover:text-orange-400 focus:outline-none focus:text-orange-400 is-active:text-orange-400 is-active");
+        LOGGER.info("Check if Upcoming flights list is present");
+        WebElement upcomingFlightBlock = baseFunc.findElement(UPCOMING_FLIGHT_BLOCK);
+// Check if "Upcoming flights" list is present
+        if (upcomingFlightBlock.findElements(FLIGHT_ELEMENTS).size() > 0) {
+            Assertions.assertTrue(baseFunc.getTextOfElement(FLIGHT_COUNTER).length() > 0, "No flight counter for upcoming flight");
+            System.out.println(baseFunc.getTextOfElement(FLIGHT_COUNTER));
+            Assertions.assertTrue(upcomingFlightBlock.findElement(SECTIONS_TITTLE).isDisplayed(), "Upcoming flights block tittle not displayed in My profile page");
+            List<WebElement> flightsList = upcomingFlightBlock.findElements(FLIGHT_ELEMENTS);
+            for (WebElement flight : flightsList) {
+                Assertions.assertTrue(baseFunc.getTextOfElement(flight.findElement(FLIGHTS_INFO_ROUTES)).length() > 0, "Routes of upcoming flights not displayed");
+                Assertions.assertTrue(baseFunc.getTextOfElement(flight.findElement(FLIGHTS_OTHER_INFO)).length() > 0, "Details of upcoming flights not displayed");
+            }
+        } else {
+// If no "Upcoming flights" list, print the information text (if present)
+            try {
+                WebElement alertMessage = upcomingFlightBlock.findElement(ALERT_MESSAGES);
+                Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty upcoming flights list");
+            } catch (NoSuchElementException e) {
+// If "ALERT_MESSAGES" is not found, there is no information text to print
+                LOGGER.info("No alert message because upcoming flights exist");
+            }
         }
         return true;
     }

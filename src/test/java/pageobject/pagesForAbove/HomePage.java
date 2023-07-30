@@ -264,7 +264,7 @@ public class HomePage {
         if (link != null && !link.startsWith("mailto:")) {
             baseFunc.linksStatusCheck(link);
         }
-        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "No phone number");
+        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "No email");
         return true;
     }
 

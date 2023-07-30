@@ -1,10 +1,7 @@
 package pageobject;
 
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,11 +49,6 @@ public class BaseFunc {
             url = "http://" + url;
         }
         browser.get(url);
-    }
-
-    public void switchIframe(By locator) {
-        WebElement we = findElement(locator);
-        browser.switchTo().frame(we);
     }
 
     public void switchIframeWe(WebElement we) {
@@ -141,6 +133,9 @@ public class BaseFunc {
 
     public WebElement findElement(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+    public WebElement findElementWithoutWait(By locator) {
+        return findElement(locator);
     }
 
     public String getTextOfElement(By locator) {
@@ -351,5 +346,4 @@ public class BaseFunc {
     public void pageRefresh() {
         browser.navigate().refresh();
     }
-
 }

@@ -14,8 +14,8 @@ public class UserAccountElementsCheckCmsTest {
 
     @Test
     public void UserAccountElementsCheck() {
-        Passenger passenger = new Passenger("AutoTest Client", 25948715, "hesas73373@wireps.com", "VBS",
-                "371", "RIX", "AboveTest");
+        Passenger passenger = new Passenger("AutoTest Client", 25948715, "tanjatest2@inbox.lv", "VBS",
+                "371", "RIX", "Above123qw");
 
         baseFunc.openUrl(URL);
         HomePage homePage = new HomePage(baseFunc);
@@ -32,5 +32,7 @@ public class UserAccountElementsCheckCmsTest {
         userProfilePage.isMyProfileTittleDisplayed();
         userProfilePage.isMyProfileOptionsDisplayed();
         userProfilePage.isPersonalInfoBlockElementsDisplayed();
+        userProfilePage.isSideInfoBlockElementsDisplayed();
+        userProfilePage.isUpcomingFlightsBlockElementsDisplayed();
     }
 }
