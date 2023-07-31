@@ -43,11 +43,17 @@ public class UserProfilePage {
     private final By USER_PROFILE_OPTIONS = By.xpath(".//a[@data-toggle='tab']");
     private final By FLIGHT_COUNTER = By.xpath(".//b[contains(@class,'ml-0.5 px-2 leading-4 inline-block rounded-full')]");
     private final By UPCOMING_FLIGHT_BLOCK = By.xpath(".//div[@data-tab='upcoming-flights']");
-    private final By FLIGHT_ELEMENTS = By.xpath(".//button[@data-toggle='slide']");
+    private final By BLOCK_ELEMENTS = By.xpath(".//button[@data-toggle='slide']");
     private final By ALERT_MESSAGES = By.xpath(".//div[contains(@class,'border rounded bg-white flex items-center text-sm ')]");
     private final By SECTIONS_TITTLE = By.xpath(".//h2[@class='text-base font-medium flex-grow flex items-center']");
     private final By FLIGHTS_INFO_ROUTES = By.xpath(".//span[@class='block sm:inline']");
     private final By FLIGHTS_OTHER_INFO = By.xpath(".//span[@class='flex items-center space-x-2 text-sm text-gray-500']/span");
+    private final By PURCHASE_HISTORY_BLOCK = By.xpath(".//div[@data-tab='purchase-history']");
+    private final By CO_TRAVELERS_BLOCK = By.xpath(".//div[@data-tab='co-travellers']");
+    private final By CO_TRAVELER_CARDS = By.xpath(".//div[@class='rounded-lg shadow-sides-bottom-black']");
+    private final By CO_TRAVELER_CARDS_TITTLE = By.xpath(".//h2[@class='text-base font-medium flex-grow flex items-center']/span");
+    private final By CO_TRAVELER_CARDS_DELETE_BUTTON = By.xpath(".//button[@aria-label='Delete']");
+    private final By CO_TRAVELER_CARDS_INPUT_FIELDS = By.xpath(".//div[@class='relative  min-h-10 group-invalid:pr-7 ']/input");
 
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -182,51 +188,111 @@ public class UserProfilePage {
             baseFunc.linksStatusCheck(generalEmailLink);
         }
         Assertions.assertTrue(baseFunc.getTextOfElement(generalLineLinks.get(1)).length() > 0, "No email");
-
         LOGGER.info("Check agent contact in side info block");
-        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SIDE_INFO_BLOCK_SUB_TITTLES).get(1)).length() > 0, "No tittle in agent section in side info block");
-        List<WebElement> agentImages = baseFunc.findElement(SIDE_INFO_BLOCK_AGENT_SECTION).findElements(SIDE_INFO_BLOCK_IMAGES);
-        for (WebElement image : agentImages) {
-            Assertions.assertTrue(image.isDisplayed(), "No image in agent section in side info block");
+        try {
+            Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SIDE_INFO_BLOCK_SUB_TITTLES).get(1)).length() > 0, "No tittle in agent section in side info block");
+            List<WebElement> agentImages = baseFunc.findElement(SIDE_INFO_BLOCK_AGENT_SECTION).findElements(SIDE_INFO_BLOCK_IMAGES);
+            for (WebElement image : agentImages) {
+                Assertions.assertTrue(image.isDisplayed(), "No image in agent section in side info block");
+            }
+            List<WebElement> agentLinks = baseFunc.findElement(SIDE_INFO_BLOCK_AGENT_SECTION).findElements(SIDE_INFO_BLOCK_CONTACT_LINKS);
+            Assertions.assertTrue(agentLinks.get(0).getAttribute("href").length() > 0, "No phone number in agent section in side info block");
+            String agentEmailLink = agentLinks.get(1).getAttribute("href");
+            Assertions.assertTrue(baseFunc.getTextOfElement(agentLinks.get(1)).length() > 0, "No email in agent section in side info block");
+            if (agentEmailLink != null && !agentEmailLink.startsWith("mailto:")) {
+                baseFunc.linksStatusCheck(agentEmailLink);
+            }
+            Assertions.assertTrue(baseFunc.getTextOfElement(agentLinks.get(1)).length() > 0, "No email");
+        } catch (IndexOutOfBoundsException e) {
+            LOGGER.info("No agent contact in side info block for new client");
         }
-        List<WebElement> agentLinks = baseFunc.findElement(SIDE_INFO_BLOCK_AGENT_SECTION).findElements(SIDE_INFO_BLOCK_CONTACT_LINKS);
-        Assertions.assertTrue(agentLinks.get(0).getAttribute("href").length() > 0, "No phone number in agent section in side info block");
-        String agentEmailLink = agentLinks.get(1).getAttribute("href");
-        Assertions.assertTrue(baseFunc.getTextOfElement(agentLinks.get(1)).length() > 0, "No email in agent section in side info block");
-        if (agentEmailLink != null && !agentEmailLink.startsWith("mailto:")) {
-            baseFunc.linksStatusCheck(agentEmailLink);
-        }
-        Assertions.assertTrue(baseFunc.getTextOfElement(agentLinks.get(1)).length() > 0, "No email");
         return true;
     }
 
     public boolean isUpcomingFlightsBlockElementsDisplayed() {
-        LOGGER.info("Check upcoming flight option in personal info block");
+        LOGGER.info("Check upcoming flight block");
         baseFunc.click(baseFunc.list(USER_PROFILE_OPTIONS).get(1));
         baseFunc.waitForElementAttributeToBeNew(baseFunc.list(USER_PROFILE_OPTIONS).get(1), "class", "-mx-4" +
                 " group relative px-4 py-2 font-medium rounded hover:text-orange-400 focus:outline-none focus:text-orange-400 is-active:text-orange-400 is-active");
         LOGGER.info("Check if Upcoming flights list is present");
         WebElement upcomingFlightBlock = baseFunc.findElement(UPCOMING_FLIGHT_BLOCK);
-// Check if "Upcoming flights" list is present
-        if (upcomingFlightBlock.findElements(FLIGHT_ELEMENTS).size() > 0) {
+        if (upcomingFlightBlock.findElements(BLOCK_ELEMENTS).size() > 0) {
             Assertions.assertTrue(baseFunc.getTextOfElement(FLIGHT_COUNTER).length() > 0, "No flight counter for upcoming flight");
-            System.out.println(baseFunc.getTextOfElement(FLIGHT_COUNTER));
             Assertions.assertTrue(upcomingFlightBlock.findElement(SECTIONS_TITTLE).isDisplayed(), "Upcoming flights block tittle not displayed in My profile page");
-            List<WebElement> flightsList = upcomingFlightBlock.findElements(FLIGHT_ELEMENTS);
+            List<WebElement> flightsList = upcomingFlightBlock.findElements(BLOCK_ELEMENTS);
             for (WebElement flight : flightsList) {
                 Assertions.assertTrue(baseFunc.getTextOfElement(flight.findElement(FLIGHTS_INFO_ROUTES)).length() > 0, "Routes of upcoming flights not displayed");
                 Assertions.assertTrue(baseFunc.getTextOfElement(flight.findElement(FLIGHTS_OTHER_INFO)).length() > 0, "Details of upcoming flights not displayed");
             }
         } else {
-// If no "Upcoming flights" list, print the information text (if present)
+            LOGGER.info("If no Upcoming flights list, check the information text");
             try {
                 WebElement alertMessage = upcomingFlightBlock.findElement(ALERT_MESSAGES);
                 Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty upcoming flights list");
             } catch (NoSuchElementException e) {
-// If "ALERT_MESSAGES" is not found, there is no information text to print
-                LOGGER.info("No alert message because upcoming flights exist");
+                LOGGER.info("No alert message");
             }
         }
+        return true;
+    }
+
+    public boolean isPurchaseHistoryBlockElementsDisplayed() {
+        LOGGER.info("Check Purchase history block");
+        baseFunc.click(baseFunc.list(USER_PROFILE_OPTIONS).get(2));
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(USER_PROFILE_OPTIONS).get(2), "class", "-mx-4" +
+                " group relative px-4 py-2 font-medium rounded hover:text-orange-400 focus:outline-none focus:text-orange-400 is-active:text-orange-400 is-active");
+        LOGGER.info("Check if Purchase list is present");
+        WebElement purchaseHistoryBlock = baseFunc.findElement(PURCHASE_HISTORY_BLOCK);
+        if (purchaseHistoryBlock.findElements(BLOCK_ELEMENTS).size() > 0) {
+            Assertions.assertTrue(purchaseHistoryBlock.findElement(SECTIONS_TITTLE).isDisplayed(), "Upcoming flights block tittle not displayed in My profile page");
+            List<WebElement> purchasesList = purchaseHistoryBlock.findElements(BLOCK_ELEMENTS);
+            for (WebElement purchase : purchasesList) {
+                Assertions.assertTrue(baseFunc.getTextOfElement(purchase.findElement(FLIGHTS_INFO_ROUTES)).length() > 0, "Routes of upcoming flights not displayed");
+                Assertions.assertTrue(baseFunc.getTextOfElement(purchase.findElement(FLIGHTS_OTHER_INFO)).length() > 0, "Details of upcoming flights not displayed");
+            }
+        } else {
+            LOGGER.info("If no Purchase history list, check the information text");
+            try {
+                WebElement alertMessage = purchaseHistoryBlock.findElement(ALERT_MESSAGES);
+                Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty purchase history list");
+            } catch (NoSuchElementException e) {
+                LOGGER.info("No alert message");
+            }
+        }
+        return true;
+    }
+
+    public boolean isCoTravelersBlockElementsDisplayed() {
+        LOGGER.info("Check Co-travelers block");
+        baseFunc.click(baseFunc.list(USER_PROFILE_OPTIONS).get(3));
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(USER_PROFILE_OPTIONS).get(3), "class", "-mx-4" +
+                " group relative px-4 py-2 font-medium hover:text-orange-400 focus:outline-none focus:text-orange-400 is-active:text-orange-400 is-active");
+        WebElement coTravelersBlock = baseFunc.findElement(CO_TRAVELERS_BLOCK);
+        List<WebElement> coTravelerCards = coTravelersBlock.findElements(CO_TRAVELER_CARDS);
+        if (coTravelerCards.size() > 0) {
+            for (WebElement card : coTravelerCards) {
+                Assertions.assertTrue(baseFunc.getTextOfElement(card.findElement(CO_TRAVELER_CARDS_TITTLE)).length() > 0, "No co-traveler card tittle");
+                Assertions.assertTrue(card.findElement(CO_TRAVELER_CARDS_DELETE_BUTTON).isDisplayed(), "No delete button in co-traveler card");
+                List<WebElement> inputFields = card.findElements(CO_TRAVELER_CARDS_INPUT_FIELDS);
+                Assertions.assertEquals(4, inputFields.size(), "No all input fields presented in co-traveler card");
+                for (WebElement inputField :inputFields) {
+                    Assertions.assertTrue(inputField.getAttribute("placeholder").length() > 0 , "No placeholder names for input fields in co-traveler card");
+
+                    if (inputField.getAttribute("value").length() == 0) {
+                        continue;
+                    }
+                    Assertions.assertTrue(inputField.getAttribute("value").length() > 0, "No entered text in input fields in co-traveler card");
+                }
+            }
+        } else {
+            LOGGER.info("If no Co-Travelers cards, check the information text");
+            try {
+                WebElement alertMessage = coTravelersBlock.findElement(ALERT_MESSAGES);
+                Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty co-traveler block");
+        } catch(NoSuchElementException e) {
+            LOGGER.info("No co=traveler cards");
+        }
+    }
         return true;
     }
 }

@@ -16,7 +16,6 @@ public class UserAccountElementsCheckCmsTest {
     public void UserAccountElementsCheck() {
         Passenger passenger = new Passenger("AutoTest Client", 25948715, "tanjatest2@inbox.lv", "VBS",
                 "371", "RIX", "Above123qw");
-
         baseFunc.openUrl(URL);
         HomePage homePage = new HomePage(baseFunc);
         homePage.acceptCookies();
@@ -34,5 +33,7 @@ public class UserAccountElementsCheckCmsTest {
         userProfilePage.isPersonalInfoBlockElementsDisplayed();
         userProfilePage.isSideInfoBlockElementsDisplayed();
         userProfilePage.isUpcomingFlightsBlockElementsDisplayed();
+        userProfilePage.isPurchaseHistoryBlockElementsDisplayed();
+        userProfilePage.isCoTravelersBlockElementsDisplayed();
     }
 }
