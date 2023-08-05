@@ -149,6 +149,9 @@ public class BaseFunc {
     public void waitElementPresented(By locator) {
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+    public void waitElementToDisappear(WebElement we) {
+        wait.until(ExpectedConditions.invisibilityOf(we));
+    }
 
     public void waitForElementsCountAtLeast(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
@@ -342,6 +345,9 @@ public class BaseFunc {
 
     public void waitElementToBeClickable(By locator) {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+    public void waitElementToBeClickable(WebElement we) {
+        wait.until(ExpectedConditions.elementToBeClickable(we));
     }
     public void pageRefresh() {
         browser.navigate().refresh();

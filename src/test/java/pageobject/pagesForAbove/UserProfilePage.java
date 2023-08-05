@@ -54,6 +54,17 @@ public class UserProfilePage {
     private final By CO_TRAVELER_CARDS_TITTLE = By.xpath(".//h2[@class='text-base font-medium flex-grow flex items-center']/span");
     private final By CO_TRAVELER_CARDS_DELETE_BUTTON = By.xpath(".//button[@aria-label='Delete']");
     private final By CO_TRAVELER_CARDS_INPUT_FIELDS = By.xpath(".//div[@class='relative  min-h-10 group-invalid:pr-7 ']/input");
+    private final By ADD_CO_TRAVELER_BUTTON = By.xpath(".//button[contains(@class,' focus:outline-none focus:ring-2 focus:border-orange-300')]");
+    private final By INFO_TEXT = By.xpath(".//div[@class='flex items-center flex-grow break-words']/p");
+    private final By UNDO_BUTTONS = By.xpath(".//button[contains(@class,'hover:bg-orange-200 text-orange-500 hover:text-orange-600 rounded')]");
+    private final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
+    private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
+    private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
+    private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
+    private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
+    private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
+    private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
+    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
 
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -209,57 +220,18 @@ public class UserProfilePage {
         return true;
     }
 
-    public boolean isUpcomingFlightsBlockElementsDisplayed() {
+    public void checkUpcomingFlightsBlock() {
         LOGGER.info("Check upcoming flight block");
-        baseFunc.click(baseFunc.list(USER_PROFILE_OPTIONS).get(1));
-        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(USER_PROFILE_OPTIONS).get(1), "class", "-mx-4" +
-                " group relative px-4 py-2 font-medium rounded hover:text-orange-400 focus:outline-none focus:text-orange-400 is-active:text-orange-400 is-active");
-        LOGGER.info("Check if Upcoming flights list is present");
+        isBlockElementsDisplayed(USER_PROFILE_OPTIONS, 1, UPCOMING_FLIGHT_BLOCK, BLOCK_ELEMENTS,SECTIONS_TITTLE,FLIGHTS_INFO_ROUTES, FLIGHTS_OTHER_INFO, ALERT_MESSAGES);
         WebElement upcomingFlightBlock = baseFunc.findElement(UPCOMING_FLIGHT_BLOCK);
-        if (upcomingFlightBlock.findElements(BLOCK_ELEMENTS).size() > 0) {
+        List<WebElement> flightsList = upcomingFlightBlock.findElements(BLOCK_ELEMENTS);
+        if (flightsList.size() > 0) {
             Assertions.assertTrue(baseFunc.getTextOfElement(FLIGHT_COUNTER).length() > 0, "No flight counter for upcoming flight");
-            Assertions.assertTrue(upcomingFlightBlock.findElement(SECTIONS_TITTLE).isDisplayed(), "Upcoming flights block tittle not displayed in My profile page");
-            List<WebElement> flightsList = upcomingFlightBlock.findElements(BLOCK_ELEMENTS);
-            for (WebElement flight : flightsList) {
-                Assertions.assertTrue(baseFunc.getTextOfElement(flight.findElement(FLIGHTS_INFO_ROUTES)).length() > 0, "Routes of upcoming flights not displayed");
-                Assertions.assertTrue(baseFunc.getTextOfElement(flight.findElement(FLIGHTS_OTHER_INFO)).length() > 0, "Details of upcoming flights not displayed");
-            }
-        } else {
-            LOGGER.info("If no Upcoming flights list, check the information text");
-            try {
-                WebElement alertMessage = upcomingFlightBlock.findElement(ALERT_MESSAGES);
-                Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty upcoming flights list");
-            } catch (NoSuchElementException e) {
-                LOGGER.info("No alert message");
-            }
         }
-        return true;
     }
-
-    public boolean isPurchaseHistoryBlockElementsDisplayed() {
+    public void checkPurchaseHistoryBlockElementsDisplayed() {
         LOGGER.info("Check Purchase history block");
-        baseFunc.click(baseFunc.list(USER_PROFILE_OPTIONS).get(2));
-        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(USER_PROFILE_OPTIONS).get(2), "class", "-mx-4" +
-                " group relative px-4 py-2 font-medium rounded hover:text-orange-400 focus:outline-none focus:text-orange-400 is-active:text-orange-400 is-active");
-        LOGGER.info("Check if Purchase list is present");
-        WebElement purchaseHistoryBlock = baseFunc.findElement(PURCHASE_HISTORY_BLOCK);
-        if (purchaseHistoryBlock.findElements(BLOCK_ELEMENTS).size() > 0) {
-            Assertions.assertTrue(purchaseHistoryBlock.findElement(SECTIONS_TITTLE).isDisplayed(), "Upcoming flights block tittle not displayed in My profile page");
-            List<WebElement> purchasesList = purchaseHistoryBlock.findElements(BLOCK_ELEMENTS);
-            for (WebElement purchase : purchasesList) {
-                Assertions.assertTrue(baseFunc.getTextOfElement(purchase.findElement(FLIGHTS_INFO_ROUTES)).length() > 0, "Routes of upcoming flights not displayed");
-                Assertions.assertTrue(baseFunc.getTextOfElement(purchase.findElement(FLIGHTS_OTHER_INFO)).length() > 0, "Details of upcoming flights not displayed");
-            }
-        } else {
-            LOGGER.info("If no Purchase history list, check the information text");
-            try {
-                WebElement alertMessage = purchaseHistoryBlock.findElement(ALERT_MESSAGES);
-                Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty purchase history list");
-            } catch (NoSuchElementException e) {
-                LOGGER.info("No alert message");
-            }
-        }
-        return true;
+        isBlockElementsDisplayed(USER_PROFILE_OPTIONS, 2, PURCHASE_HISTORY_BLOCK,BLOCK_ELEMENTS, SECTIONS_TITTLE, FLIGHTS_INFO_ROUTES, FLIGHTS_OTHER_INFO, ALERT_MESSAGES);
     }
 
     public boolean isCoTravelersBlockElementsDisplayed() {
@@ -283,6 +255,22 @@ public class UserProfilePage {
                     }
                     Assertions.assertTrue(inputField.getAttribute("value").length() > 0, "No entered text in input fields in co-traveler card");
                 }
+                LOGGER.info("Check gender radio buttons");
+                List<WebElement> radioButtons = card.findElements(GENDER_RADIO_BUTTONS);
+                for (WebElement radioButton : radioButtons) {
+                    Assertions.assertTrue(radioButton.isEnabled(), "Gender radio button is disabled in co-travelers block");
+                }
+                List<WebElement> buttonsNames = card.findElements(GENDER_RADIO_BUTTON_NAMES);
+                for (WebElement buttonName : buttonsNames) {
+                    Assertions.assertTrue(baseFunc.getTextOfElement(buttonName).length() > 0, "No buttons names for gender radio buttons in co-travelers block");
+                }
+                LOGGER.info("Check nationality dropdown lists");
+                WebElement choicesOption = card.findElement(CHOICES_FIELDS);
+                baseFunc.click(choicesOption);
+                baseFunc.waitForElementAttributeToBeNew(card.findElements(DROPDOWN_LISTS).get(0), "class", "choices__list choices__list--dropdown is-active");
+                List<WebElement> choicesLists = card.findElements(DROPDOWN_LISTS).get(0).findElements(CHOICES_LISTS);
+                Assertions.assertTrue(choicesLists.size() > 0, "No nationalities in choices list in co-travelers block");
+                baseFunc.click(choicesOption);
             }
         } else {
             LOGGER.info("If no Co-Travelers cards, check the information text");
@@ -290,9 +278,101 @@ public class UserProfilePage {
                 WebElement alertMessage = coTravelersBlock.findElement(ALERT_MESSAGES);
                 Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty co-traveler block");
         } catch(NoSuchElementException e) {
-            LOGGER.info("No co=traveler cards");
+            LOGGER.info("No co-traveler cards");
         }
     }
+        LOGGER.info("Check add co-traveler button");
+        WebElement addCoTravelerButton = coTravelersBlock.findElement(ADD_CO_TRAVELER_BUTTON);
+        baseFunc.click(addCoTravelerButton);
+        List<WebElement> updatedCoTravelerCards = baseFunc.list(CO_TRAVELER_CARDS);
+        Assertions.assertEquals(coTravelerCards.size()+1, updatedCoTravelerCards.size(), "New co-traveler card not added to co-travelers cards");
+        int updatedCoTravelersList = updatedCoTravelerCards.size();
+        int lastIndex = updatedCoTravelersList - 1;
+        WebElement lastElement = updatedCoTravelerCards.get(lastIndex);
+        baseFunc.click(lastElement.findElement(CO_TRAVELER_CARDS_DELETE_BUTTON));
+        Assertions.assertTrue(baseFunc.getTextOfElement(coTravelersBlock.findElements(INFO_TEXT).get(lastIndex)).length() > 0 , "No info text about deleted co-traveler card");
+        Assertions.assertTrue(coTravelersBlock.findElements(UNDO_BUTTONS).get(lastIndex).isDisplayed(), "No undo button for deleted co-traveler card");
+        LOGGER.info("Check save button");
+        Assertions.assertTrue(coTravelersBlock.findElement(SUBMIT_BUTTONS).isDisplayed() && coTravelersBlock.findElement(SUBMIT_BUTTONS).isEnabled(), "Save button is disabled in co-travelers block");
         return true;
     }
+    public void closeIframe() {
+        LOGGER.info("Close Facebook iframe dialog");
+        baseFunc.switchIframeIndex(0);
+        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
+        baseFunc.switchToMainPage();
+
+    }
+    public boolean isFooterLinksOpen() {
+        LOGGER.info("Checking if footer links successfully open");
+        baseFunc.footerLinksOpen(FOOTER_LINKS, TITTLE);
+        return true;
+    }
+
+    public boolean isPhoneNumberLinkWorkInFooter() {
+        LOGGER.info("Phone number displayed in footer");
+        List<WebElement> phonesLInks = baseFunc.list(PHONE);
+        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "No phone number");
+        return true;
+    }
+
+    public boolean isEmailLinkWorkInFooter() {
+        LOGGER.info("Email link in footer returns status 200 for homepage");
+        List<WebElement> email = baseFunc.list(EMAIL_LINK_IN_FOOTER);
+        String link = email.get(1).getAttribute("href");
+        if (link != null && !link.startsWith("mailto:")) {
+            baseFunc.linksStatusCheck(link);
+        }
+        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "No email");
+        return true;
+    }
+
+    public boolean isPaymentsDisplayed() {
+        LOGGER.info("Checking if payment info displayed in footer");
+        Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS), "No payments in footer");
+        return true;
+    }
+
+    public boolean isPaymentMethodImageDisplayed() {
+        LOGGER.info("Checking if payment methods displayed in footer");
+        return baseFunc.isPaymentMethodImageDisplayed(PAYMENTS_METHODS);
+    }
+
+    public boolean isPartnersDisplayed() {
+        LOGGER.info("Checking if block about rights displayed in footer");
+        return baseFunc.isPartnersDisplayed(AIRLINES_PARTNERS);
+    }
+
+    public boolean isAllRightsTextDisplayed() {
+        LOGGER.info("Checking if block about rights displayed in footer");
+        Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
+        return true;
+    }
+
+    public boolean isBlockElementsDisplayed(By LocatorOne, int index, By locatorTwo, By locatorThree, By locatorFour, By locatorFive, By locatorSix, By locatorSeven) {
+        LOGGER.info("Check profile page block");
+        baseFunc.click(baseFunc.list(LocatorOne).get(index));
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(LocatorOne).get(index), "class", "-mx-4" +
+                " group relative px-4 py-2 font-medium rounded hover:text-orange-400 focus:outline-none focus:text-orange-400 is-active:text-orange-400 is-active");
+        LOGGER.info("Check if list of elements is presented");
+        WebElement block = baseFunc.findElement(locatorTwo);
+        List<WebElement> elementsList = block.findElements(locatorThree);
+        if (elementsList.size() > 0) {
+            Assertions.assertTrue(block.findElement(locatorFour).isDisplayed(), "Block tittle not displayed in My profile page");
+            for (WebElement element : elementsList) {
+                Assertions.assertTrue(baseFunc.getTextOfElement(element.findElement(locatorFive)).length() > 0, "Routes of flights not displayed");
+                Assertions.assertTrue(baseFunc.getTextOfElement(element.findElement(locatorSix)).length() > 0, "Details of flights not displayed");
+            }
+        } else {
+            LOGGER.info("If elements list, check the information text");
+            try {
+                WebElement alertMessage = block.findElement(locatorSeven);
+                Assertions.assertTrue(baseFunc.getTextOfElement(alertMessage).length() > 0, "No alert message in empty block");
+            } catch (NoSuchElementException e) {
+                LOGGER.info("No alert message");
+            }
+        }
+        return true;
+    }
+
 }

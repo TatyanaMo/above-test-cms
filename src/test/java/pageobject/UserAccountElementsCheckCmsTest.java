@@ -32,8 +32,16 @@ public class UserAccountElementsCheckCmsTest {
         userProfilePage.isMyProfileOptionsDisplayed();
         userProfilePage.isPersonalInfoBlockElementsDisplayed();
         userProfilePage.isSideInfoBlockElementsDisplayed();
-        userProfilePage.isUpcomingFlightsBlockElementsDisplayed();
-        userProfilePage.isPurchaseHistoryBlockElementsDisplayed();
+        userProfilePage.checkUpcomingFlightsBlock();
+        userProfilePage.checkPurchaseHistoryBlockElementsDisplayed();
         userProfilePage.isCoTravelersBlockElementsDisplayed();
+        userProfilePage.closeIframe();
+        userProfilePage.isFooterLinksOpen();
+        userProfilePage.isPhoneNumberLinkWorkInFooter();
+        userProfilePage.isEmailLinkWorkInFooter();
+        userProfilePage.isPaymentsDisplayed();
+        userProfilePage.isPaymentMethodImageDisplayed();
+        userProfilePage.isPartnersDisplayed();
+        userProfilePage.isAllRightsTextDisplayed();
     }
 }
