@@ -1,7 +1,7 @@
 package pageobject.model;
 
 public class Passenger {
-    private String Name;
+    private String name;
     private int phoneNumber;
     private String email;
     private String airportFrom;
@@ -11,7 +11,7 @@ public class Passenger {
 
 
     public Passenger(String name, int phoneNumber, String email, String airportFrom, String countryCode, String airportTo, String password) {
-        Name = name;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.airportFrom = airportFrom;
@@ -22,7 +22,7 @@ public class Passenger {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public int getPhoneNumber() {
