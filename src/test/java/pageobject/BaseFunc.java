@@ -2,46 +2,63 @@ package pageobject;
 
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.client.RestTemplate;
-import pageobject.pagesForAbove.HomePage;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
+import helpers.PropertiesHelper;
+import pageobject.mobile.MobileHomePage;
+import pageobject.pagesForAbove.HomePage;
 
 public class BaseFunc {
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
-
+    private Properties properties = PropertiesHelper.loadProperties();
     private WebDriver browser;
     private WebDriverWait wait;
 
-    public BaseFunc() {
-        System.setProperty("webdriver.chrome.driver", "C://chromedriver.exe");
+    public BaseFunc(String device) {
+        LOGGER.info("OS: " + System.getProperty("os.name"));
         ChromeOptions options = new ChromeOptions();
+        System.setProperty("webdriver.chrome.driver", "C://chromedriver.exe");
+
+        if (device.equals("mobile")) {
+            LOGGER.info("Running test on Mobile device");
+            Map<String, String> mobileEmulation = new HashMap<>();
+            mobileEmulation.put("deviceName", "Nexus 5");
+            options.setExperimentalOption("mobileEmulation", mobileEmulation);
+            options.addArguments("--disk-cache-size=0");
+            options.addArguments("enable-automation");
+        }
+
+        if (Boolean.parseBoolean(properties.getProperty("headless")) || System.getProperty("os.name").equals("Linux")) {
+            LOGGER.info("Running browser in a headless mode");
+            options.addArguments("--headless");
+            options.addArguments("--disable-dev-shm-usage");
+            if (!device.equals("mobile")) {
+                options.addArguments("--window-size=1920x1080");
+            }
+        }
+
+        if (properties.getProperty("agent") != null) {
+            options.addArguments("user-agent=" + properties.getProperty("agent"));
+        }
         options.addArguments("--remote-allow-origins=*");
+
         browser = new ChromeDriver(options);
         browser.manage().window().maximize();
         wait = new WebDriverWait(browser, Duration.ofSeconds(10));
-
-        /*
-        System.setProperty("webdriver.chrome.driver", "C://chromedriver.exe");
-        browser = new ChromeDriver();
-        browser.manage().window().maximize();
-        wait = new WebDriverWait(browser, Duration.ofSeconds(10));
-         */
     }
 
-    public HomePage openHomePage() {
-        openUrl("staging.above9.travel/");
-        return new HomePage(this);
+    public String getProperty(String key) {
+        return properties.getProperty(key);
     }
 
     public void openUrl(String url) {
@@ -49,6 +66,14 @@ public class BaseFunc {
             url = "http://" + url;
         }
         browser.get(url);
+    }
+    public HomePage openHomePage() {
+        openUrl(properties.getProperty("url"));
+        return new HomePage(this);
+    }
+    public MobileHomePage openMobileHomePage() {
+        openUrl(properties.getProperty("url"));
+        return new MobileHomePage(this);
     }
 
     public void switchIframeWe(WebElement we) {
@@ -190,7 +215,7 @@ public class BaseFunc {
     public void footerLinksOpen(By locatorOne, By locatorTwo) {
         List<WebElement> menuItems = browser.findElements(locatorOne);
         int numberLinks = menuItems.size();
-        for (int i = 0; i < numberLinks; i++) {
+        for (int i = 0; i < 3; i++) {
             List<WebElement> updatedMenuItems = browser.findElements(locatorOne);
             WebElement item = updatedMenuItems.get(i);
             item.click();
@@ -234,7 +259,7 @@ public class BaseFunc {
         waitAllElementsToBeVisible(locatorThree);
         switchTab(0);
         findElement(locatorThree);
-        List<WebElement> loginInputFields = list(locatorFour).subList(0, 1);
+        list(locatorFour).subList(0, 1);
         list(locatorFive).get(2);
         list(locatorSix).subList(0, 1);
     }
@@ -297,6 +322,37 @@ public class BaseFunc {
         click(menuButtons.get(2));
         return true;
     }
+
+    public boolean isDropDownMenuOpenMobile(By locatorOne,By locatorTwo,By locatorThree,By locatorFour, By locatorFive  ) {
+        List<WebElement> menuButtons = list(locatorOne);
+        click(menuButtons.get(0));
+        findElement(locatorTwo).isEnabled();
+        findElement(locatorThree).isEnabled();
+        click(list(locatorFive).get(0));
+
+        menuButtons.get(1).click();
+        waitForElementsCountAtLeast(locatorFour, 5);
+        List<WebElement> currencies = list(locatorFour);
+        getTextOfElement(currencies.get(0)).equals("USD");
+        getTextOfElement(currencies.get(1)).equals("EUR");
+        getTextOfElement(currencies.get(2)).equals("CAD");
+        getTextOfElement(currencies.get(3)).equals("AUD");
+        getTextOfElement(currencies.get(4)).equals("GBP");
+        click(list(locatorFive).get(1));
+
+        click(menuButtons.get(2));
+        waitForElementsCountAtLeast(locatorFour, 5);
+        List<WebElement> submenuItems = list(locatorFour);
+        getTextOfElement(submenuItems.get(5)).equals("About Us");
+        getTextOfElement(submenuItems.get(6)).equals("Blog");
+        getTextOfElement(submenuItems.get(7)).equals("Terms Of Use");
+        getTextOfElement(submenuItems.get(8)).equals("Privacy Policy");
+        getTextOfElement(submenuItems.get(9)).equals("Cookies Policy");
+        getTextOfElement(submenuItems.get(10)).equals("Contact us");
+        click(list(locatorFive).get(2));
+        return true;
+    }
+
     public void openNextPage(By locatorOne, By locatorTwo,int indexOne, int indexTwo ) {
         click(list(locatorOne).get(indexOne));
         click(list(locatorTwo).get(indexTwo));

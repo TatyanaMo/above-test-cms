@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 import pageobject.model.Passenger;
-
+import pageobject.model.PassengerNew;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -48,13 +48,13 @@ public class HomePage {
     private final By CONTAINERS_TEXT = By.xpath(".//div[@class='container']");
     private final By HOME_PAGE_TEXT_THREE = By.xpath(".//div[@class='pb-1.5 flex flex-col lg:space-y-1']");
     private final By INSTRUCTION = By.xpath(".//div[@class='w-4/5']");
+    private final By INSTRUCTION_STEPS = By.xpath(".//li[@class='md:w-1/2 lg:w-full md:px-3 md:py-2 lg:p-0 space-y-5']");
     private final By REVIEW_HEADER = By.xpath(".//h2[@class='text-2xl lg:text-3xl uppercase font-medium']");
     private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
     private final By REVIEW_CAROUSEL = By.xpath(".//div[contains(@class, 'relative overflow-hidden swiper-container swiper')]");
     private final By CAROUSEL_BTN_PREV = By.xpath(".//div[contains(@class, 'swiper-button-prev ')]");
     private final By CAROUSEL_BTN_NEXT = By.xpath(".//div[contains(@class, 'swiper-button-next ')]");
-    private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
-    private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
+    private final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");
     private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
     private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
@@ -175,7 +175,7 @@ public class HomePage {
             Assertions.assertTrue(inputField.getAttribute("placeholder").length() > 0, "no text in placeholders in Sign up modal window");
         }
         Assertions.assertTrue(baseFunc.list(SUBMIT_BUTTONS).get(1).isEnabled(), "Sign in button is disabled  in Sign up modal window");
-        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(1)).length() > 0, "Sign in button hasn't name in login modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(1)).length() > 0, "Sign in button hasn't name in Sign up modal window");
         Assertions.assertTrue(baseFunc.list(MODAL_WINDOW_BUTTONS).get(2).isEnabled(), "Button is disabled in Sign up modal window");
         Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(MODAL_WINDOW_BUTTONS).get(2)).length() > 0, "Button hasn't name in Sign up modal window");
         return true;
@@ -234,7 +234,8 @@ public class HomePage {
     public boolean isInstructionBlockAppears() {
         LOGGER.info("Checking if instruction block displayed for homepage");
         Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(CONTAINERS_TEXT).get(4)).length() > 0, "No text here");
-        List<WebElement> steps = baseFunc.list(INSTRUCTION);
+        Assertions.assertTrue(baseFunc.getTextOfElement(INSTRUCTION).length() > 0, "No tittle in instruction block");
+        List<WebElement> steps = baseFunc.list(INSTRUCTION_STEPS);
         int counter = 0;
         for (WebElement we : steps) {
             if (baseFunc.getTextOfElement(we).length() > 0) {
@@ -252,19 +253,20 @@ public class HomePage {
 
     public boolean isPhoneNumberLinkWorkInFooter() {
         LOGGER.info("Phone number displayed in footer");
-        List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "No phone number");
+        List<WebElement> footerLinks = baseFunc.list(FOOTER_LINKS);
+        WebElement phoneLInks = footerLinks.get(3);
+        Assertions.assertTrue(baseFunc.getTextOfElement(phoneLInks).length() > 0, "No phone number in footer");
         return true;
     }
 
     public boolean isEmailLinkWorkInFooter() {
         LOGGER.info("Email link in footer returns status 200 for homepage");
-        List<WebElement> email = baseFunc.list(EMAIL_LINK_IN_FOOTER);
-        String link = email.get(1).getAttribute("href");
-        if (link != null && !link.startsWith("mailto:")) {
-            baseFunc.linksStatusCheck(link);
+        List<WebElement> footerLinks = baseFunc.list(FOOTER_LINKS);
+        String emailLink = footerLinks.get(4).getAttribute("href");
+        if (emailLink != null && !emailLink.startsWith("mailto:")) {
+            baseFunc.linksStatusCheck(emailLink);
         }
-        Assertions.assertTrue(baseFunc.getTextOfElement(email.get(1)).length() > 0, "No email");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(FOOTER_LINKS).get(4)).length() > 0, "No email in footer");
         return true;
     }
 
@@ -561,12 +563,12 @@ public class HomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT).length() > 0, "No text in successful request message");
         return true;
     }
-    public void fillLogInForm(Passenger passenger) {
+    public void fillLogInForm(PassengerNew passengerNew) {
         LOGGER.info("Filling user data in Log in form");
         WebElement emailInputField = baseFunc.list(INPUT_FIELDS_EMAIL).get(0);
         WebElement passwordInputField = baseFunc.list(INPUT_FIELDS_PASSWORD).get(0);
-        baseFunc.type(emailInputField, passenger.getEmail());
-        baseFunc.type(passwordInputField, passenger.getPassword());
+        baseFunc.type(emailInputField, passengerNew.getEmail());
+        baseFunc.type(passwordInputField, passengerNew.getPassword());
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(2));
     }
     public void openUserProfilePage() {

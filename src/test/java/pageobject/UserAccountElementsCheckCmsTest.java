@@ -9,9 +9,8 @@ import pageobject.pagesForAbove.HomePage;
 import pageobject.pagesForAbove.UserProfilePage;
 
 public class UserAccountElementsCheckCmsTest {
-    private final String URL = "http://staging.above9.travel/";
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
-    private BaseFunc baseFunc = new BaseFunc();
+    private BaseFunc baseFunc = new BaseFunc("web");
 
     @Test
     public void UserAccountElementsCheck() {
@@ -19,13 +18,11 @@ public class UserAccountElementsCheckCmsTest {
                 "371", "RIX", "Above123qw");
         PassengerNew passengerNew = new PassengerNew("AutoTestNew Client",25948715,"a3478452@gmail.com",
                 "371","newTestAcc2023DH@");
-        baseFunc.openUrl(URL);
+        baseFunc.openHomePage();
         HomePage homePage = new HomePage(baseFunc);
-        homePage.acceptCookies();
         homePage.isLogInModalWindowOpens();
-        homePage.fillLogInForm(passenger);
+        homePage.fillLogInForm(passengerNew);
         homePage.openUserProfilePage();
-
         UserProfilePage userProfilePage = new UserProfilePage(baseFunc);
         userProfilePage.logoInHeader();
         userProfilePage.isReviewLinkAppearsInHeader();

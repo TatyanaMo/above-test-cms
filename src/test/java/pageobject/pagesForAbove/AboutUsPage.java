@@ -30,8 +30,7 @@ public class AboutUsPage {
     private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
     private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
     private final By TEXT = By.xpath(".//div[@class='py-8 md:py-16 container rich-content']");
-    private final By FOOTER_LINKS = By.xpath(".//li[@class='text-sm leading-9']/a");
-    private final By EMAIL_LINK_IN_FOOTER = By.xpath(".//li[@class='text-sm leading-9 flex items-center space-x-2']");
+    private final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");
     private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
     private final By PAYMENTS_METHODS = By.xpath(".//li[@class='w-9 md:w-12']/img");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
@@ -126,15 +125,20 @@ public class AboutUsPage {
 
     public boolean isPhoneNumberLinkWorkInFooter() {
         LOGGER.info("Phone number displayed in footer");
-        List<WebElement> phonesLInks = baseFunc.list(PHONE);
-        Assertions.assertTrue(phonesLInks.get(1).getAttribute("href").length() > 0, "No phone number");
+        List<WebElement> footerLinks = baseFunc.list(FOOTER_LINKS);
+        WebElement phoneLInks = footerLinks.get(3);
+        Assertions.assertTrue(baseFunc.getTextOfElement(phoneLInks).length() > 0, "No phone number in footer");
         return true;
     }
 
     public boolean isEmailLinkWorkInFooter() {
-        LOGGER.info("Email link in footer returns status 200 for about us page");
-        List<WebElement> email = baseFunc.list(EMAIL_LINK_IN_FOOTER);
-        email.get(1).getAttribute("href");
+        LOGGER.info("Email link in footer returns status 200 for homepage");
+        List<WebElement> footerLinks = baseFunc.list(FOOTER_LINKS);
+        String emailLink = footerLinks.get(4).getAttribute("href");
+        if (emailLink != null && !emailLink.startsWith("mailto:")) {
+            baseFunc.linksStatusCheck(emailLink);
+        }
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(FOOTER_LINKS).get(4)).length() > 0, "No email in footer");
         return true;
     }
 

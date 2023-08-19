@@ -6,17 +6,15 @@ import org.junit.jupiter.api.Test;
 import pageobject.pagesForAbove.*;
 
 public class ElementsCheckCmsTestAbove {
-    private final String URL = "https://staging.above9.travel/";
-    int adultPassengerToSelect = 1;
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
-    private BaseFunc baseFunc = new BaseFunc();
+    private BaseFunc baseFunc = new BaseFunc("web");
+    int adultPassengerToSelect = 1;
 
     @Test
     public void ElementsCheck() {
-
-        baseFunc.openUrl(URL);
+        LOGGER.info("This test will be check all elements on each page");
+        baseFunc.openHomePage();
         HomePage homePage = new HomePage(baseFunc);
-        homePage.acceptCookies();
         homePage.logoInHeader();
         homePage.isReviewLinkAppearsInHeader();
         homePage.isPhoneNumberLinkWorkInHeader();
