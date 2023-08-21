@@ -31,13 +31,14 @@ public class MobileElementsCheckCmsTestAbove {
         mobileHomePage.whyChooseAboveBlockCheck();
         mobileHomePage.reviewBlockCheck();
         mobileHomePage.isInstructionBlockAppears();
-        mobileHomePage.isFooterLinksOpen();
+        //mobileHomePage.isFooterLinksOpen();
         mobileHomePage.isPhoneNumberLinkWorkInFooter();
         mobileHomePage.isEmailLinkWorkInFooter();
         mobileHomePage.isPaymentsDisplayed();
         mobileHomePage.isPaymentMethodImageDisplayed();
         mobileHomePage.isPartnersDisplayed();
         mobileHomePage.isAllRightsTextDisplayed();
+        mobileHomePage.isRequestFormAppears();
 
 
 

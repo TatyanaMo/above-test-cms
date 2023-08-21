@@ -47,6 +47,19 @@ public class MobileHomePage {
     private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
     private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
+    private final By REQUEST_FORM = By.id("mobile-request-toggle");
+    private final By REQUEST_FORM_MODAL = By.id("mobile-request-overlay");
+    private final By REQUEST_FORM_FLIGHT_INFORMATION_BLOCK = By.xpath(".//div[@title='Flight information']");
+    private final By REQUEST_FORM_FLIGHT_INFORMATION_TITTLE = By.xpath(".//div[contains(@class,'text-xs uppercase font-medium text-orange-200')]");
+    private final By FLIGHT_INFORMATION_BUTTONS = By.xpath(".//button[contains(@class,'leading-6 h-10 appearance-none flex items-center')]");
+    private final By FLIGHT_INFO_MODAL = By.xpath(".//div[contains(@class,'flex items-center justify-center h-full lg:block')]");
+    private final By FLIGHT_TYPES = By.xpath(".//span[@name='flightType']");
+    private final By PASSENGERS_MODAL = By.xpath(".//div[@class='w-full self-start']");
+    private final By PASSENGERS_TYPES = By.xpath(".//div[@class='w-1/2 leading-5']");
+    private final By PASSENGERS_COUNT_BUTTONS = By.xpath(".//button[contains(@class,'touch-manipulation flex-shrink-0 w-10 h-10 lg:w-8 lg:h-8')]");
+    private final By PASSENGERS_NUMBERS_SELECTED = By.xpath(".//input[@class='w-3 text-center focus:outline-none']");
+    private final By DONE_BUTTON = By.xpath(".//button[@data-close='data-close']");
+
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc;
@@ -219,6 +232,55 @@ public class MobileHomePage {
     public boolean isAllRightsTextDisplayed() {
         LOGGER.info("Checking if block about rights displayed in footer");
         Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
+        return true;
+    }
+
+    public boolean isRequestFormAppears() {
+        LOGGER.info("Checking if request form displayed for homepage");
+        baseFunc.click(REQUEST_FORM);
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.findElement(REQUEST_FORM_MODAL), "class", "lg:hidden fixed z-40 inset-0 transition-height duration-500 overflow-hidden");
+        WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
+        Assertions.assertTrue(flightInfoBlock.isDisplayed(), "Flight information block not displayed in request form modal window");
+        WebElement tittle = flightInfoBlock.findElement(REQUEST_FORM_FLIGHT_INFORMATION_TITTLE);
+        Assertions.assertTrue(tittle.getText().length() > 0, "No tittle for flight info block in flight request");
+        LOGGER.info("Check if flight information options displayed");
+        List<WebElement> flightInfoButtons = flightInfoBlock.findElements(FLIGHT_INFORMATION_BUTTONS);
+        for (WebElement button : flightInfoButtons) {
+            Assertions.assertTrue(button.getText().length() > 0, "No default text in flight options in flight request form");
+        }
+        LOGGER.info("Check flight type option");
+        baseFunc.click(flightInfoButtons.get(0));
+        WebElement flightTypesModal = baseFunc.list(FLIGHT_INFO_MODAL).get(3);
+        List<WebElement> flightTypes = flightTypesModal.findElements(FLIGHT_TYPES);
+        Assertions.assertTrue(flightTypes.size() > 0, "No flight types in opened modal window");
+        for (WebElement type : flightTypes) {
+            Assertions.assertTrue(type.getText().length() > 0, "No flight types in opened modal window");
+        }
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(4));
+        LOGGER.info("Check passengers option");
+        baseFunc.click(flightInfoButtons.get(1));
+        WebElement passengersModal = baseFunc.list(PASSENGERS_MODAL).get(0);
+        Assertions.assertTrue(passengersModal.getText().length() > 0, "No tittle for opened passenger details modal window");
+        List<WebElement> passengersTypes = passengersModal.findElements(PASSENGERS_TYPES);
+        Assertions.assertTrue(passengersTypes.size() >0, "No passengers types in opened modal window");
+        for (WebElement type : passengersTypes) {
+            Assertions.assertTrue(type.getText().length() > 0, " No text for passenger type");
+        }
+        LOGGER.info("Check count passengers buttons and numbers of selected passengers");
+        List<WebElement> countButtons = passengersModal.findElements(PASSENGERS_COUNT_BUTTONS);
+        Assertions.assertEquals(6, countButtons.size(), "Not all count buttons for passengers number in opened modal window");
+        for (WebElement button : countButtons) {
+            Assertions.assertTrue(button.isEnabled(), "Count button for passengers number is disabled in opened modal window");
+        }
+        List<WebElement> passengersNumberSelected = passengersModal.findElements(PASSENGERS_NUMBERS_SELECTED);
+        for (WebElement number : passengersNumberSelected) {
+            Assertions.assertTrue(number.getAttribute("value").length() > 0, "No number for passenger selected");
+        }
+        LOGGER.info("Check 'Done' button");
+        WebElement doneButton = passengersModal.findElement(DONE_BUTTON);
+        Assertions.assertTrue(doneButton.isEnabled(), "Button 'done' is disabled in opened modal window");
+        Assertions.assertTrue(doneButton.getText().length() > 0, "No name for 'done' button is disabled in opened modal window");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(5));
         return true;
     }
 }
