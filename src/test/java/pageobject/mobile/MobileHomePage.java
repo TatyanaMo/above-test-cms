@@ -1,10 +1,15 @@
 package pageobject.mobile;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
+import pageobject.model.Passenger;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MobileHomePage {
@@ -59,6 +64,30 @@ public class MobileHomePage {
     private final By PASSENGERS_COUNT_BUTTONS = By.xpath(".//button[contains(@class,'touch-manipulation flex-shrink-0 w-10 h-10 lg:w-8 lg:h-8')]");
     private final By PASSENGERS_NUMBERS_SELECTED = By.xpath(".//input[@class='w-3 text-center focus:outline-none']");
     private final By DONE_BUTTON = By.xpath(".//button[@data-close='data-close']");
+    private final By FLIGHT_CLASSES = By.xpath(".//span[@name='class']");
+    private final By NEXT_BUTTONS = By.xpath(".//button[@data-step-nav='next']");
+    private final By BACK_BUTTONS = By.xpath(".//button[@data-step-nav='prev']");
+    private final By FLIGHT_ONE_MODAL = By.xpath(".//div[@title='Flight 1']");
+    private final By ERROR_MESSAGES = By.xpath(".//div[contains(@class,'hidden group-invalid:block  pt-1  text-sm   text-red-800')]");
+    private final By DATES_LABELS = By.xpath(".//span[contains(@class,'absolute inset-y-0 flex items-center text-white')]");
+
+    private final By INPUT_FIELDS_REQUEST_FORM_SELECTORS = By.xpath(".//div[@aria-selected='true']");
+    private final By AIRPORTS_SUGGESTION = By.xpath(".//span[@class='-mr-2 flex-shrink-0 pl-2']");
+    private final By INPUT_FROM = By.xpath(".//input[@aria-label='From (city or airport)']");
+    private final By INPUT_TO = By.xpath(".//input[@aria-label='To (city or airport)']");
+    private final By ACTIVE_AIRPORTS_TO_LIST = By.xpath(".//div[contains(@class, 'is-parent choices__item')]");
+    private final By CHOICES_LIST_TO = By.xpath(".//div[@class = 'choices__list choices__list--dropdown is-active']");
+    private final By OPENED_SELECT_WINDOWS = By.xpath(".//div[contains(@class,'choices__list choices__list')]");
+
+    private final By DATE_PICKERS = By.xpath(".//input[@placeholder='mm/dd/yyyy']");
+    private final By MONTH_SELECTORS = By.xpath(".//select[@class='lightpick__select lightpick__select-months']/option");
+    private final By YEAR_SELECTORS = By.xpath(".//select[@class='lightpick__select lightpick__select-years']/option");
+    private final By DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__days']");
+    private final By AVAILABLE_DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__day is-available ']");
+    private final By DATE_PICKERS_OPENED = By.xpath(".//section[@class='lightpick lightpick--1-columns']");
+    private final By AVAILABLE_DATES_RETURN = By.xpath(".//div[contains(@class, 'lightpick__day is-available')]");
+    private final By APPLY_BUTTONS = By.xpath(".//button[@class='lightpick__apply-action']");
+    private final By CLOSE_DATE_PICKER_BUTTON = By.xpath(".//button[@class='lightpick__close-action']");
 
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -67,6 +96,7 @@ public class MobileHomePage {
     public MobileHomePage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
     }
+
     public void acceptCookies() {
         LOGGER.info("Accepting cookies");
         baseFunc.click(ACCEPT_COOKIES_BTN);
@@ -76,15 +106,18 @@ public class MobileHomePage {
         LOGGER.info("Checking logo in header for homepage");
         baseFunc.checkLogoInHeader(HEADER_LOGO);
     }
+
     public boolean isTrustpilotLinkAppears() {
         LOGGER.info("Checking Trustpilot link under 'fill request form'");
         baseFunc.checkReviewLinkInHeader(REVIEW_TRUSTPILOT_LINK, REVIEW_IMG, REVIEW_TRUSTPILOT_LINK, TRUSTPILOT_ABOVE_TITTLE);
         return true;
     }
+
     public void checkDropDownMenu() {
         LOGGER.info("Checking presence of elements in all dropdown menu");
-        baseFunc.isDropDownMenuOpenMobile(DROP_DOWN_BUTTONS,LOG_IN_BUTTON,CREATE_PROFILE_BUTTON,DROP_DOWN_ELEMENTS, CLOSE_BUTTONS);
+        baseFunc.isDropDownMenuOpenMobile(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, CREATE_PROFILE_BUTTON, DROP_DOWN_ELEMENTS, CLOSE_BUTTONS);
     }
+
     public void switchToIframeFacebookButton() {
         LOGGER.info("Switching to Facebook iframe dialog in homepage");
         baseFunc.switchIframeIndex(0);
@@ -103,6 +136,7 @@ public class MobileHomePage {
         baseFunc.switchToMainPage();
         return true;
     }
+
     public boolean isLogInModalWindowOpens() {
         LOGGER.info("Checking elements in Login modal window");
         baseFunc.checkLogInModalWindow(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, LOG_IN_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS);
@@ -120,10 +154,12 @@ public class MobileHomePage {
         }
         return true;
     }
+
     public void loginModalClose() {
         LOGGER.info("Closing Login modal window");
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(10));
     }
+
     public boolean isSignUpModalWindowOpen() {
         LOGGER.info("Checking elements in Sign up modal window");
         baseFunc.checkSignUpModalWindow(DROP_DOWN_BUTTONS, CREATE_PROFILE_BUTTON, SIGN_UP_MODAL_WINDOW, MODAL_INPUT_FIELDS, SUBMIT_BUTTONS, MODAL_WINDOW_BUTTONS);
@@ -189,6 +225,7 @@ public class MobileHomePage {
         }
         return baseFunc.list(CONTAINERS_TEXT).get(4).isDisplayed();
     }
+
     public boolean isFooterLinksOpen() {
         LOGGER.info("Checking if footer links successfully open");
         baseFunc.footerLinksOpen(FOOTER_LINKS, TITTLE);
@@ -213,6 +250,7 @@ public class MobileHomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(FOOTER_LINKS).get(4)).length() > 0, "No email in footer");
         return true;
     }
+
     public boolean isPaymentsDisplayed() {
         LOGGER.info("Checking if payment info displayed in footer");
         Assertions.assertTrue(baseFunc.isPaymentsDisplayed(PAYMENTS), "No payments in footer");
@@ -259,10 +297,10 @@ public class MobileHomePage {
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(4));
         LOGGER.info("Check passengers option");
         baseFunc.click(flightInfoButtons.get(1));
-        WebElement passengersModal = baseFunc.list(PASSENGERS_MODAL).get(0);
+        WebElement passengersModal = baseFunc.list(FLIGHT_INFO_MODAL).get(4);
         Assertions.assertTrue(passengersModal.getText().length() > 0, "No tittle for opened passenger details modal window");
         List<WebElement> passengersTypes = passengersModal.findElements(PASSENGERS_TYPES);
-        Assertions.assertTrue(passengersTypes.size() >0, "No passengers types in opened modal window");
+        Assertions.assertTrue(passengersTypes.size() > 0, "No passengers types in opened modal window");
         for (WebElement type : passengersTypes) {
             Assertions.assertTrue(type.getText().length() > 0, " No text for passenger type");
         }
@@ -281,6 +319,181 @@ public class MobileHomePage {
         Assertions.assertTrue(doneButton.isEnabled(), "Button 'done' is disabled in opened modal window");
         Assertions.assertTrue(doneButton.getText().length() > 0, "No name for 'done' button is disabled in opened modal window");
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(5));
+
+        LOGGER.info("Check flight classes option");
+        baseFunc.click(flightInfoButtons.get(2));
+        WebElement classesModal = baseFunc.list(FLIGHT_INFO_MODAL).get(5);
+        List<WebElement> flightClasses = classesModal.findElements(FLIGHT_CLASSES);
+        Assertions.assertTrue(flightClasses.size() > 0, "No flight classes in opened modal window");
+        for (WebElement flightClass : flightClasses) {
+            Assertions.assertTrue(baseFunc.getTextOfElement(flightClass).length() > 0, "No text for flight class in opened modal window");
+        }
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(6));
+        LOGGER.info("Check flight details options");
+        baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
+        WebElement flightModal = baseFunc.findElement(FLIGHT_ONE_MODAL);
+        LOGGER.info("Check if error messages displayed for not filled input fields");
+        baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(1));
+        List<WebElement> errorMessages = flightModal.findElements(ERROR_MESSAGES);
+        for (WebElement message : errorMessages) {
+            String errorText = message.getText();
+            if (!errorText.isEmpty()) {
+                Assertions.assertTrue(errorText.length() > 0, "No error message for empty input field in flight one modal window");
+            }
+        }
+        LOGGER.info("Check placeholders for input fields");
+        List<WebElement> datesLabels = flightModal.findElements(DATES_LABELS);
+        for (WebElement date : datesLabels) {
+            Assertions.assertTrue(date.getText().length() > 0, "No label for dates placeholders");
+        }
+        List<WebElement> flightRoutesLabels = flightModal.findElements(INPUT_FIELDS_REQUEST_FORM_SELECTORS);
+        for (WebElement flightLabel : flightRoutesLabels) {
+            Assertions.assertTrue(flightLabel.getText().length() > 0, "No label for flight routes placeholders");
+        }
+        //baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(3));
+        baseFunc.click(baseFunc.list(BACK_BUTTONS).get(0));
         return true;
+    }
+
+    public void selectFlightParameters() {
+        LOGGER.info("Select random flight type for flight request: Return or One Way");
+        WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
+        List<WebElement> flightInfoButtons = flightInfoBlock.findElements(FLIGHT_INFORMATION_BUTTONS);
+        baseFunc.click(flightInfoButtons.get(0));
+        WebElement flightTypesModal = baseFunc.list(FLIGHT_INFO_MODAL).get(3);
+        List<WebElement> flightTypes = flightTypesModal.findElements(FLIGHT_TYPES);
+        int randomIndexType = baseFunc.getRandomIndex(2);  // multi city not select!!
+        WebElement selectedFlightType = flightTypes.get(randomIndexType);
+        baseFunc.click(selectedFlightType);
+
+        LOGGER.info("Select random flight class for flight request");
+        baseFunc.click(flightInfoButtons.get(2));
+        WebElement classesModal = baseFunc.list(FLIGHT_INFO_MODAL).get(5);
+        List<WebElement> flightClasses = classesModal.findElements(FLIGHT_CLASSES);
+        int randomIndexClass = baseFunc.getRandomIndex(flightClasses.size());
+        WebElement selectedFlightClass = flightClasses.get(randomIndexClass);
+        baseFunc.click(selectedFlightClass);
+        baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
+    }
+
+    public void selectAirportsAndCountryCodeFromSuggestionLists(String locationFrom, String locationTo, Passenger passenger) {
+        LOGGER.info("Selecting airports " + locationFrom + " from suggestion lists");
+        WebElement inputAirportFrom = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(0);
+        baseFunc.click(inputAirportFrom);
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(OPENED_SELECT_WINDOWS).get(1), "class", "choices__list choices__list--dropdown is-active");
+        WebElement inputFrom = baseFunc.list(INPUT_FROM).get(0);
+        baseFunc.click(inputFrom);
+        baseFunc.type(inputFrom, passenger.getAirportFrom());
+        List<WebElement> suggestionsFrom = baseFunc.list(AIRPORTS_SUGGESTION);
+        baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
+        boolean isFoundFrom = false;
+        for (WebElement we : suggestionsFrom) {
+            System.out.println(we.getText());
+            if (baseFunc.getTextOfElement(we).equals(locationFrom)) {
+                we.click();
+                isFoundFrom = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(isFoundFrom, "Location " + locationFrom + " can't be found in a suggestion list");
+
+        LOGGER.info("Selecting airports " + locationTo + " from suggestion lists");
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(OPENED_SELECT_WINDOWS).get(1), "class", "choices__list choices__list--dropdown hidden");
+        WebElement inputAirportTo = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(2);
+        baseFunc.click(inputAirportTo);
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.list(OPENED_SELECT_WINDOWS).get(3), "class", "choices__list choices__list--dropdown is-active");
+        WebElement inputTo = baseFunc.list(INPUT_TO).get(0);
+        baseFunc.click(inputTo);
+        baseFunc.type(inputTo, passenger.getAirportTo());
+        baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
+        baseFunc.waitForElementAttributeToBe(ACTIVE_AIRPORTS_TO_LIST, "data-value", locationTo);
+        WebElement activeAirportsList = baseFunc.findElement(CHOICES_LIST_TO);
+        List<WebElement> suggestionsTo = activeAirportsList.findElements(AIRPORTS_SUGGESTION);
+        boolean isFoundTo = false;
+        for (WebElement we : suggestionsTo) {
+            System.out.println(we.getText());
+            if (baseFunc.getTextOfElement(we).equals(locationTo)) {
+                we.click();
+                isFoundTo = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
+    }
+
+    public void getAndSelectDepartAndReturnDates(String expectedDepartDate, String expectedReturnDate) {
+        LOGGER.info("Find depart date picker");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate expectedLocalDepartDate = LocalDate.parse(expectedDepartDate, dtf);
+        LocalDate expectedLocalReturnDate = LocalDate.parse(expectedReturnDate, dtf);
+        int expectedDepartDay = expectedLocalDepartDate.getDayOfMonth();
+        int expectedDepartMonth = expectedLocalDepartDate.getMonthValue();
+        int expectedDepartYear = expectedLocalDepartDate.getYear();
+
+        baseFunc.click(baseFunc.list(DATE_PICKERS).get(0));
+        LOGGER.info("Selecting depart date from date picker equals to " + expectedDepartDate);
+        LOGGER.info("Selecting month from date picker equals to " + expectedDepartMonth);
+        List<WebElement> months = baseFunc.list(MONTH_SELECTORS);
+        baseFunc.click(months.get(expectedDepartMonth - 1));
+        LOGGER.info("Selecting depart year from date picker equals to " + expectedDepartYear);
+        List<WebElement> years = baseFunc.list(YEAR_SELECTORS);
+        for (WebElement yearToSelect : years) {
+            if (baseFunc.getTextOfElement(yearToSelect).equals(String.valueOf(expectedDepartYear))) {
+                baseFunc.click(yearToSelect);
+                break;
+            }
+        }
+        LOGGER.info("Selecting depart day from date picker equals to " + expectedDepartDay);
+        try {
+            WebElement departDays = baseFunc.list(DAYS_DATE_PICKER).get(0);
+            List<WebElement> availableDaysToSelect = departDays.findElements(AVAILABLE_DAYS_DATE_PICKER);
+            for (WebElement day : availableDaysToSelect) {
+                if (baseFunc.getTextOfElement(day).equals(String.valueOf(expectedDepartDay))) {
+                    baseFunc.click(day);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.info("Invalid date!" + ":" + expectedDepartDay + " " + expectedDepartMonth);
+        }
+        baseFunc.click(CLOSE_DATE_PICKER_BUTTON);
+
+        LOGGER.info("Selecting return date from date picker equals to " + expectedReturnDate);
+        int expectedReturnDay = expectedLocalReturnDate.getDayOfMonth();
+        int expectedReturnMonth = expectedLocalReturnDate.getMonthValue();
+        try {
+            baseFunc.click(baseFunc.list(DATE_PICKERS).get(1));
+            try {
+                if (expectedReturnMonth == expectedDepartMonth) {
+                    WebElement returnDays = baseFunc.findElement(DAYS_DATE_PICKER);
+                    List<WebElement> availableDaysToSelect = returnDays.findElements(AVAILABLE_DATES_RETURN);
+                    for (WebElement day : availableDaysToSelect) {
+                        if (baseFunc.getTextOfElement(day).equals(String.valueOf(expectedReturnDay))) {
+                            baseFunc.click(day);
+                            break;
+                        }
+                    }
+                    baseFunc.click(CLOSE_DATE_PICKER_BUTTON);
+                }
+                if (expectedReturnMonth != expectedDepartMonth) {
+                    List<WebElement> returnMonths = baseFunc.list(MONTH_SELECTORS);
+                    baseFunc.click(returnMonths.get(expectedReturnMonth - 1));
+                    WebElement returnDaysOtherMonth = baseFunc.findElement(DAYS_DATE_PICKER);
+                    List<WebElement> availableDaysToSelect = returnDaysOtherMonth.findElements(AVAILABLE_DATES_RETURN);
+                    for (WebElement day : availableDaysToSelect) {
+                        if (baseFunc.getTextOfElement(day).equals(String.valueOf(expectedReturnDay))) {
+                            baseFunc.click(day);
+                            break;
+                        }
+                    }
+                    baseFunc.click(CLOSE_DATE_PICKER_BUTTON);
+                }
+            } catch (Exception e) {
+                LOGGER.info("Invalid date!" + ":" + expectedReturnDay + " " + expectedReturnMonth);
+            }
+            baseFunc.click(CLOSE_DATE_PICKER_BUTTON);
+        } catch (Exception e) {
+            baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(1));
+        }
     }
 }

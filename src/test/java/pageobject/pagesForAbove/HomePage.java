@@ -442,11 +442,8 @@ public class HomePage {
         LOGGER.info("Selecting depart date from date picker equals to " + expectedDepartDate);
         LOGGER.info("Selecting month from date picker equals to " + expectedDepartMonth);
         List<WebElement> months = baseFunc.list(MONTH_SELECTORS).subList(0, 12);
-        for (WebElement month : months) {
-            System.out.println(month.getText());
-        }
         baseFunc.click(months.get(expectedDepartMonth - 1));
-        LOGGER.info("Selecting return year from date picker equals to " + expectedDepartYear);
+        LOGGER.info("Selecting depart year from date picker equals to " + expectedDepartYear);
         List<WebElement> years = baseFunc.list(YEAR_SELECTORS);
         for (WebElement yearToSelect : years) {
             if (baseFunc.getTextOfElement(yearToSelect).equals(String.valueOf(expectedDepartYear))) {
@@ -504,7 +501,7 @@ public class HomePage {
                     baseFunc.switchToMainPage();
                 }
             } catch (Exception e) {
-                System.out.println("Invalid date!" + ":" + expectedDepartDay + " " + expectedDepartMonth);
+                System.out.println("Invalid date!" + ":" + expectedReturnDay + " " + expectedReturnMonth);
             }
         }
     }
@@ -552,7 +549,6 @@ public class HomePage {
         baseFunc.switchIframeIndex(0);
         baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
         baseFunc.switchToMainPage();
-
     }
     public void submitFlightRequest () {
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
