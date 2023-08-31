@@ -2,6 +2,7 @@ package pageobject.mobile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -27,6 +28,7 @@ public class MobileHomePage {
     private final By IFRAME_FACEBOOK_TITTLE = By.xpath(".//div[@class='_4ik4 _4ik5']/strong");
     private final By IFRAME_FACEBOOK_TEXT = By.xpath(".//div[@class='_a2zt _a6s6 _4ik4 _4ik5']");
     private final By IFRAME_FACEBOOK_MENU_ITEMS = By.xpath(".//div[@class='_a1ql']");
+    private final By IFRAME_FACEBOOK_OPEN = By.xpath(".//div[@class='_90st']");
     private final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
     private final By IFRAME_FACEBOOK_MORE_BTN = By.xpath(".//div[@aria-label='More']");
     private final By IFRAME_FACEBOOK_START_CHAT_BTN = By.xpath(".//div[@class='_a2zm']");
@@ -88,6 +90,15 @@ public class MobileHomePage {
     private final By AVAILABLE_DATES_RETURN = By.xpath(".//div[contains(@class, 'lightpick__day is-available')]");
     private final By APPLY_BUTTONS = By.xpath(".//button[@class='lightpick__apply-action']");
     private final By CLOSE_DATE_PICKER_BUTTON = By.xpath(".//button[@class='lightpick__close-action']");
+
+    private final By INPUT_FIELDS_REQUEST_FORM = By.xpath(".//input[contains(@class,'appearance-none block h-10 leading-8 px-0 py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-orange-200 ')]");
+    private final By CONTACT_INFORMATION_FORM = By.xpath(".//div[@class='container min-h-full flex flex-col']");
+    private final By CONTACT_FORM_TITTLE = By.xpath(".//div[@class='text-xs uppercase font-medium text-orange-200 text-opacity-75']");
+    private final By CONTACT_INFORMATION_TEXT = By.xpath(".//div[@class='pt-2 pb-5 text-center space-y-1']");
+    private final By ADDITIONAL_INFO_TEXT = By.xpath(".//div[@class='pt-5 px-4 simple-content']");
+    private final By PRIVACY_POLICY_LINK = By.xpath(".//a[@target='_blank']");
+
+
 
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -495,5 +506,48 @@ public class MobileHomePage {
         } catch (Exception e) {
             baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(1));
         }
+    }
+    public void fillInPassengerInfo(Passenger passenger) {
+        LOGGER.info("Check text in contact information form");
+        baseFunc.waitElementPresented(CONTACT_INFORMATION_TEXT);
+        WebElement contactForm = baseFunc.findElement(CONTACT_INFORMATION_FORM);
+        System.out.println(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_FORM_TITTLE)));
+        System.out.println(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_INFORMATION_TEXT)));
+        //Assertions.assertTrue(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_FORM_TITTLE)).length() > 0, "No tittle for contact information form");
+        //Assertions.assertTrue(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_INFORMATION_TEXT)).length() > 0, "No info text in contact information form");
+        LOGGER.info("Check if error message displayed for not filled input fields");
+        baseFunc.scrollDown();
+        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(0));
+        List<WebElement> errorMessages = contactForm.findElements(ERROR_MESSAGES);
+        for (WebElement message : errorMessages) {
+            String errorText = message.getText();
+            if (!errorText.isEmpty()) {
+                Assertions.assertTrue(errorText.length() > 0, "No error message for empty input field in contact information form");
+            }
+        }
+        LOGGER.info("Filling passenger info in request form");
+        List<WebElement> placeholderLabels = baseFunc.list(INPUT_FIELDS_REQUEST_FORM);
+        for (WebElement label : placeholderLabels) {
+            Assertions.assertTrue(label.getAttribute("placeholder").length() > 0, "No label for placeholder");
+        }
+        WebElement inputName = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(0);
+        WebElement inputPhone = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(1);
+        WebElement inputEmail = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(2);
+        baseFunc.type(inputName, passenger.getName());
+        baseFunc.type(inputPhone, passenger.getPhoneNumber());
+        baseFunc.type(inputEmail, passenger.getEmail());
+        baseFunc.scrollDown();
+        LOGGER.info("Check if buttons is enabled");
+        Assertions.assertTrue(contactForm.findElements(BACK_BUTTONS).get(1).isEnabled(), "Button 'Back' is disabled in contact information form");
+        Assertions.assertTrue(contactForm.findElements(SUBMIT_BUTTONS).get(0).isEnabled(), "Button 'Back' is disabled in contact information form");
+        LOGGER.info("Check info text in the bottom of page");
+        Assertions.assertTrue(baseFunc.getTextOfElement(contactForm.findElement(ADDITIONAL_INFO_TEXT)).length() > 0, "No additional text in the bottom of page");
+        LOGGER.info("Check if Privacy policy links works");
+        baseFunc.click(contactForm.findElement(PRIVACY_POLICY_LINK));
+        baseFunc.switchTab(1);
+        baseFunc.waitElementPresented(TITTLE);
+        Assertions.assertTrue(baseFunc.getTextOfElement(TITTLE).length() > 0, "No tittle for opened page");
+        baseFunc.closeTab();
+        baseFunc.switchTab(0);
     }
 }

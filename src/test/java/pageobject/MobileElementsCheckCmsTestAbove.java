@@ -46,6 +46,7 @@ public class MobileElementsCheckCmsTestAbove {
         mobileHomePage.selectFlightParameters();
         mobileHomePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
         mobileHomePage.getAndSelectDepartAndReturnDates(expectedDepartDate, expectedReturnDate);
+        mobileHomePage.fillInPassengerInfo(passenger);
 
 
     }

@@ -17,6 +17,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
 import helpers.PropertiesHelper;
 import pageobject.mobile.MobileHomePage;
 import pageobject.pagesForAbove.HomePage;
+import org.openqa.selenium.JavascriptExecutor;
 
 public class BaseFunc {
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
@@ -103,6 +104,10 @@ public class BaseFunc {
 
     public void closeTab() {
         browser.close();
+    }
+    public void scrollDown() {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
+        jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
     }
 
     public void click(By locator) {
