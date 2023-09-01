@@ -17,7 +17,7 @@ public class MobileElementsCheckCmsTestAbove {
     @Test
     public void MobileElementsCheck() {
         LOGGER.info("This test will be check all elements on each page for mobile version");
-        Passenger passenger = new Passenger("AutoTest Client", 25948715, "hesas73373@wireps.com", "VBS",
+        Passenger passenger = new Passenger("AutoTest Client", 20071634, "hesas73373@wireps.com", "VBS",
                 "371", "RIX", "AboveTest");
         baseFunc.openMobileHomePage();
         MobileHomePage mobileHomePage = new MobileHomePage(baseFunc);
@@ -44,7 +44,7 @@ public class MobileElementsCheckCmsTestAbove {
         mobileHomePage.isAllRightsTextDisplayed();
         mobileHomePage.isRequestFormAppears();
         mobileHomePage.selectFlightParameters();
-        mobileHomePage.selectAirportsAndCountryCodeFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
+        mobileHomePage.selectAirportsFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
         mobileHomePage.getAndSelectDepartAndReturnDates(expectedDepartDate, expectedReturnDate);
         mobileHomePage.fillInPassengerInfo(passenger);
 

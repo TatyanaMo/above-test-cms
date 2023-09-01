@@ -9,11 +9,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.client.RestTemplate;
+
 import java.time.Duration;
 import java.util.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
+
 import helpers.PropertiesHelper;
 import pageobject.mobile.MobileHomePage;
 import pageobject.pagesForAbove.HomePage;
@@ -68,10 +72,12 @@ public class BaseFunc {
         }
         browser.get(url);
     }
+
     public HomePage openHomePage() {
         openUrl(properties.getProperty("url"));
         return new HomePage(this);
     }
+
     public MobileHomePage openMobileHomePage() {
         openUrl(properties.getProperty("url"));
         return new MobileHomePage(this);
@@ -105,9 +111,11 @@ public class BaseFunc {
     public void closeTab() {
         browser.close();
     }
-    public void scrollDown() {
+
+    public void scrollToTheBottom() {
+        LOGGER.info("Scroll to the bottom of page");
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
-        jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+        jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     public void click(By locator) {
@@ -128,7 +136,8 @@ public class BaseFunc {
         Select select = new Select(we);
         select.selectByValue(value);
     }
-    public void selectList (By locatorOne, int index, String value) {
+
+    public void selectList(By locatorOne, int index, String value) {
         List<WebElement> selectFields = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locatorOne));
         WebElement selectField = selectFields.get(index);
         Select select = new Select(selectField);
@@ -151,6 +160,7 @@ public class BaseFunc {
         element.clear();
         element.sendKeys(text);
     }
+
     public void type(By locator, String text) {
         WebElement input = findElement((locator));
         input.clear();
@@ -164,6 +174,7 @@ public class BaseFunc {
     public WebElement findElement(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+
     public WebElement findElementWithoutWait(By locator) {
         return findElement(locator);
     }
@@ -179,6 +190,7 @@ public class BaseFunc {
     public void waitElementPresented(By locator) {
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+
     public void waitElementToDisappear(WebElement we) {
         wait.until(ExpectedConditions.invisibilityOf(we));
     }
@@ -253,8 +265,9 @@ public class BaseFunc {
             }
         }
     }
+
     public boolean checkLogoInHeader(By locator) {
-         return findElement(locator).isDisplayed();
+        return findElement(locator).isDisplayed();
     }
 
     public void checkLogInModalWindow(By locatorOne, By locatorTwo, By locatorThree, By locatorFour, By locatorFive, By locatorSix) {
@@ -280,6 +293,7 @@ public class BaseFunc {
         list(locatorFive).subList(0, 1);
         list(locatorSix).get(2);
     }
+
     public void checkReviewLinkInHeader(By locatorOne, By locatorTwo, By locatorThree, By locatorFour) {
         linksStatusCheck(findElement(locatorOne).getAttribute("href"));
         findElement(locatorTwo).isDisplayed();
@@ -297,10 +311,12 @@ public class BaseFunc {
             LOGGER.error("Trustpilot link doesn't open in new page properly", e);
         }
     }
-    public void checkPhoneNumberLinkInHeader( By locator) {
+
+    public void checkPhoneNumberLinkInHeader(By locator) {
         Assertions.assertTrue(list(locator).get(0).getAttribute("href").length() > 0, "no phone number");
     }
-    public boolean isDropDownMenuOpen(By locatorOne,By locatorTwo,By locatorThree,By locatorFour  ) {
+
+    public boolean isDropDownMenuOpen(By locatorOne, By locatorTwo, By locatorThree, By locatorFour) {
         List<WebElement> menuButtons = list(locatorOne);
         click(menuButtons.get(0));
         findElement(locatorTwo).isEnabled();
@@ -328,7 +344,7 @@ public class BaseFunc {
         return true;
     }
 
-    public boolean isDropDownMenuOpenMobile(By locatorOne,By locatorTwo,By locatorThree,By locatorFour, By locatorFive  ) {
+    public boolean isDropDownMenuOpenMobile(By locatorOne, By locatorTwo, By locatorThree, By locatorFour, By locatorFive) {
         List<WebElement> menuButtons = list(locatorOne);
         click(menuButtons.get(0));
         findElement(locatorTwo).isEnabled();
@@ -358,33 +374,39 @@ public class BaseFunc {
         return true;
     }
 
-    public void openNextPage(By locatorOne, By locatorTwo,int indexOne, int indexTwo ) {
+    public void openNextPage(By locatorOne, By locatorTwo, int indexOne, int indexTwo) {
         click(list(locatorOne).get(indexOne));
         click(list(locatorTwo).get(indexTwo));
     }
+
     public boolean isPaymentsDisplayed(By locator) {
-       return  getTextOfElement(locator).length() > 0;
+        return getTextOfElement(locator).length() > 0;
     }
+
     public boolean isPaymentMethodImageDisplayed(By locator) {
         for (WebElement we : list(locator)) {
             we.isDisplayed();
         }
         return true;
     }
+
     public boolean isPartnersDisplayed(By locator) {
         findElement(locator).isDisplayed();
         return true;
     }
+
     public boolean isAllRightsTextDisplayed(By locator) {
         return getTextOfElement(locator).length() > 0;
     }
+
     public void closeBrowser() {
-        if (browser !=null) {
+        if (browser != null) {
             browser.quit();
         }
     }
+
     public int checkTextInAllElementsOfList(By locator) {
-        List<WebElement>weList = list(locator);
+        List<WebElement> weList = list(locator);
         int totalLength = 0;
         for (WebElement we : weList) {
             totalLength += getTextOfElement(we).length();
@@ -400,16 +422,19 @@ public class BaseFunc {
         waitForElementsToBeAtLeast(locator, 2);
         wait.until(ExpectedConditions.attributeToBe(browser.findElements(locator).get(1), attribute, value));
     }
+
     public void waitForElementAttributeToBeNew(WebElement we, String attribute, String value) {
         wait.until(ExpectedConditions.attributeToBe(we, attribute, value));
     }
 
     public void waitElementToBeClickable(By locator) {
-            wait.until(ExpectedConditions.elementToBeClickable(locator));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
+
     public void waitElementToBeClickable(WebElement we) {
         wait.until(ExpectedConditions.elementToBeClickable(we));
     }
+
     public void pageRefresh() {
         browser.navigate().refresh();
     }

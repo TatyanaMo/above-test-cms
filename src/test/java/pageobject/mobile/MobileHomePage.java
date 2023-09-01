@@ -67,6 +67,13 @@ public class MobileHomePage {
     private final By PASSENGERS_NUMBERS_SELECTED = By.xpath(".//input[@class='w-3 text-center focus:outline-none']");
     private final By DONE_BUTTON = By.xpath(".//button[@data-close='data-close']");
     private final By FLIGHT_CLASSES = By.xpath(".//span[@name='class']");
+    private final By PASSENGERS_BLOCK = By.xpath(".//div[@class='flex items-center space-x-8']");
+    private final By PASSENGERS_COUNTER_BTNS = By.xpath(".//button[contains(@class, 'touch-manipulation flex-shrink-0 w-10 h-10 ')]");
+    private final By CURRENT_ADULT_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='adults']");
+    private final By CURRENT_CHILD_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='children']");
+    private final By CURRENT_INFANT_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='infants']");
+    private final By DATA_PASSENGER_MESSAGE = By.xpath(".//div[@class='px-5 py-3 leading-5 text-red-500']");
+    private final By PASSENGERS_CONFIRM_BTN = By.xpath(".//button[@data-close='data-close']");
     private final By NEXT_BUTTONS = By.xpath(".//button[@data-step-nav='next']");
     private final By BACK_BUTTONS = By.xpath(".//button[@data-step-nav='prev']");
     private final By FLIGHT_ONE_MODAL = By.xpath(".//div[@title='Flight 1']");
@@ -86,9 +93,7 @@ public class MobileHomePage {
     private final By YEAR_SELECTORS = By.xpath(".//select[@class='lightpick__select lightpick__select-years']/option");
     private final By DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__days']");
     private final By AVAILABLE_DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__day is-available ']");
-    private final By DATE_PICKERS_OPENED = By.xpath(".//section[@class='lightpick lightpick--1-columns']");
     private final By AVAILABLE_DATES_RETURN = By.xpath(".//div[contains(@class, 'lightpick__day is-available')]");
-    private final By APPLY_BUTTONS = By.xpath(".//button[@class='lightpick__apply-action']");
     private final By CLOSE_DATE_PICKER_BUTTON = By.xpath(".//button[@class='lightpick__close-action']");
 
     private final By INPUT_FIELDS_REQUEST_FORM = By.xpath(".//input[contains(@class,'appearance-none block h-10 leading-8 px-0 py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-orange-200 ')]");
@@ -97,9 +102,9 @@ public class MobileHomePage {
     private final By CONTACT_INFORMATION_TEXT = By.xpath(".//div[@class='pt-2 pb-5 text-center space-y-1']");
     private final By ADDITIONAL_INFO_TEXT = By.xpath(".//div[@class='pt-5 px-4 simple-content']");
     private final By PRIVACY_POLICY_LINK = By.xpath(".//a[@target='_blank']");
-
-
-
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW = By.id("login-title");
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE = By.id("request-success-title");
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT = By.xpath(".//div[@class='pt-6']/p");
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc;
@@ -384,10 +389,64 @@ public class MobileHomePage {
         int randomIndexClass = baseFunc.getRandomIndex(flightClasses.size());
         WebElement selectedFlightClass = flightClasses.get(randomIndexClass);
         baseFunc.click(selectedFlightClass);
+        //baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
+    }
+    public void selectPassengerParameters(int adultPassengerToSelect) {
+        LOGGER.info("Select numbers of passengers for flight request");
+        WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
+        List<WebElement> flightInfoButtons = flightInfoBlock.findElements(FLIGHT_INFORMATION_BUTTONS);
+        baseFunc.click(flightInfoButtons.get(1));
+        List<WebElement> passengersCounterBlock = baseFunc.list(PASSENGERS_BLOCK);
+        List<WebElement> activePassengerBlock = passengersCounterBlock.subList(0, 3);
+        for (WebElement passengersType : activePassengerBlock) {
+            Assertions.assertTrue(passengersType.isDisplayed(), "Passengers type not displayed");
+            Assertions.assertTrue(baseFunc.getTextOfElement(passengersType).length() > 0, "Passengers type not displayed");
+        }
+        List<WebElement> passengersButtons = baseFunc.list(PASSENGERS_COUNTER_BTNS);
+        List<WebElement> activePassengerButtons = passengersButtons.subList(0, 6);
+        for (WebElement button : activePassengerButtons) {
+            Assertions.assertTrue(button.isEnabled(), "Counter button disabled");
+        }
+        int desiredAdultPassengerCount = adultPassengerToSelect;
+        int desiredChildPassengerCount = 2 * desiredAdultPassengerCount;
+        int desiredInfantPassengerCount = desiredAdultPassengerCount;
+        int maxTotalPassengersCount = desiredAdultPassengerCount + desiredChildPassengerCount + desiredInfantPassengerCount;
+        LOGGER.info("Select number of adult passengers");
+        WebElement adultsCountElement = baseFunc.list(CURRENT_ADULT_PASSENGER_NUMBER).get(0);
+        int currentAdultCount = Integer.parseInt(adultsCountElement.getAttribute("value"));
+        while (currentAdultCount < desiredAdultPassengerCount) {
+            baseFunc.click(activePassengerButtons.get(1));
+            currentAdultCount++;
+        }
+        LOGGER.info("Select number of child passengers");
+        WebElement childCountElement = baseFunc.list(CURRENT_CHILD_PASSENGER_NUMBER).get(1);
+        int currentChildCount = Integer.parseInt(childCountElement.getAttribute("value"));
+        while (currentChildCount < desiredChildPassengerCount) {
+            baseFunc.click(activePassengerButtons.get(3));
+            currentChildCount++;
+        }
+        LOGGER.info("Select number of infant passengers");
+        WebElement infantCountElement = baseFunc.list(CURRENT_INFANT_PASSENGER_NUMBER).get(1);
+        int currentInfantCount = Integer.parseInt(infantCountElement.getAttribute("value"));
+        while (currentInfantCount < desiredInfantPassengerCount) {
+            baseFunc.click(activePassengerButtons.get(5));
+            currentInfantCount++;
+        }
+        if (maxTotalPassengersCount > 9) {
+            LOGGER.info("Passenger more than 9 message: " + " " + baseFunc.getTextOfElement(DATA_PASSENGER_MESSAGE));
+        }
+        if (baseFunc.getTextOfElement(DATA_PASSENGER_MESSAGE).length() > 0) {
+            LOGGER.info("Passenger message: " + " " + baseFunc.getTextOfElement(DATA_PASSENGER_MESSAGE));
+        }
+        Assertions.assertEquals(desiredAdultPassengerCount, currentAdultCount, "Number of adults not equal");
+        Assertions.assertEquals(desiredChildPassengerCount, currentChildCount, "Number of children not equal");
+        Assertions.assertEquals(desiredInfantPassengerCount, currentInfantCount, "Number of children not equal");
+        baseFunc.click(baseFunc.list(PASSENGERS_CONFIRM_BTN).get(0));
+
         baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
     }
 
-    public void selectAirportsAndCountryCodeFromSuggestionLists(String locationFrom, String locationTo, Passenger passenger) {
+    public void selectAirportsFromSuggestionLists(String locationFrom, String locationTo, Passenger passenger) {
         LOGGER.info("Selecting airports " + locationFrom + " from suggestion lists");
         WebElement inputAirportFrom = baseFunc.list(INPUT_FIELDS_REQUEST_FORM_SELECTORS).get(0);
         baseFunc.click(inputAirportFrom);
@@ -516,7 +575,7 @@ public class MobileHomePage {
         //Assertions.assertTrue(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_FORM_TITTLE)).length() > 0, "No tittle for contact information form");
         //Assertions.assertTrue(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_INFORMATION_TEXT)).length() > 0, "No info text in contact information form");
         LOGGER.info("Check if error message displayed for not filled input fields");
-        baseFunc.scrollDown();
+        baseFunc.scrollToTheBottom();
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(0));
         List<WebElement> errorMessages = contactForm.findElements(ERROR_MESSAGES);
         for (WebElement message : errorMessages) {
@@ -536,7 +595,7 @@ public class MobileHomePage {
         baseFunc.type(inputName, passenger.getName());
         baseFunc.type(inputPhone, passenger.getPhoneNumber());
         baseFunc.type(inputEmail, passenger.getEmail());
-        baseFunc.scrollDown();
+        baseFunc.scrollToTheBottom();
         LOGGER.info("Check if buttons is enabled");
         Assertions.assertTrue(contactForm.findElements(BACK_BUTTONS).get(1).isEnabled(), "Button 'Back' is disabled in contact information form");
         Assertions.assertTrue(contactForm.findElements(SUBMIT_BUTTONS).get(0).isEnabled(), "Button 'Back' is disabled in contact information form");
@@ -549,5 +608,19 @@ public class MobileHomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(TITTLE).length() > 0, "No tittle for opened page");
         baseFunc.closeTab();
         baseFunc.switchTab(0);
+        baseFunc.scrollToTheBottom();
+        LOGGER.info("Submit request");
+    }
+
+    public void submitFlightRequest () {
+        LOGGER.info("Submit flight request");
+        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(0));
+    }
+
+    public boolean isSuccessfulRequestMessageIsDisplayed() {
+        baseFunc.waitElementToBeVisible(SUCCESSFUL_REQUEST_MODAL_WINDOW);
+        Assertions.assertTrue(baseFunc.getTextOfElement(SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE).length() > 0, "No tittle in successful request message");
+        Assertions.assertTrue(baseFunc.getTextOfElement(SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT).length() > 0, "No text in successful request message");
+        return true;
     }
 }

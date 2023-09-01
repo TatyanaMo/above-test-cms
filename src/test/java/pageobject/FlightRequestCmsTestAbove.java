@@ -16,7 +16,7 @@ public class FlightRequestCmsTestAbove {
     @Test
     public void successfulFlightRequest() {
         LOGGER.info("This test make happy path of sending flight request");
-        Passenger passenger = new Passenger("AutoTest Client", 25948715, "hesas73373@wireps.com", "VBS",
+        Passenger passenger = new Passenger("AutoTest Client", 20071634, "hesas73373@wireps.com", "VBS",
                 "371", "RIX", "AboveTest");
         baseFunc.openHomePage();
         HomePage homePage = new HomePage(baseFunc);

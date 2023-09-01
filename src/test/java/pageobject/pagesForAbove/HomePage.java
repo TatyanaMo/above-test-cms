@@ -323,13 +323,13 @@ public class HomePage {
         List<WebElement> passengersCounterBlock = baseFunc.list(PASSENGERS_BLOCK);
         List<WebElement> activePassengerBlock = passengersCounterBlock.subList(3, 6);
         for (WebElement passengersType : activePassengerBlock) {
-            Assertions.assertTrue(passengersType.isDisplayed(), "passengers type not displayed");
+            Assertions.assertTrue(passengersType.isDisplayed(), "Passengers type not displayed");
             Assertions.assertTrue(baseFunc.getTextOfElement(passengersType).length() > 0, "Passengers type not displayed");
         }
         List<WebElement> passengersButtons = baseFunc.list(PASSENGERS_COUNTER_BTNS);
         List<WebElement> activePassengerButtons = passengersButtons.subList(6, 12);
         for (WebElement button : activePassengerButtons) {
-            Assertions.assertTrue(button.isEnabled(), "counter button disabled");
+            Assertions.assertTrue(button.isEnabled(), "Counter button disabled");
         }
         int desiredAdultPassengerCount = adultPassengerToSelect;
         int desiredChildPassengerCount = 2 * desiredAdultPassengerCount;
@@ -362,9 +362,9 @@ public class HomePage {
         if (baseFunc.getTextOfElement(DATA_PASSENGER_MESSAGE).length() > 0) {
             LOGGER.info("Passenger message: " + " " + baseFunc.getTextOfElement(DATA_PASSENGER_MESSAGE));
         }
-        Assertions.assertEquals(desiredAdultPassengerCount, currentAdultCount, "number of adults not equal");
-        Assertions.assertEquals(desiredChildPassengerCount, currentChildCount, "number of children not equal");
-        Assertions.assertEquals(desiredInfantPassengerCount, currentInfantCount, "number of children not equal");
+        Assertions.assertEquals(desiredAdultPassengerCount, currentAdultCount, "Number of adults not equal");
+        Assertions.assertEquals(desiredChildPassengerCount, currentChildCount, "Number of children not equal");
+        Assertions.assertEquals(desiredInfantPassengerCount, currentInfantCount, "Number of children not equal");
         baseFunc.click(baseFunc.list(PASSENGERS_CONFIRM_BTN).get(1));
         LOGGER.info("Select random flight class for flight request");
         baseFunc.click(allDropDownMenus.get(5));
@@ -551,6 +551,7 @@ public class HomePage {
         baseFunc.switchToMainPage();
     }
     public void submitFlightRequest () {
+        LOGGER.info("Submit flight request");
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
     }
     public boolean isSuccessfulRequestMessageIsDisplayed() {
