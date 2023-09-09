@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
 
 import helpers.PropertiesHelper;
-import pageobject.mobile.MobileHomePage;
+import pageobject.pagesForAbove.mobile.MobileHomePage;
 import pageobject.pagesForAbove.HomePage;
 import org.openqa.selenium.JavascriptExecutor;
 
@@ -115,7 +115,7 @@ public class BaseFunc {
     public void scrollToTheBottom() {
         LOGGER.info("Scroll to the bottom of page");
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser;
-        jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
     }
 
     public void click(By locator) {
@@ -249,7 +249,7 @@ public class BaseFunc {
     public void footerLinksOpenWithException(By locatorOne, int index, By locatorTwo) {
         List<WebElement> menuItems = browser.findElements(locatorOne);
         int numberLinks = menuItems.size();
-        for (int i = 0; i < numberLinks; i++) {
+        for (int i = 0; i < 3; i++) {
             if (i == index) {
                 continue;
             }

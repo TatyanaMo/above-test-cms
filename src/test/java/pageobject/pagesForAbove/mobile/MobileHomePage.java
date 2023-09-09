@@ -1,4 +1,4 @@
-package pageobject.mobile;
+package pageobject.pagesForAbove.mobile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +41,6 @@ public class MobileHomePage {
     private final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
     private final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-4 md:pt-10 md:w-4/5']");
-    private final By SUBMITTING_TEXT = By.xpath(".//div[@class='pt-12 pb-4 space-y-6 w-3/4 simple-content']");
     private final By CONTAINERS_TEXT = By.xpath(".//div[@class='container']");
     private final By HOME_PAGE_TEXT_THREE = By.xpath(".//div[@class='pb-1.5 flex flex-col lg:space-y-1']");
     private final By REVIEW_HEADER = By.xpath(".//h2[@class='text-2xl lg:text-3xl uppercase font-medium']");
@@ -61,7 +60,10 @@ public class MobileHomePage {
     private final By FLIGHT_INFORMATION_BUTTONS = By.xpath(".//button[contains(@class,'leading-6 h-10 appearance-none flex items-center')]");
     private final By FLIGHT_INFO_MODAL = By.xpath(".//div[contains(@class,'flex items-center justify-center h-full lg:block')]");
     private final By FLIGHT_TYPES = By.xpath(".//span[@name='flightType']");
-    private final By PASSENGERS_MODAL = By.xpath(".//div[@class='w-full self-start']");
+    private final By FLIGHTS_FORM = By.xpath(".//div[@class='pb-5 space-y-3']");
+    private final By FLIGHTS_ITEMS = By.xpath(".//div[contains(@class,'px-4 py-3 bg-black bg-opacity-5 rounded-md transition-shadow')]");
+    private final By ADD_FLIGHT_BUTTON = By.xpath(".//button[contains(@class,'group appearance-none py-4 lg:py-3 flex items-center justify-center border space-x-2 text-base font-semibold lg:font-medium whitespace-nowrap transition rounded-md md:rounded disabled:cursor-default disabled:bg-gray-400 disabled:shadow-none ring-orange-300 ring-opacity-50 focus:outline-none focus:ring-4 w-full px-5 border-white ')]");
+    private final By DELETE_FLIGHT_ITEM_BUTTON = By.xpath(".//button[contains(@class,'-my-2.5 -mr-2.5 w-9 h-9 rounded-md transition-colors flex items-center justify-center focus:')]");
     private final By PASSENGERS_TYPES = By.xpath(".//div[@class='w-1/2 leading-5']");
     private final By PASSENGERS_COUNT_BUTTONS = By.xpath(".//button[contains(@class,'touch-manipulation flex-shrink-0 w-10 h-10 lg:w-8 lg:h-8')]");
     private final By PASSENGERS_NUMBERS_SELECTED = By.xpath(".//input[@class='w-3 text-center focus:outline-none']");
@@ -76,10 +78,9 @@ public class MobileHomePage {
     private final By PASSENGERS_CONFIRM_BTN = By.xpath(".//button[@data-close='data-close']");
     private final By NEXT_BUTTONS = By.xpath(".//button[@data-step-nav='next']");
     private final By BACK_BUTTONS = By.xpath(".//button[@data-step-nav='prev']");
-    private final By FLIGHT_ONE_MODAL = By.xpath(".//div[@title='Flight 1']");
+    private final By FLIGHT_MODAL = By.xpath(".//div[@title='Flight 1']");
     private final By ERROR_MESSAGES = By.xpath(".//div[contains(@class,'hidden group-invalid:block  pt-1  text-sm   text-red-800')]");
     private final By DATES_LABELS = By.xpath(".//span[contains(@class,'absolute inset-y-0 flex items-center text-white')]");
-
     private final By INPUT_FIELDS_REQUEST_FORM_SELECTORS = By.xpath(".//div[@aria-selected='true']");
     private final By AIRPORTS_SUGGESTION = By.xpath(".//span[@class='-mr-2 flex-shrink-0 pl-2']");
     private final By INPUT_FROM = By.xpath(".//input[@aria-label='From (city or airport)']");
@@ -98,13 +99,11 @@ public class MobileHomePage {
 
     private final By INPUT_FIELDS_REQUEST_FORM = By.xpath(".//input[contains(@class,'appearance-none block h-10 leading-8 px-0 py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-orange-200 ')]");
     private final By CONTACT_INFORMATION_FORM = By.xpath(".//div[@class='container min-h-full flex flex-col']");
-    private final By CONTACT_FORM_TITTLE = By.xpath(".//div[@class='text-xs uppercase font-medium text-orange-200 text-opacity-75']");
-    private final By CONTACT_INFORMATION_TEXT = By.xpath(".//div[@class='pt-2 pb-5 text-center space-y-1']");
+    private final By CONTACT_FORM_TITTLE = By.xpath(".//h3[@class='text-xl font-medium']");
     private final By ADDITIONAL_INFO_TEXT = By.xpath(".//div[@class='pt-5 px-4 simple-content']");
     private final By PRIVACY_POLICY_LINK = By.xpath(".//a[@target='_blank']");
-    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW = By.id("login-title");
-    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE = By.id("request-success-title");
-    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT = By.xpath(".//div[@class='pt-6']/p");
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE = By.xpath(".//h2[@class='text-3xl font-medium']");
+    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT = By.xpath(".//p[@class='leading-5']");
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc;
@@ -162,7 +161,7 @@ public class MobileHomePage {
             Assertions.assertTrue(inputField.getAttribute("placeholder").length() > 0, "no text in placeholders in login modal window");
         }
         Assertions.assertTrue(baseFunc.list(SUBMIT_BUTTONS).get(2).isEnabled(), "Sign in button is disabled in login modal window");
-        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(2)).length() > 0, "Sign in haven't name in login modal window");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUBMIT_BUTTONS).get(2)).length() > 0, "Sign in button hasn't name in login modal window");
         List<WebElement> buttons = baseFunc.list(MODAL_WINDOW_BUTTONS).subList(0, 1);
         for (WebElement button : buttons) {
             Assertions.assertTrue(button.isEnabled(), "Buttons is disabled in login modal window");
@@ -297,10 +296,10 @@ public class MobileHomePage {
         Assertions.assertTrue(flightInfoBlock.isDisplayed(), "Flight information block not displayed in request form modal window");
         WebElement tittle = flightInfoBlock.findElement(REQUEST_FORM_FLIGHT_INFORMATION_TITTLE);
         Assertions.assertTrue(tittle.getText().length() > 0, "No tittle for flight info block in flight request");
-        LOGGER.info("Check if flight information options displayed");
+        LOGGER.info("Check if flight information form displayed");
         List<WebElement> flightInfoButtons = flightInfoBlock.findElements(FLIGHT_INFORMATION_BUTTONS);
         for (WebElement button : flightInfoButtons) {
-            Assertions.assertTrue(button.getText().length() > 0, "No default text in flight options in flight request form");
+            Assertions.assertTrue(button.getText().length() > 0, "No default text in flight info options in flight request form");
         }
         LOGGER.info("Check flight type option");
         baseFunc.click(flightInfoButtons.get(0));
@@ -347,10 +346,10 @@ public class MobileHomePage {
         baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(6));
         LOGGER.info("Check flight details options");
         baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
-        WebElement flightModal = baseFunc.findElement(FLIGHT_ONE_MODAL);
+        WebElement flightItem = baseFunc.findElement(FLIGHT_MODAL);
         LOGGER.info("Check if error messages displayed for not filled input fields");
         baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(1));
-        List<WebElement> errorMessages = flightModal.findElements(ERROR_MESSAGES);
+        List<WebElement> errorMessages = flightItem.findElements(ERROR_MESSAGES);
         for (WebElement message : errorMessages) {
             String errorText = message.getText();
             if (!errorText.isEmpty()) {
@@ -358,20 +357,70 @@ public class MobileHomePage {
             }
         }
         LOGGER.info("Check placeholders for input fields");
-        List<WebElement> datesLabels = flightModal.findElements(DATES_LABELS);
+        List<WebElement> datesLabels = flightItem.findElements(DATES_LABELS);
         for (WebElement date : datesLabels) {
             Assertions.assertTrue(date.getText().length() > 0, "No label for dates placeholders");
         }
-        List<WebElement> flightRoutesLabels = flightModal.findElements(INPUT_FIELDS_REQUEST_FORM_SELECTORS);
+        List<WebElement> flightRoutesLabels = flightItem.findElements(INPUT_FIELDS_REQUEST_FORM_SELECTORS);
         for (WebElement flightLabel : flightRoutesLabels) {
             Assertions.assertTrue(flightLabel.getText().length() > 0, "No label for flight routes placeholders");
         }
-        //baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(3));
         baseFunc.click(baseFunc.list(BACK_BUTTONS).get(0));
         return true;
     }
 
+    public boolean isElementsInMultiCityFlightRequestFormDisplayed() {
+        LOGGER.info("Select Multi city flight type for flight request");
+        WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
+        List<WebElement> flightInfoButtons = flightInfoBlock.findElements(FLIGHT_INFORMATION_BUTTONS);
+        baseFunc.click(flightInfoButtons.get(0));
+        WebElement flightTypesModal = baseFunc.list(FLIGHT_INFO_MODAL).get(3);
+        List<WebElement> flightTypes = flightTypesModal.findElements(FLIGHT_TYPES);
+        baseFunc.click(flightTypes.get(2));
+        baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
+        LOGGER.info("Check flights items for multi city request");
+        WebElement flightsForm = baseFunc.list(FLIGHTS_FORM).get(1);
+        List<WebElement> flightItems = flightsForm.findElements(FLIGHTS_ITEMS);
+        Assertions.assertEquals(flightItems.size(), 2, "Two flights not displayed for multi city request");
+        baseFunc.scrollToTheBottom();
+        LOGGER.info("Add flight item for multi city request");
+        Assertions.assertTrue(baseFunc.list(ADD_FLIGHT_BUTTON).get(0).isEnabled(), "Add flight button is disabled for multi city");
+        baseFunc.scrollToTheBottom();
+        baseFunc.click(baseFunc.list(ADD_FLIGHT_BUTTON).get(0));
+        List<WebElement> updatedFlightItems = flightsForm.findElements(FLIGHTS_ITEMS);
+        Assertions.assertEquals(updatedFlightItems.size(), 3, "No flight item added for multi city request");
+        LOGGER.info("Check placeholders for input fields for multi city request");
+        for (WebElement updatedFlightItem : updatedFlightItems) {
+            List<WebElement> flightRoutesLabels = updatedFlightItem.findElements(INPUT_FIELDS_REQUEST_FORM_SELECTORS);
+            for (WebElement flightLabel : flightRoutesLabels) {
+                Assertions.assertTrue(flightLabel.getText().length() > 0, "No label for flight routes placeholders for multi city request");
+            }
+            WebElement datesLabel = updatedFlightItem.findElement(DATES_LABELS);
+            Assertions.assertTrue(datesLabel.getText().length() > 0, "No label for dates placeholders for multi city request");
+        }
+        baseFunc.scrollToTheBottom();
+        baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(1));
+        for (WebElement updatedFlightItem : updatedFlightItems) {
+            List<WebElement> errorMessages = updatedFlightItem.findElements(ERROR_MESSAGES);
+            for (WebElement message : errorMessages) {
+                String errorText = message.getText();
+                if (!errorText.isEmpty()) {
+                    Assertions.assertTrue(errorText.length() > 0, "No error message for empty input field for multi city request");
+                }
+            }
+        }
+        baseFunc.click(baseFunc.list(DELETE_FLIGHT_ITEM_BUTTON).get(2));
+        List<WebElement> newUpdatedFlightItems = flightsForm.findElements(FLIGHTS_ITEMS);
+        Assertions.assertEquals(newUpdatedFlightItems.size(), 2, "New added flight item not deleted for multi city request");
+        LOGGER.info("Check if error messages displayed for not filled input fields for multi city request");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(3));
+        return true;
+    }
+
     public void selectFlightParameters() {
+        LOGGER.info("Open flight request form");
+        baseFunc.click(REQUEST_FORM);
+        baseFunc.waitForElementAttributeToBeNew(baseFunc.findElement(REQUEST_FORM_MODAL), "class", "lg:hidden fixed z-40 inset-0 transition-height duration-500 overflow-hidden");
         LOGGER.info("Select random flight type for flight request: Return or One Way");
         WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
         List<WebElement> flightInfoButtons = flightInfoBlock.findElements(FLIGHT_INFORMATION_BUTTONS);
@@ -381,7 +430,6 @@ public class MobileHomePage {
         int randomIndexType = baseFunc.getRandomIndex(2);  // multi city not select!!
         WebElement selectedFlightType = flightTypes.get(randomIndexType);
         baseFunc.click(selectedFlightType);
-
         LOGGER.info("Select random flight class for flight request");
         baseFunc.click(flightInfoButtons.get(2));
         WebElement classesModal = baseFunc.list(FLIGHT_INFO_MODAL).get(5);
@@ -389,8 +437,8 @@ public class MobileHomePage {
         int randomIndexClass = baseFunc.getRandomIndex(flightClasses.size());
         WebElement selectedFlightClass = flightClasses.get(randomIndexClass);
         baseFunc.click(selectedFlightClass);
-        //baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
     }
+
     public void selectPassengerParameters(int adultPassengerToSelect) {
         LOGGER.info("Select numbers of passengers for flight request");
         WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
@@ -566,14 +614,11 @@ public class MobileHomePage {
             baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(1));
         }
     }
+
     public void fillInPassengerInfo(Passenger passenger) {
         LOGGER.info("Check text in contact information form");
-        baseFunc.waitElementPresented(CONTACT_INFORMATION_TEXT);
+        baseFunc.waitElementPresented(CONTACT_FORM_TITTLE);
         WebElement contactForm = baseFunc.findElement(CONTACT_INFORMATION_FORM);
-        System.out.println(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_FORM_TITTLE)));
-        System.out.println(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_INFORMATION_TEXT)));
-        //Assertions.assertTrue(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_FORM_TITTLE)).length() > 0, "No tittle for contact information form");
-        //Assertions.assertTrue(baseFunc.getTextOfElement(contactForm.findElement(CONTACT_INFORMATION_TEXT)).length() > 0, "No info text in contact information form");
         LOGGER.info("Check if error message displayed for not filled input fields");
         baseFunc.scrollToTheBottom();
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(0));
@@ -612,15 +657,20 @@ public class MobileHomePage {
         LOGGER.info("Submit request");
     }
 
-    public void submitFlightRequest () {
+    public void submitFlightRequest() {
         LOGGER.info("Submit flight request");
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(0));
     }
 
     public boolean isSuccessfulRequestMessageIsDisplayed() {
-        baseFunc.waitElementToBeVisible(SUCCESSFUL_REQUEST_MODAL_WINDOW);
+        baseFunc.waitElementToBeVisible(SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE);
         Assertions.assertTrue(baseFunc.getTextOfElement(SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE).length() > 0, "No tittle in successful request message");
-        Assertions.assertTrue(baseFunc.getTextOfElement(SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT).length() > 0, "No text in successful request message");
+        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT).get(1)).length() > 0, "No text in successful request message");
         return true;
+    }
+
+    public void openAboutUsPage() {
+        LOGGER.info("Opening next page - About us");
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2, 5);
     }
 }

@@ -14,7 +14,6 @@ public class BlogPage {
     private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     private final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
     private final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
-    private final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
     private final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
     private final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
@@ -32,14 +31,10 @@ public class BlogPage {
     private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
     private final By BLOG_CONTAINER = By.xpath(".//div[contains(@class, 'overflow-x-auto gap-4 mb-2 sm:px-10 xl:px-32')]");
     private final By BLOG_MAIN_POST = By.xpath(".//a[@class='flex col-span-1 xl:col-span-3 relative justify-center items-end']");
-    private final By BLOG_TEXT_FOR_MAIN_POST = By.xpath(".//div[@class='absolute flex flex-col text-white " +
-            "gap-y-4 z-20 mb-8 xl:mb-16']/span");
     private final By BLOG_TEXT_FOR_ALL_CARDS = By.xpath(".//span[contains(@class, 'self-center')]");
     private final By BLOG_IMAGES = By.xpath(".//img[@class='h-52 w-full md:h-72 xl:h-100 object-cover rounded-lg']");
     private final By ALL_POST_BLOG_CARDS = By.xpath(".//div[@class='col-span-1 justify-center gap-x-7 gap-y-8']/a");
     private final By BLOG_CARD_IMAGES = By.xpath(".//img[@class='absolute h-52 w-full md:h-72 rounded-lg object-cover']");
-    private final By BLOG_CARDS_TEXT = By.xpath(".//div[@class='flex flex-col absolute text-white gap-y-4 " +
-            "z-20 px-10 mb-8']/span");
     private final By BLOG_BUTTONS = By.xpath(".//button[@data-blog-tag='data-blog-tag']");
     private final By POST_TITTLE = By.xpath(".//span[contains(@class, 'text-center text-lg md:text-3xl lg:pr-12')]");
     private final By POST_SUBTITLE = By.xpath(".//div[@class='flex justify-center text-base font-normal mb-8']");

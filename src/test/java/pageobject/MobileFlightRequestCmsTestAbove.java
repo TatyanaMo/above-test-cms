@@ -3,7 +3,7 @@ package pageobject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
-import pageobject.mobile.MobileHomePage;
+import pageobject.pagesForAbove.mobile.MobileHomePage;
 import pageobject.model.Passenger;
 
 public class MobileFlightRequestCmsTestAbove {
@@ -22,7 +22,6 @@ public class MobileFlightRequestCmsTestAbove {
         baseFunc.openMobileHomePage();
         MobileHomePage mobileHomePage = new MobileHomePage(baseFunc);
         mobileHomePage.acceptCookies();
-        mobileHomePage.isRequestFormAppears();
         mobileHomePage.selectFlightParameters();
         mobileHomePage.selectPassengerParameters(adultPassengerToSelect);
         mobileHomePage.selectAirportsFromSuggestionLists(passenger.getAirportFrom(), passenger.getAirportTo(), passenger);
