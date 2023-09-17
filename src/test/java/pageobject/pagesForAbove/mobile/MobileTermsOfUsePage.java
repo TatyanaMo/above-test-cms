@@ -153,4 +153,9 @@ public class MobileTermsOfUsePage {
         Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
         return true;
     }
+
+    public void openPrivacyPolicyPage() {
+        LOGGER.info("Opening next page - Privacy policy");
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2,8);
+    }
 }
