@@ -205,7 +205,6 @@ public class BlogPage {
             baseFunc.linksStatusCheck(allPostMainUrl);
             Assertions.assertNotNull(baseFunc.findElement(BLOG_IMAGES).getAttribute("src"), "Image source is null for main blog item");
             Assertions.assertFalse(baseFunc.findElement(BLOG_IMAGES).getAttribute("src").isEmpty(), "Image source is empty for main blog item");
-            //Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(BLOG_TEXT_FOR_MAIN_POST) > 0, "No tittle text in blog item");
             List<WebElement> allPostBlogCards = baseFunc.list(ALL_POST_BLOG_CARDS);
             for (WebElement blogCard : allPostBlogCards) {
                 String blogCardUrl = blogCard.getAttribute("href");

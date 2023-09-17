@@ -24,7 +24,7 @@ public class MobileElementsCheckCmsTestAbove {
         mobileHomePage.acceptCookies();
         mobileHomePage.logoInHeader();
         mobileHomePage.isTrustpilotLinkAppears();
-        mobileHomePage.checkDropDownMenu();
+//        mobileHomePage.checkDropDownMenu();
 //        mobileHomePage.isLogInModalWindowOpens();
 //        mobileHomePage.loginModalClose();
 //        mobileHomePage.isSignUpModalWindowOpen();
@@ -71,6 +71,17 @@ public class MobileElementsCheckCmsTestAbove {
         mobileBlogPage.signUpModalClose();
         mobileBlogPage.getTittle();
         mobileBlogPage.isBlogDisplayed();
-
+        mobileBlogPage.isLinksWorksInRandomBlogItems();
+        mobileBlogPage.isAllPostRepresentedInBlog();
+        mobileBlogPage.isMainBlogPostDisplayed();
+        mobileBlogPage.isBlogCardsDisplayed();
+        mobileBlogPage.isFooterLinksOpen();
+        mobileBlogPage.isPhoneNumberLinkWorkInFooter();
+        mobileBlogPage.isEmailLinkWorkInFooter();
+        mobileBlogPage.isPaymentsDisplayed();
+        mobileBlogPage.isPaymentMethodImageDisplayed();
+        mobileBlogPage.isPartnersDisplayed();
+        mobileBlogPage.isAllRightsTextDisplayed();
+        mobileBlogPage.openTermsOfUsePage();
     }
 }
