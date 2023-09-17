@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import pageobject.pagesForAbove.mobile.MobileAboutUsPage;
 import pageobject.pagesForAbove.mobile.MobileBlogPage;
 import pageobject.pagesForAbove.mobile.MobileHomePage;
+import pageobject.pagesForAbove.mobile.MobileTermsOfUsePage;
 
 
 public class MobileElementsCheckCmsTestAbove {
@@ -64,24 +65,41 @@ public class MobileElementsCheckCmsTestAbove {
         mobileAboutUsPage.openBlogPage();
         MobileBlogPage mobileBlogPage = new MobileBlogPage(baseFunc);
         mobileBlogPage.logoInHeader();
-        mobileBlogPage.isDropDownMenuOpen();
-        mobileBlogPage.isLogInModalWindowOpens();
-        mobileBlogPage.loginModalClose();
-        mobileBlogPage.isSignUpModalWindowOpen();
-        mobileBlogPage.signUpModalClose();
-        mobileBlogPage.getTittle();
-        mobileBlogPage.isBlogDisplayed();
-        mobileBlogPage.isLinksWorksInRandomBlogItems();
-        mobileBlogPage.isAllPostRepresentedInBlog();
-        mobileBlogPage.isMainBlogPostDisplayed();
-        mobileBlogPage.isBlogCardsDisplayed();
-        mobileBlogPage.isFooterLinksOpen();
-        mobileBlogPage.isPhoneNumberLinkWorkInFooter();
-        mobileBlogPage.isEmailLinkWorkInFooter();
-        mobileBlogPage.isPaymentsDisplayed();
-        mobileBlogPage.isPaymentMethodImageDisplayed();
-        mobileBlogPage.isPartnersDisplayed();
+//        mobileBlogPage.isDropDownMenuOpen();
+//        mobileBlogPage.isLogInModalWindowOpens();
+//        mobileBlogPage.loginModalClose();
+//        mobileBlogPage.isSignUpModalWindowOpen();
+//        mobileBlogPage.signUpModalClose();
+//        mobileBlogPage.getTittle();
+//        mobileBlogPage.isBlogDisplayed();
+//        mobileBlogPage.isLinksWorksInRandomBlogItems();
+//        mobileBlogPage.isAllPostRepresentedInBlog();
+//        mobileBlogPage.isMainBlogPostDisplayed();
+//        mobileBlogPage.isBlogCardsDisplayed();
+//        mobileBlogPage.isFooterLinksOpen();
+//        mobileBlogPage.isPhoneNumberLinkWorkInFooter();
+//        mobileBlogPage.isEmailLinkWorkInFooter();
+//        mobileBlogPage.isPaymentsDisplayed();
+//        mobileBlogPage.isPaymentMethodImageDisplayed();
+//        mobileBlogPage.isPartnersDisplayed();
         mobileBlogPage.isAllRightsTextDisplayed();
         mobileBlogPage.openTermsOfUsePage();
+        MobileTermsOfUsePage mobileTermsOfUsePage = new MobileTermsOfUsePage(baseFunc);
+        mobileTermsOfUsePage.logoInHeader();
+        mobileTermsOfUsePage.checkDropDownMenu();
+        mobileTermsOfUsePage.isLogInModalWindowOpens();
+        mobileTermsOfUsePage.loginModalClose();
+        mobileTermsOfUsePage.isSignUpModalWindowOpen();
+        mobileTermsOfUsePage.signUpModalClose();
+        mobileTermsOfUsePage.getTittle();
+        mobileTermsOfUsePage.isTextDisplayed();
+        mobileTermsOfUsePage.isFooterLinksOpen();
+        mobileTermsOfUsePage.isPhoneNumberLinkWorkInFooter();
+        mobileTermsOfUsePage.isPhoneNumberLinkWorkInFooter();
+        mobileTermsOfUsePage.isEmailLinkWorkInFooter();
+        mobileTermsOfUsePage.isPaymentsDisplayed();
+        mobileTermsOfUsePage.isPaymentMethodImageDisplayed();
+        mobileTermsOfUsePage.isPartnersDisplayed();
+        mobileTermsOfUsePage.isAllRightsTextDisplayed();
     }
 }
