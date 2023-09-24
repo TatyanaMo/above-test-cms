@@ -31,7 +31,6 @@ public class MobileCookiesPolicyPage {
     private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
     private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
     private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
-
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
@@ -144,5 +143,10 @@ public class MobileCookiesPolicyPage {
         LOGGER.info("Checking if block about rights displayed in footer");
         Assertions.assertTrue(baseFunc.isAllRightsTextDisplayed(ALL_RIGHTS_TEXT), "No all right text in footer");
         return true;
+    }
+
+    public void openContactUsPage() {
+        LOGGER.info("Opening next page - Contact Us");
+        baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2,10);
     }
 }
