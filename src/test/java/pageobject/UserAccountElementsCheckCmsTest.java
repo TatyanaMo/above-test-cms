@@ -14,6 +14,8 @@ public class UserAccountElementsCheckCmsTest {
 
     @Test
     public void UserAccountElementsCheck() {
+        LOGGER.info("This test will be check all elements on profile page for registered user");
+
         Passenger passenger = new Passenger("AutoTest Client", 25948715, "tanjatest2@inbox.lv", "VBS",
                 "371", "RIX", "Above123qw");
         PassengerNew passengerNew = new PassengerNew("AutoTestNew Client",25948715,"a3478452@gmail.com",

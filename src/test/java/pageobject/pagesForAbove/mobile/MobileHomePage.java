@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 import pageobject.model.Passenger;
+import pageobject.model.PassengerNew;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -104,6 +105,10 @@ public class MobileHomePage {
     private final By PRIVACY_POLICY_LINK = By.xpath(".//a[@target='_blank']");
     private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE = By.xpath(".//h2[@class='text-3xl font-medium']");
     private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT = By.xpath(".//p[@class='leading-5']");
+
+    private final By INPUT_FIELDS_EMAIL = By.xpath(".//input[@type='email']");
+    private final By INPUT_FIELDS_PASSWORD = By.xpath(".//input[@type='password']");
+    private final By MY_PROFILE_BUTTON = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc;
@@ -672,5 +677,24 @@ public class MobileHomePage {
     public void openAboutUsPage() {
         LOGGER.info("Opening next page - About us");
         baseFunc.openNextPage(DROP_DOWN_BUTTONS, DROP_DOWN_ELEMENTS, 2, 5);
+    }
+
+    public void fillLogInForm(PassengerNew passengerNew) {
+        LOGGER.info("Filling user data in Log in form");
+        WebElement emailInputField = baseFunc.list(INPUT_FIELDS_EMAIL).get(0);
+        WebElement passwordInputField = baseFunc.list(INPUT_FIELDS_PASSWORD).get(0);
+        baseFunc.type(emailInputField, passengerNew.getEmail());
+        baseFunc.type(passwordInputField, passengerNew.getPassword());
+        baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(2));
+    }
+    public void openUserProfilePage() {
+        LOGGER.info("Open user profile");
+        baseFunc.pageRefresh();
+        baseFunc.waitElementToBeClickable(DROP_DOWN_BUTTONS);
+        List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
+        baseFunc.click(menuButtons.get(0));
+        baseFunc.waitForElementAttributeToBeNew(menuButtons.get(0),"data-dropdown","opened");
+        List<WebElement> profileMenu =baseFunc.list(MY_PROFILE_BUTTON);
+        baseFunc.click(profileMenu.get(0));
     }
 }
