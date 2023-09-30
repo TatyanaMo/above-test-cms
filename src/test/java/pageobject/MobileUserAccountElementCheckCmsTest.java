@@ -33,6 +33,19 @@ public class MobileUserAccountElementCheckCmsTest {
         mobileUserProfilePage.checkDropDownMenu();
         mobileUserProfilePage.isMyProfileTittleDisplayed();
         mobileUserProfilePage.isMyProfileOptionsDisplayed();
+        mobileUserProfilePage.isPersonalInfoBlockElementsDisplayed();
+        mobileUserProfilePage.isInfoBlockElementsDisplayed();
+        mobileUserProfilePage.checkUpcomingFlightsBlock();
+        mobileUserProfilePage.checkPurchaseHistoryBlockElementsDisplayed();
+        mobileUserProfilePage.isCoTravelersBlockElementsDisplayed();
+        mobileUserProfilePage.isFooterLinksOpen();
+        mobileUserProfilePage.isPhoneNumberLinkWorkInFooter();
+        mobileUserProfilePage.isEmailLinkWorkInFooter();
+        mobileUserProfilePage.isPaymentsDisplayed();
+        mobileUserProfilePage.isPaymentMethodImageDisplayed();
+        mobileUserProfilePage.isPartnersDisplayed();
+        mobileUserProfilePage.isAllRightsTextDisplayed();
+        mobileUserProfilePage.closeBrowser();
 
     }
 }
