@@ -45,5 +45,6 @@ public class UserAccountElementsCheckCmsTest {
         userProfilePage.isPaymentMethodImageDisplayed();
         userProfilePage.isPartnersDisplayed();
         userProfilePage.isAllRightsTextDisplayed();
+        userProfilePage.closeBrowser();
     }
 }

@@ -375,4 +375,7 @@ public class UserProfilePage {
         return true;
     }
 
+    public void closeBrowser () {
+        baseFunc.closeBrowser();
+    }
 }
