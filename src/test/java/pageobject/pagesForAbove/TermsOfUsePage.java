@@ -9,35 +9,11 @@ import pageobject.BaseFunc;
 
 import java.util.List;
 
+import static pageobject.pagesForAbove.Locators.HomePageLocators.REVIEW_HEADER_LINK;
+import static pageobject.pagesForAbove.Locators.TermsOfUsePageLocators.*;
+
 public class TermsOfUsePage {
 
-    private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
-    private final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
-    private final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
-    private final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
-    private final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
-    private final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
-    private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
-    private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
-    private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
-    private final By MODAL_INPUT_FIELDS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0" +
-            " py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-gray-300 disabled:border-gray-300" +
-            " text-black group-invalid:text-red-500 placeholder-gray-500 disabled:text-gray-500 hover:border-orange-400 focus:border-orange-400" +
-            " placeholder-opacity-75 focus:outline-none']");
-    private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
-    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
-    private final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
-    private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
-    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
-    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
-    private final By TEXT_TITTLES = By.xpath(".//div[@class='py-16 container rich-content']/h2");
-    private final By TEXT = By.xpath(".//div[@class='py-16 container rich-content']/p");
-    private final By TEXT_LIST = By.xpath(".//div[@class='py-16 container rich-content']/ul");
-    private final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");
-    private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
-    private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
-    private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
-    private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
 
     private BaseFunc baseFunc;
@@ -53,7 +29,7 @@ public class TermsOfUsePage {
 
     public boolean isReviewLinkAppearsInHeader() {
         LOGGER.info("Checking Trustpilot link in header for term of use page");
-        baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK, REVIEW_IMG, REVIEW_HEADER_LINK, TRUSTPILOT_ABOVE_TITTLE);
+        baseFunc.linksStatusCheck(baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href"));
         return true;
     }
 

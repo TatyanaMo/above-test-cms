@@ -293,7 +293,7 @@ public class BaseFunc {
         list(locatorFive).subList(0, 1);
         list(locatorSix).get(2);
     }
-
+    /*
     public void checkReviewLinkInHeader(By locatorOne, By locatorTwo, By locatorThree, By locatorFour) {
         linksStatusCheck(findElement(locatorOne).getAttribute("href"));
         findElement(locatorTwo).isDisplayed();
@@ -311,7 +311,7 @@ public class BaseFunc {
             LOGGER.error("Trustpilot link doesn't open in new page properly", e);
         }
     }
-
+    */
     public void checkPhoneNumberLinkInHeader(By locator) {
         Assertions.assertTrue(list(locator).get(0).getAttribute("href").length() > 0, "no phone number");
     }

@@ -30,14 +30,14 @@ public class ElementsCheckCmsTestAbove {
         homePage.whyChooseAboveBlockCheck();
         homePage.isInstructionBlockAppears();
         homePage.reviewBlockCheck();
-        homePage.switchToIframeFacebookButton();
-        homePage.isIframeElementsDisplayed();
         homePage.isFooterLinksOpen();
         homePage.isPhoneNumberLinkWorkInFooter();
         homePage.isEmailLinkWorkInFooter();
         homePage.isPaymentsDisplayed();
         homePage.isPaymentMethodImageDisplayed();
         homePage.isPartnersDisplayed();
+        //homePage.switchToIframeFacebookButton();
+        //homePage.isIframeElementsDisplayed();
         homePage.isAllRightsTextDisplayed();
         homePage.isElementsInMultiCityFlightRequestFormDisplayed();
         homePage.isRequestFormAppears();

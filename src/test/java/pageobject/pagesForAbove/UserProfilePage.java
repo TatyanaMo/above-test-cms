@@ -8,63 +8,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
-
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static pageobject.pagesForAbove.Locators.HomePageLocators.REVIEW_HEADER_LINK;
+import static pageobject.pagesForAbove.Locators.UserProfilePageLocators.*;
 
 public class UserProfilePage {
-    private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
-    private final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
-    private final By REVIEW_IMG = By.xpath(".//img[@class='-mt-1 w-20 md:w-28 h-6']");
-    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
-    private final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
-    private final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
-    private final By MY_PROFILE_BUTTON = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
-    private final By LOG_OUT_BUTTON = By.xpath(".//form[@action='https://staging.above9.travel/logout']");
-    private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
-    private final By MY_PROFILE_TITTLE = By.xpath(".//h2[@class='text-xl lg:text-2xl font-medium']");
-    private final By MY_PROFILE_OPTIONS = By.xpath(".//li[@class='flex-shrink-0']");
-    private final By PERSONAL_INFO_BLOCK = By.xpath(".//div[@data-tab='personal-info']");
-    private final By PERSONAL_INFO_FIELDS_NAMES = By.xpath(".//legend[@class='text-xs text-gray-500 cursor-default']");
-    private final By PERSONAL_INFO_PLACEHOLDERS = By.xpath(".//input[contains(@class,'appearance-none block h-10 leading-8 px-0 py-1 w-full text-sm rounded-none')]");
-    private final By GENDER_RADIO_BUTTONS = By.xpath(".//input[@type='radio']");
-    private final By GENDER_RADIO_BUTTON_NAMES = By.xpath(".//span[@class='pl-3 font-medium leading-5 cursor-pointer after-disabled:cursor-default ']");
-    private final By CHOICES_FIELDS = By.xpath(".//div[@class='choices__inner']");
-    private final By DROPDOWN_LISTS = By.xpath(".//div[contains(@class,'choices__list choices__list--dropdown')]");
-    private final By CHOICES_LISTS = By.xpath(".//div[contains(@class,'choices__item choices__item--choice choices__item--selectable')]");
-    private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
-    private final By SIDE_INFO_BLOCK_TEXT = By.xpath(".//div[@class='sticky top-8 bg-white border rounded p-6 leading-5 space-y-4 break-words']/p");
-    private final By SIDE_INFO_BLOCK_SUB_TITTLES = By.xpath(".//p[@class='font-semibold']");
-    private final By SIDE_INFO_BLOCK_CONTACT_LINKS = By.xpath(".//a[@class='text-orange-400 hover:underline hover:text-orange-500']");
-    private final By SIDE_INFO_BLOCK_GENERAL_LINE_SECTION = By.xpath(".//ul[@class='pt-3 pl-3 space-y-1 break-all']");
-    private final By SIDE_INFO_BLOCK_IMAGES = By.xpath(".//*[name()='svg' and contains(@class, 'w-4 h-4 text-orange-400')]");
-    private final By SIDE_INFO_BLOCK_AGENT_SECTION = By.xpath(".//ul[@class='pt-3 pl-3 space-y-1']");
-    private final By USER_PROFILE_OPTIONS = By.xpath(".//a[@data-toggle='tab']");
-    private final By FLIGHT_COUNTER = By.xpath(".//b[contains(@class,'ml-0.5 px-2 leading-4 inline-block rounded-full')]");
-    private final By UPCOMING_FLIGHT_BLOCK = By.xpath(".//div[@data-tab='upcoming-flights']");
-    private final By BLOCK_ELEMENTS = By.xpath(".//button[@data-toggle='slide']");
-    private final By ALERT_MESSAGES = By.xpath(".//div[contains(@class,'border rounded bg-white flex items-center text-sm ')]");
-    private final By SECTIONS_TITTLE = By.xpath(".//h2[@class='text-base font-medium flex-grow flex items-center']");
-    private final By FLIGHTS_INFO_ROUTES = By.xpath(".//span[@class='block sm:inline']");
-    private final By FLIGHTS_OTHER_INFO = By.xpath(".//span[@class='flex items-center space-x-2 text-sm text-gray-500']/span");
-    private final By PURCHASE_HISTORY_BLOCK = By.xpath(".//div[@data-tab='purchase-history']");
-    private final By CO_TRAVELERS_BLOCK = By.xpath(".//div[@data-tab='co-travellers']");
-    private final By CO_TRAVELER_CARDS = By.xpath(".//div[@class='rounded-lg shadow-sides-bottom-black']");
-    private final By CO_TRAVELER_CARDS_TITTLE = By.xpath(".//h2[@class='text-base font-medium flex-grow flex items-center']/span");
-    private final By CO_TRAVELER_CARDS_DELETE_BUTTON = By.xpath(".//button[@aria-label='Delete']");
-    private final By CO_TRAVELER_CARDS_INPUT_FIELDS = By.xpath(".//div[@class='relative  min-h-10 group-invalid:pr-7 ']/input");
-    private final By ADD_CO_TRAVELER_BUTTON = By.xpath(".//button[contains(@class,' focus:outline-none focus:ring-2 focus:border-orange-300')]");
-    private final By INFO_TEXT = By.xpath(".//div[@class='flex items-center flex-grow break-words']/p");
-    private final By UNDO_BUTTONS = By.xpath(".//button[contains(@class,'hover:bg-orange-200 text-orange-500 hover:text-orange-600 rounded')]");
-    private final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
-    private final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");
-    private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
-    private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
-    private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
-    private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
-    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
-
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc;
@@ -80,7 +29,7 @@ public class UserProfilePage {
 
     public boolean isReviewLinkAppearsInHeader() {
         LOGGER.info("Checking Trustpilot link in header for User profile page");
-        baseFunc.checkReviewLinkInHeader(REVIEW_HEADER_LINK, REVIEW_IMG, REVIEW_HEADER_LINK, TRUSTPILOT_ABOVE_TITTLE);
+        baseFunc.linksStatusCheck(baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href"));
         return true;
     }
 
