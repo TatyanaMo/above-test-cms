@@ -16,7 +16,7 @@ public class MobileFlightRequestCmsTestAbove {
     @Test
     public void successfulFlightRequest() {
         LOGGER.info("This test make happy path of sending flight request for mobile version");
-        Passenger passenger = new Passenger("AutoTest Client", 20071634, "hesas73373@wireps.com", "VBS",
+        Passenger passenger = new Passenger("AutoTest Client", 28745640, "hesas73373@wireps.com", "VBS",
                 "371", "RIX", "AboveTest");
 
         baseFunc.openMobileHomePage();

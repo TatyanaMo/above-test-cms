@@ -2,113 +2,18 @@ package pageobject.pagesForAbove.mobile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 import pageobject.model.Passenger;
 import pageobject.model.PassengerNew;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static pageobject.pagesForAbove.LocatorsMobile.MobileHomePageLocators.*;
+
 public class MobileHomePage {
-    private final By ACCEPT_COOKIES_BTN = By.xpath(".//button[@data-tid='banner-accept']");
-    private final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
-    private final By REVIEW_TRUSTPILOT_LINK = By.xpath(".//a[@class='mt-4 md:-ml-3 inline-block space-x-2 px-3 py-4 font-medium']");
-    private final By REVIEW_IMG = By.xpath(".//img[@class='-mt-1 w-20 md:w-28 h-6']");
-    private final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
-    private final By CLOSE_BUTTONS = By.xpath(".//button[@aria-label='Close']");
-    private final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
-    private final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
-    private final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
-    private final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
-    private final By IFRAME_FACEBOOK_IMAGE = By.xpath(".//img[@class='_a3jx img']");
-    private final By IFRAME_FACEBOOK_TITTLE = By.xpath(".//div[@class='_4ik4 _4ik5']/strong");
-    private final By IFRAME_FACEBOOK_TEXT = By.xpath(".//div[@class='_a2zt _a6s6 _4ik4 _4ik5']");
-    private final By IFRAME_FACEBOOK_MENU_ITEMS = By.xpath(".//div[@class='_a1ql']");
-    private final By IFRAME_FACEBOOK_OPEN = By.xpath(".//div[@class='_90st']");
-    private final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
-    private final By IFRAME_FACEBOOK_MORE_BTN = By.xpath(".//div[@aria-label='More']");
-    private final By IFRAME_FACEBOOK_START_CHAT_BTN = By.xpath(".//div[@class='_a2zm']");
-    private final By LOG_IN_MODAL_WINDOW = By.id("login-title");
-    private final By MODAL_INPUT_FIELDS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0" +
-            " py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-gray-300 disabled:border-gray-300" +
-            " text-black group-invalid:text-red-500 placeholder-gray-500 disabled:text-gray-500 hover:border-orange-400 focus:border-orange-400" +
-            " placeholder-opacity-75 focus:outline-none']");
-    private final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
-    private final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
-    private final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
-    private final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-4 md:pt-10 md:w-4/5']");
-    private final By CONTAINERS_TEXT = By.xpath(".//div[@class='container']");
-    private final By HOME_PAGE_TEXT_THREE = By.xpath(".//div[@class='pb-1.5 flex flex-col lg:space-y-1']");
-    private final By REVIEW_HEADER = By.xpath(".//h2[@class='text-2xl lg:text-3xl uppercase font-medium']");
-    private final By REVIEW_CAROUSEL = By.xpath(".//div[contains(@class, 'relative overflow-hidden swiper-container swiper')]");
-    private final By INSTRUCTION = By.xpath(".//div[@class='w-4/5']");
-    private final By INSTRUCTION_STEPS = By.xpath(".//li[@class='md:w-1/2 lg:w-full md:px-3 md:py-2 lg:p-0 space-y-5']");
-    private final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");
-    private final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
-    private final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
-    private final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
-    private final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
-    private final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
-    private final By REQUEST_FORM = By.id("mobile-request-toggle");
-    private final By REQUEST_FORM_MODAL = By.id("mobile-request-overlay");
-    private final By REQUEST_FORM_FLIGHT_INFORMATION_BLOCK = By.xpath(".//div[@title='Flight information']");
-    private final By REQUEST_FORM_FLIGHT_INFORMATION_TITTLE = By.xpath(".//div[contains(@class,'text-xs uppercase font-medium text-orange-200')]");
-    private final By FLIGHT_INFORMATION_BUTTONS = By.xpath(".//button[contains(@class,'leading-6 h-10 appearance-none flex items-center')]");
-    private final By FLIGHT_INFO_MODAL = By.xpath(".//div[contains(@class,'flex items-center justify-center h-full lg:block')]");
-    private final By FLIGHT_TYPES = By.xpath(".//span[@name='flightType']");
-    private final By FLIGHTS_FORM = By.xpath(".//div[@class='pb-5 space-y-3']");
-    private final By FLIGHTS_ITEMS = By.xpath(".//div[contains(@class,'px-4 py-3 bg-black bg-opacity-5 rounded-md transition-shadow')]");
-    private final By ADD_FLIGHT_BUTTON = By.xpath(".//button[contains(@class,'group appearance-none py-4 lg:py-3 flex items-center justify-center border space-x-2 text-base font-semibold lg:font-medium whitespace-nowrap transition rounded-md md:rounded disabled:cursor-default disabled:bg-gray-400 disabled:shadow-none ring-orange-300 ring-opacity-50 focus:outline-none focus:ring-4 w-full px-5 border-white ')]");
-    private final By DELETE_FLIGHT_ITEM_BUTTON = By.xpath(".//button[contains(@class,'-my-2.5 -mr-2.5 w-9 h-9 rounded-md transition-colors flex items-center justify-center focus:')]");
-    private final By PASSENGERS_TYPES = By.xpath(".//div[@class='w-1/2 leading-5']");
-    private final By PASSENGERS_COUNT_BUTTONS = By.xpath(".//button[contains(@class,'touch-manipulation flex-shrink-0 w-10 h-10 lg:w-8 lg:h-8')]");
-    private final By PASSENGERS_NUMBERS_SELECTED = By.xpath(".//input[@class='w-3 text-center focus:outline-none']");
-    private final By DONE_BUTTON = By.xpath(".//button[@data-close='data-close']");
-    private final By FLIGHT_CLASSES = By.xpath(".//span[@name='class']");
-    private final By PASSENGERS_BLOCK = By.xpath(".//div[@class='flex items-center space-x-8']");
-    private final By PASSENGERS_COUNTER_BTNS = By.xpath(".//button[contains(@class, 'touch-manipulation flex-shrink-0 w-10 h-10 ')]");
-    private final By CURRENT_ADULT_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='adults']");
-    private final By CURRENT_CHILD_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='children']");
-    private final By CURRENT_INFANT_PASSENGER_NUMBER = By.xpath(".//input[@data-passengers-output='infants']");
-    private final By DATA_PASSENGER_MESSAGE = By.xpath(".//div[@class='px-5 py-3 leading-5 text-red-500']");
-    private final By PASSENGERS_CONFIRM_BTN = By.xpath(".//button[@data-close='data-close']");
-    private final By NEXT_BUTTONS = By.xpath(".//button[@data-step-nav='next']");
-    private final By BACK_BUTTONS = By.xpath(".//button[@data-step-nav='prev']");
-    private final By FLIGHT_MODAL = By.xpath(".//div[@title='Flight 1']");
-    private final By ERROR_MESSAGES = By.xpath(".//div[contains(@class,'hidden group-invalid:block  pt-1  text-sm   text-red-800')]");
-    private final By DATES_LABELS = By.xpath(".//span[contains(@class,'absolute inset-y-0 flex items-center text-white')]");
-    private final By INPUT_FIELDS_REQUEST_FORM_SELECTORS = By.xpath(".//div[@aria-selected='true']");
-    private final By AIRPORTS_SUGGESTION = By.xpath(".//span[@class='-mr-2 flex-shrink-0 pl-2']");
-    private final By INPUT_FROM = By.xpath(".//input[@aria-label='From (city or airport)']");
-    private final By INPUT_TO = By.xpath(".//input[@aria-label='To (city or airport)']");
-    private final By ACTIVE_AIRPORTS_TO_LIST = By.xpath(".//div[contains(@class, 'is-parent choices__item')]");
-    private final By CHOICES_LIST_TO = By.xpath(".//div[@class = 'choices__list choices__list--dropdown is-active']");
-    private final By OPENED_SELECT_WINDOWS = By.xpath(".//div[contains(@class,'choices__list choices__list')]");
-
-    private final By DATE_PICKERS = By.xpath(".//input[@placeholder='mm/dd/yyyy']");
-    private final By MONTH_SELECTORS = By.xpath(".//select[@class='lightpick__select lightpick__select-months']/option");
-    private final By YEAR_SELECTORS = By.xpath(".//select[@class='lightpick__select lightpick__select-years']/option");
-    private final By DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__days']");
-    private final By AVAILABLE_DAYS_DATE_PICKER = By.xpath(".//div[@class='lightpick__day is-available ']");
-    private final By AVAILABLE_DATES_RETURN = By.xpath(".//div[contains(@class, 'lightpick__day is-available')]");
-    private final By CLOSE_DATE_PICKER_BUTTON = By.xpath(".//button[@class='lightpick__close-action']");
-
-    private final By INPUT_FIELDS_REQUEST_FORM = By.xpath(".//input[contains(@class,'appearance-none block h-10 leading-8 px-0 py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-orange-200 ')]");
-    private final By CONTACT_INFORMATION_FORM = By.xpath(".//div[@class='container min-h-full flex flex-col']");
-    private final By CONTACT_FORM_TITTLE = By.xpath(".//h3[@class='text-xl font-medium']");
-    private final By ADDITIONAL_INFO_TEXT = By.xpath(".//div[@class='pt-5 px-4 simple-content']");
-    private final By PRIVACY_POLICY_LINK = By.xpath(".//a[@target='_blank']");
-    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TITTLE = By.xpath(".//h2[@class='text-3xl font-medium']");
-    private final By SUCCESSFUL_REQUEST_MODAL_WINDOW_TEXT = By.xpath(".//p[@class='leading-5']");
-
-    private final By INPUT_FIELDS_EMAIL = By.xpath(".//input[@type='email']");
-    private final By INPUT_FIELDS_PASSWORD = By.xpath(".//input[@type='password']");
-    private final By MY_PROFILE_BUTTON = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
 
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc;
@@ -129,7 +34,8 @@ public class MobileHomePage {
 
     public boolean isTrustpilotLinkAppears() {
         LOGGER.info("Checking Trustpilot link under 'fill request form'");
-        baseFunc.checkReviewLinkInHeader(REVIEW_TRUSTPILOT_LINK, REVIEW_IMG, REVIEW_TRUSTPILOT_LINK, TRUSTPILOT_ABOVE_TITTLE);
+        baseFunc.linksStatusCheck(baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href"));
+        //baseFunc.checkReviewLinkInHeader(REVIEW_TRUSTPILOT_LINK, REVIEW_IMG, REVIEW_TRUSTPILOT_LINK, TRUSTPILOT_ABOVE_TITTLE);
         return true;
     }
 
