@@ -16,9 +16,9 @@ public class UserAccountElementsCheckCmsTest {
     public void UserAccountElementsCheck() {
         LOGGER.info("This test will be check all elements on profile page for registered user");
 
-        Passenger passenger = new Passenger("AutoTest Client", 25948715, "tanjatest2@inbox.lv", "VBS",
+        Passenger passenger = new Passenger("AutoTest Client", 28745640, "tanjatest2@inbox.lv", "VBS",
                 "371", "RIX", "Above123qw");
-        PassengerNew passengerNew = new PassengerNew("AutoTestNew Client",25948715,"a3478452@gmail.com",
+        PassengerNew passengerNew = new PassengerNew("AutoTestNew Client",28745640,"a3478452@gmail.com",
                 "371","newTestAcc2023DH@");
         baseFunc.openHomePage();
         HomePage homePage = new HomePage(baseFunc);
@@ -37,7 +37,7 @@ public class UserAccountElementsCheckCmsTest {
         userProfilePage.checkUpcomingFlightsBlock();
         userProfilePage.checkPurchaseHistoryBlockElementsDisplayed();
         userProfilePage.isCoTravelersBlockElementsDisplayed();
-        userProfilePage.closeIframe();
+        //userProfilePage.closeIframe();
         userProfilePage.isFooterLinksOpen();
         userProfilePage.isPhoneNumberLinkWorkInFooter();
         userProfilePage.isEmailLinkWorkInFooter();
