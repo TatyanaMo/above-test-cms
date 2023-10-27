@@ -52,8 +52,10 @@ public class HomePage {
     }
 
     public boolean isReviewLinkAppearsInHeader() {
-        LOGGER.info("Checking Trustpilot link in header for homepage");
+        LOGGER.info("Checking Trustpilot link in header");
+        baseFunc.switchIframeIndex(0);
         baseFunc.linksStatusCheck(baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href"));
+        baseFunc.switchToMainPage();
         return true;
     }
 
@@ -141,23 +143,15 @@ public class HomePage {
     }
 
     public void reviewBlockCheck() {
-        LOGGER.info("Checking if review block displayed for homepage");
-        String reviewHeader = baseFunc.getTextOfElement(baseFunc.list(CONTAINERS_TEXT).get(3).findElements(REVIEW_HEADER).get(0));
-        String reviewCarousel = baseFunc.getTextOfElement(baseFunc.list(CONTAINERS_TEXT).get(3).findElement(REVIEW_CAROUSEL));
-        Assertions.assertTrue(reviewHeader.length() > 0, "No text here");
-        Assertions.assertTrue(reviewCarousel.length() > 0, "No text here");
-        WebElement nextBtn = baseFunc.list(CONTAINERS_TEXT).get(3).findElement(CAROUSEL_BTN_NEXT);
-        baseFunc.click(nextBtn);
-        WebElement prevBtn = baseFunc.list(CONTAINERS_TEXT).get(3).findElement(CAROUSEL_BTN_PREV);
-        baseFunc.click(prevBtn);
-        Assertions.assertTrue(prevBtn.isEnabled(), "Prev carousel button is disabled");
-        Assertions.assertTrue(nextBtn.isEnabled(), "Next carousel button is disabled");
-
+        LOGGER.info("Checking if Truspilot review block displayed");
+        baseFunc.switchIframeIndex(2);
+        Assertions.assertTrue(baseFunc.findElement(TRUSTPILOT_REVIEW_BLOCK).isDisplayed(), "No Truspilot review block on page");
+        baseFunc.switchToMainPage();
     }
 
     public boolean isInstructionBlockAppears() {
         LOGGER.info("Checking if instruction block displayed for homepage");
-        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(CONTAINERS_TEXT).get(4)).length() > 0, "No text here");
+        Assertions.assertTrue(baseFunc.getTextOfElement(INSTRUCTIONS_BLOCK).length() > 0, "No text here");
         Assertions.assertTrue(baseFunc.getTextOfElement(INSTRUCTION).length() > 0, "No tittle in instruction block");
         List<WebElement> steps = baseFunc.list(INSTRUCTION_STEPS);
         int counter = 0;

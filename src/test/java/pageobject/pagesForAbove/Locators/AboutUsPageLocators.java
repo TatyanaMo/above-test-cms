@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 public class AboutUsPageLocators {
 
     public static final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
-    public static final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
+    public static final By REVIEW_HEADER_LINK = By.id("profile-link");
     public static final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
     public static final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
     public static final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");

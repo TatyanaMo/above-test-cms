@@ -8,7 +8,7 @@ import pageobject.BaseFunc;
 import java.util.List;
 
 import static pageobject.pagesForAbove.Locators.ContactUsPageLocators.*;
-import static pageobject.pagesForAbove.Locators.HomePageLocators.REVIEW_HEADER_LINK;
+import static pageobject.pagesForAbove.Locators.PrivacyPolicyPageLocators.IFRAME_FACEBOOK_CLOSE_CHAT_BTN;
 
 public class ContactUsPage {
 
@@ -24,8 +24,10 @@ public class ContactUsPage {
     }
 
     public boolean isReviewLinkAppearsInHeader() {
-        LOGGER.info("Checking Trustpilot link in header for homepage");
+        LOGGER.info("Checking Trustpilot link in header");
+        baseFunc.switchIframeIndex(0);
         baseFunc.linksStatusCheck(baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href"));
+        baseFunc.switchToMainPage();
         return true;
     }
 
@@ -191,6 +193,7 @@ public class ContactUsPage {
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
         baseFunc.click(menuButtons.get(2));
         WebElement manageCookiesPreferencesItem = baseFunc.list(DROP_DOWN_ELEMENTS).get(11);
+        baseFunc.scrollToTheBottom();
         baseFunc.click(manageCookiesPreferencesItem);
     }
 

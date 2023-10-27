@@ -8,7 +8,6 @@ import pageobject.BaseFunc;
 import java.util.List;
 
 import static pageobject.pagesForAbove.Locators.AboutUsPageLocators.*;
-import static pageobject.pagesForAbove.Locators.HomePageLocators.REVIEW_HEADER_LINK;
 
 public class AboutUsPage {
 
@@ -26,8 +25,10 @@ public class AboutUsPage {
     }
 
     public boolean isReviewLinkAppearsInHeader() {
-        LOGGER.info("Checking Trustpilot link in header for about us page");
+        LOGGER.info("Checking Trustpilot link in header");
+        baseFunc.switchIframeIndex(0);
         baseFunc.linksStatusCheck(baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href"));
+        baseFunc.switchToMainPage();
         return true;
     }
 
