@@ -39,12 +39,7 @@ public class HomePageLocators {
     public static final By HOME_PAGE_TEXT_THREE = By.xpath(".//div[@class='pb-1.5 flex flex-col lg:space-y-1']");
     public static final By INSTRUCTION = By.xpath(".//div[@class='w-4/5']");
     public static final By INSTRUCTION_STEPS = By.xpath(".//li[@class='md:w-1/2 lg:w-full md:px-3 md:py-2 lg:p-0 space-y-5']");
-    public static final By REVIEW_HEADER = By.xpath(".//h2[@class='text-2xl lg:text-3xl uppercase font-medium']");
-    //public static final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
     public static final By TRUSTPILOT_REVIEW_BLOCK = By.xpath(".//div[@id='tp-widget-wrapper']");
-//    public static final By REVIEW_CAROUSEL = By.xpath(".//div[contains(@class, 'relative overflow-hidden swiper-container swiper')]");
-//    public static final By CAROUSEL_BTN_PREV = By.xpath(".//div[contains(@class, 'swiper-button-prev ')]");
-//    public static final By CAROUSEL_BTN_NEXT = By.xpath(".//div[contains(@class, 'swiper-button-next ')]");
     public static final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");
     public static final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");
     public static final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
