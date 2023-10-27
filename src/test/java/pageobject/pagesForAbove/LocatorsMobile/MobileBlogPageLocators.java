@@ -36,7 +36,7 @@ public class MobileBlogPageLocators {
     public static final By SOCIAL_MEDIA_LINKS = By.xpath(".//div[@class='flex flex-row gap-x-2 m-auto']/a");
     public static final By FB_PAGE_LOGIN_BUTTON = By.xpath(".//input[@value='Log in']");
     public static final By PINTEREST_PAGE_SIGN_UP_FORM_TITTLE = By.xpath(".//div[@class='zI7 iyn Hsu']/h1");
-    public static final By TWITTER_PAGE_SIGN_UP_FORM_TITTLE = By.id("header");
+    public static final By TWITTER_PAGE_SIGN_UP_FORM_TITTLE = By.xpath(".//h1[contains(@class,'css-4rbku5 css-901oao ')]");
     public static final By SUBMIT_REQUEST_BUTTON = By.id("submit-request");
     public static final By BACK_LINK = By.xpath(".//div[@class='flex flex-col lg:flex-row lg:items-center mb-6']/a");
     public static final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");

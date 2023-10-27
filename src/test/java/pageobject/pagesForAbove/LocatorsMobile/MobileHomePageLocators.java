@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 public class MobileHomePageLocators {
 
     public static final By ACCEPT_COOKIES_BTN = By.xpath(".//button[@data-tid='banner-accept']");
-    public static final By REVIEW_HEADER_LINK = By.xpath(".//div[@class=' hidden lg:flex  mx-auto justify-center h-full']/a");
+    public static final By REVIEW_HEADER_LINK = By.id("profile-link");
     public static final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     public static final By REVIEW_TRUSTPILOT_LINK = By.xpath(".//a[@class='mt-4 md:-ml-3 inline-block space-x-2 px-3 py-4 font-medium']");
     public static final By REVIEW_IMG = By.xpath(".//img[@class='-mt-1 w-20 md:w-28 h-6']");
@@ -33,6 +33,7 @@ public class MobileHomePageLocators {
     public static final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
     public static final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-4 md:pt-10 md:w-4/5']");
     public static final By CONTAINERS_TEXT = By.xpath(".//div[@class='container']");
+    public static final By INSTRUCTIONS_BLOCK = By.xpath(".//div[@class='lg:-mx-8 lg:flex py-8 lg:py-0 space-y-4 lg:space-y-0']");
     public static final By HOME_PAGE_TEXT_THREE = By.xpath(".//div[@class='pb-1.5 flex flex-col lg:space-y-1']");
     public static final By REVIEW_HEADER = By.xpath(".//h2[@class='text-2xl lg:text-3xl uppercase font-medium']");
     public static final By REVIEW_CAROUSEL = By.xpath(".//div[contains(@class, 'relative overflow-hidden swiper-container swiper')]");

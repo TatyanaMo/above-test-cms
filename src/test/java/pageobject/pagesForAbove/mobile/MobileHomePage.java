@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static pageobject.pagesForAbove.Locators.HomePageLocators.INSTRUCTIONS_BLOCK;
 import static pageobject.pagesForAbove.LocatorsMobile.MobileHomePageLocators.*;
 
 public class MobileHomePage {
@@ -33,9 +34,10 @@ public class MobileHomePage {
     }
 
     public boolean isTrustpilotLinkAppears() {
-        LOGGER.info("Checking Trustpilot link under 'fill request form'");
+        LOGGER.info("Checking Trustpilot link in header");
+        baseFunc.switchIframeIndex(0);
         baseFunc.linksStatusCheck(baseFunc.findElement(REVIEW_HEADER_LINK).getAttribute("href"));
-        //baseFunc.checkReviewLinkInHeader(REVIEW_TRUSTPILOT_LINK, REVIEW_IMG, REVIEW_TRUSTPILOT_LINK, TRUSTPILOT_ABOVE_TITTLE);
+        baseFunc.switchToMainPage();
         return true;
     }
 
@@ -140,7 +142,7 @@ public class MobileHomePage {
 
     public boolean isInstructionBlockAppears() {
         LOGGER.info("Checking if instruction block displayed for homepage");
-        Assertions.assertTrue(baseFunc.getTextOfElement(baseFunc.list(CONTAINERS_TEXT).get(4)).length() > 0, "No text here");
+        Assertions.assertTrue(baseFunc.getTextOfElement(INSTRUCTIONS_BLOCK).length() > 0, "No text here");
         Assertions.assertTrue(baseFunc.getTextOfElement(INSTRUCTION).length() > 0, "No tittle in instruction block");
         List<WebElement> steps = baseFunc.list(INSTRUCTION_STEPS);
         int counter = 0;
