@@ -401,9 +401,6 @@ public class HomePage {
                 }
                 if (expectedReturnMonth != expectedDepartMonth) {
                     List<WebElement> returnMonths = baseFunc.list(MONTH_SELECTORS).subList(12, 24);
-                    for (WebElement returnMonth : returnMonths) {
-                        System.out.println(returnMonth.getText());
-                    }
                     baseFunc.click(returnMonths.get(expectedReturnMonth - 1));
                     System.out.println(returnMonths.get(expectedReturnMonth - 1).getText());
                     WebElement returnDaysOtherMonth = baseFunc.list(DAYS_DATE_PICKER).get(1);
@@ -414,9 +411,9 @@ public class HomePage {
                             break;
                         }
                     }
-                    baseFunc.switchIframeIndex(0);
-                    baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-                    baseFunc.switchToMainPage();
+//                    baseFunc.switchIframeIndex(0);
+//                    baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
+//                    baseFunc.switchToMainPage();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid date!" + ":" + expectedReturnDay + " " + expectedReturnMonth);
@@ -434,7 +431,6 @@ public class HomePage {
         baseFunc.waitElementPresented(AIRPORTS_SUGGESTION);
         boolean isFoundFrom = false;
         for (WebElement we : suggestionsFrom) {
-            System.out.println(we.getText());
             if (baseFunc.getTextOfElement(we).equals(locationFrom)) {
                 we.click();
                 isFoundFrom = true;
@@ -464,9 +460,10 @@ public class HomePage {
             }
         }
         Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
-        baseFunc.switchIframeIndex(0);
-        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-        baseFunc.switchToMainPage();
+        baseFunc.scrollToTheBottom();
+//        baseFunc.switchIframeIndex(0);
+//        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
+//        baseFunc.switchToMainPage();
     }
     public void submitFlightRequest () {
         LOGGER.info("Submit flight request");
@@ -488,8 +485,8 @@ public class HomePage {
     }
     public void openUserProfilePage() {
         LOGGER.info("Open user profile");
-        baseFunc.pageRefresh();
         baseFunc.waitElementToBeClickable(DROP_DOWN_BUTTONS);
+        baseFunc.pageRefresh();
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
         baseFunc.click(menuButtons.get(0));
         baseFunc.waitForElementAttributeToBeNew(menuButtons.get(0),"data-dropdown","opened");
