@@ -3,6 +3,7 @@ package pageobject.pagesForAbove.mobile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 import pageobject.model.Passenger;
@@ -597,8 +598,10 @@ public class MobileHomePage {
     }
     public void openUserProfilePage() {
         LOGGER.info("Open user profile");
-        baseFunc.pageRefresh();
+        Assertions.assertTrue(baseFunc.findElement(HEADER_LOGO).isDisplayed(), "No logo");
         baseFunc.waitElementToBeClickable(DROP_DOWN_BUTTONS);
+        baseFunc.waitElementToBeClickable(REQUEST_FORM);
+        baseFunc.pageRefresh();
         List<WebElement> menuButtons = baseFunc.list(DROP_DOWN_BUTTONS);
         baseFunc.click(menuButtons.get(0));
         baseFunc.waitForElementAttributeToBeNew(menuButtons.get(0),"data-dropdown","opened");
