@@ -37,8 +37,8 @@ public class MobileElementsCheckCmsTestAbove {
         mobileHomePage.isPaymentMethodImageDisplayed();
         mobileHomePage.isPartnersDisplayed();
         mobileHomePage.isAllRightsTextDisplayed();
-        //mobileHomePage.isRequestFormAppears();
-        //mobileHomePage.isElementsInMultiCityFlightRequestFormDisplayed();
+        mobileHomePage.isRequestFormAppears();
+        mobileHomePage.isElementsInMultiCityFlightRequestFormDisplayed();
         mobileHomePage.openAboutUsPage();
         MobileAboutUsPage mobileAboutUsPage = new MobileAboutUsPage(baseFunc);
         mobileAboutUsPage.logoInHeader();

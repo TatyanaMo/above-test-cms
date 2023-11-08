@@ -26,6 +26,7 @@ public class MobileHomePage {
 
     public void acceptCookies() {
         LOGGER.info("Accepting cookies");
+        baseFunc.waitElementToBeClickable(ACCEPT_COOKIES_BTN);
         baseFunc.click(ACCEPT_COOKIES_BTN);
     }
 

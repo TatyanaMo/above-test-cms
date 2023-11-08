@@ -32,7 +32,6 @@ public class BaseFunc {
     public BaseFunc(String device) {
         LOGGER.info("OS: " + System.getProperty("os.name"));
         ChromeOptions options = new ChromeOptions();
-        System.setProperty("webdriver.chrome.driver", "C://chromedriver.exe");
 
         if (device.equals("mobile")) {
             LOGGER.info("Running test on Mobile device");
@@ -59,7 +58,7 @@ public class BaseFunc {
 
         browser = new ChromeDriver(options);
         browser.manage().window().maximize();
-        wait = new WebDriverWait(browser, Duration.ofSeconds(10));
+        wait = new WebDriverWait(browser, Duration.ofSeconds(20));
     }
 
     public String getProperty(String key) {
