@@ -45,26 +45,7 @@ public class MobileHomePage {
 
     public void checkDropDownMenu() {
         LOGGER.info("Checking presence of elements in all dropdown menu");
-        baseFunc.isDropDownMenuOpenMobile(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, CREATE_PROFILE_BUTTON, DROP_DOWN_ELEMENTS, CLOSE_BUTTONS);
-    }
-
-    public void switchToIframeFacebookButton() {
-        LOGGER.info("Switching to Facebook iframe dialog in homepage");
-        baseFunc.switchIframeIndex(0);
-    }
-
-    public boolean isIframeElementsDisplayed() {
-        LOGGER.info("Checking elements in Facebook iframe dialog in homepage");
-        baseFunc.waitElementToBeVisible(IFRAME_FACEBOOK_IMAGE);
-        Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_IMAGE).isDisplayed(), "No Above logo in Facebook iframe");
-        Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TITTLE).length() > 0, "No tittle in Facebook iframe");
-        Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TEXT).length() > 0, "No text in Facebook iframe");
-        baseFunc.click(IFRAME_FACEBOOK_MORE_BTN);
-        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(IFRAME_FACEBOOK_MENU_ITEMS) > 0, "No menu items in 'More' option in Facebook iframe");
-        Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_START_CHAT_BTN).isEnabled(), "Start chat button is disabled in Facebook iframe");
-        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-        baseFunc.switchToMainPage();
-        return true;
+        baseFunc.isDropDownMenuOpenMobileHomePage(DROP_DOWN_BUTTONS, LOG_IN_BUTTON, CREATE_PROFILE_BUTTON, DROP_DOWN_ELEMENTS, CLOSE_BUTTONS);
     }
 
     public boolean isLogInModalWindowOpens() {
@@ -87,7 +68,7 @@ public class MobileHomePage {
 
     public void loginModalClose() {
         LOGGER.info("Closing Login modal window");
-        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(10));
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(11));
     }
 
     public boolean isSignUpModalWindowOpen() {
@@ -107,7 +88,18 @@ public class MobileHomePage {
 
     public void signUpModalClose() {
         LOGGER.info("Closing sign up modal window");
-        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(11));
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(12));
+    }
+
+    public boolean isCallUsWidgetMobileDisplayed() {
+        LOGGER.info("Checking if Call Us widget displayed on homepage in mobile");
+        baseFunc.waitElementToBeVisible(WIDGET_POP_UP);
+        Assertions.assertEquals("Call us now and one of our experts will help to find your perfect flight.", baseFunc.getTextOfElement(WIDGET_TEXT), "Text in Call Us widget is wrong");
+        Assertions.assertTrue(baseFunc.getTextOfElement(WIDGET_PHONE).length() >0, "No phone number in Call Us widget");
+        baseFunc.click(WIDGET_CLOSE_BTN);
+        baseFunc.waitForDisplayedElement(baseFunc.findElement(WIDGET_CLOSED), "transform flex items-center space-x-2");
+        Assertions.assertTrue(baseFunc.getTextOfElement(WIDGET_CLOSED).equals("Call for the best offers"));
+        return true;
     }
 
     public boolean isHomePageWelcomeTextAppears() {
@@ -224,7 +216,7 @@ public class MobileHomePage {
         for (WebElement type : flightTypes) {
             Assertions.assertTrue(type.getText().length() > 0, "No flight types in opened modal window");
         }
-        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(4));
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(5));
         LOGGER.info("Check passengers option");
         baseFunc.click(flightInfoButtons.get(1));
         WebElement passengersModal = baseFunc.list(FLIGHT_INFO_MODAL).get(4);
@@ -248,7 +240,7 @@ public class MobileHomePage {
         WebElement doneButton = passengersModal.findElement(DONE_BUTTON);
         Assertions.assertTrue(doneButton.isEnabled(), "Button 'done' is disabled in opened modal window");
         Assertions.assertTrue(doneButton.getText().length() > 0, "No name for 'done' button is disabled in opened modal window");
-        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(5));
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(6));
 
         LOGGER.info("Check flight classes option");
         baseFunc.click(flightInfoButtons.get(2));
@@ -258,7 +250,7 @@ public class MobileHomePage {
         for (WebElement flightClass : flightClasses) {
             Assertions.assertTrue(baseFunc.getTextOfElement(flightClass).length() > 0, "No text for flight class in opened modal window");
         }
-        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(6));
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(7));
         LOGGER.info("Check flight details options");
         baseFunc.click(baseFunc.list(NEXT_BUTTONS).get(0));
         WebElement flightItem = baseFunc.findElement(FLIGHT_MODAL);
@@ -328,7 +320,7 @@ public class MobileHomePage {
         List<WebElement> newUpdatedFlightItems = flightsForm.findElements(FLIGHTS_ITEMS);
         Assertions.assertEquals(newUpdatedFlightItems.size(), 2, "New added flight item not deleted for multi city request");
         LOGGER.info("Check if error messages displayed for not filled input fields for multi city request");
-        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(3));
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(4));
         return true;
     }
 

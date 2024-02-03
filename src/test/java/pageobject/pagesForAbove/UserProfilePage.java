@@ -244,13 +244,7 @@ public class UserProfilePage {
         Assertions.assertTrue(coTravelersBlock.findElement(SUBMIT_BUTTONS).isDisplayed() && coTravelersBlock.findElement(SUBMIT_BUTTONS).isEnabled(), "Save button is disabled in co-travelers block");
         return true;
     }
-    public void closeIframe() {
-        LOGGER.info("Close Facebook iframe dialog");
-        baseFunc.switchIframeIndex(0);
-        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-        baseFunc.switchToMainPage();
 
-    }
     public boolean isFooterLinksOpen() {
         LOGGER.info("Checking if footer links successfully open");
         baseFunc.footerLinksOpen(FOOTER_LINKS, TITTLE);

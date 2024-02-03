@@ -4,20 +4,17 @@ import org.openqa.selenium.By;
 
 public class HomePageLocators {
     public static final By ACCEPT_COOKIES_BTN = By.xpath(".//button[@data-tid='banner-decline']");
-    public static final By IFRAME_FACEBOOK_IMAGE = By.xpath(".//img[@class='_a3jx img']");
-    public static final By IFRAME_FACEBOOK_TITTLE = By.xpath(".//div[@class='_4ik4 _4ik5']/strong");
-    public static final By IFRAME_FACEBOOK_TEXT = By.xpath(".//div[@class='_a2zt _a6s6 _4ik4 _4ik5']");
-    public static final By IFRAME_FACEBOOK_MENU_ITEMS = By.xpath(".//div[@class='_a1ql']");
-    public static final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
-    public static final By IFRAME_FACEBOOK_MORE_BTN = By.xpath(".//div[@aria-label='More']");
-    public static final By IFRAME_FACEBOOK_START_CHAT_BTN = By.xpath(".//div[@class='_a2zm']");
+    public static final By WIDGET_POP_UP = By.id("call-us-expanded");
+    public static final By WIDGET_TEXT = By.xpath(".//span[@class='text-xs md:text-sm font-normal text-center']");
+    public static final By WIDGET_PHONE = By.xpath(".//span[@class='text-orange-550 text-sm md:text-base font-medium']");
+    public static final By WIDGET_CLOSE_BTN = By.xpath(".//button[@class='px-2 flex items-center justify-center']");
+    public static final By WIDGET_CLOSED = By.xpath(".//button[@id='call-us']");
     public static final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     public static final By REVIEW_HEADER_LINK = By.id("profile-link");
     public static final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
     public static final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
     public static final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     public static final By MY_PROFILE_BUTTON = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
-    public static final By LOG_IN_BUTTON_MENU = By.xpath(".//button[@data-target='login']");
     public static final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
     public static final By LOG_IN_MODAL_WINDOW = By.id("login-title");
     public static final By MODAL_INPUT_FIELDS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0" +
@@ -31,7 +28,7 @@ public class HomePageLocators {
     public static final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     public static final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
     public static final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
-    public static final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-4 md:pt-10 md:w-4/5']");
+    public static final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-9 md:pt-10 md:w-4/5']");
     public static final By REQUEST_FORM = By.xpath(".//div[@class='space-y-6']");
     public static final By REQUEST_FORM_INPUT_FIELDS = By.xpath(".//div[@class='w-full group is-invalid']");
     public static final By HOME_PAGE_TEXT_ONE = By.xpath(".//div[@class='pt-12 pb-4 space-y-6 w-3/4 simple-content']");

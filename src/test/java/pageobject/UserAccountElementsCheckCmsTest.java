@@ -37,7 +37,6 @@ public class UserAccountElementsCheckCmsTest {
         userProfilePage.checkUpcomingFlightsBlock();
         userProfilePage.checkPurchaseHistoryBlockElementsDisplayed();
         userProfilePage.isCoTravelersBlockElementsDisplayed();
-        //userProfilePage.closeIframe();
         userProfilePage.isFooterLinksOpen();
         userProfilePage.isPhoneNumberLinkWorkInFooter();
         userProfilePage.isEmailLinkWorkInFooter();

@@ -32,22 +32,14 @@ public class HomePage {
         baseFunc.checkLogoInHeader(HEADER_LOGO);
     }
 
-    public void switchToIframeFacebookButton() {
-        LOGGER.info("Switching to Facebook iframe dialog in homepage");
-        baseFunc.switchIframeIndex(0);
-    }
-
-    public boolean isIframeElementsDisplayed() {
-        LOGGER.info("Checking elements in Facebook iframe dialog in homepage");
-        baseFunc.waitElementToBeVisible(IFRAME_FACEBOOK_IMAGE);
-        Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_IMAGE).isDisplayed(), "No Above logo in Facebook iframe");
-        Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TITTLE).length() > 0, "No tittle in Facebook iframe");
-        Assertions.assertTrue(baseFunc.getTextOfElement(IFRAME_FACEBOOK_TEXT).length() > 0, "No text in Facebook iframe");
-        baseFunc.click(IFRAME_FACEBOOK_MORE_BTN);
-        Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(IFRAME_FACEBOOK_MENU_ITEMS) > 0, "No menu items in 'More' option in Facebook iframe");
-        Assertions.assertTrue(baseFunc.findElement(IFRAME_FACEBOOK_START_CHAT_BTN).isEnabled(), "Start chat button is disabled in Facebook iframe");
-        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-        baseFunc.switchToMainPage();
+    public boolean isCallUsWidgetDisplayed() {
+        LOGGER.info("Checking if Call Us widget displayed on homepage");
+        baseFunc.waitElementToBeVisible(WIDGET_POP_UP);
+        Assertions.assertEquals("Call us now and one of our experts will help to find your perfect flight.", baseFunc.getTextOfElement(WIDGET_TEXT), "Text in Call Us widget is wrong");
+        Assertions.assertTrue(baseFunc.getTextOfElement(WIDGET_PHONE).length() >0, "No phone number in Call Us widget");
+        baseFunc.click(WIDGET_CLOSE_BTN);
+        baseFunc.waitForDisplayedElement(baseFunc.findElement(WIDGET_CLOSED), "transform flex items-center space-x-2");
+        Assertions.assertTrue(baseFunc.getTextOfElement(WIDGET_CLOSED).equals("Call for the best offers"));
         return true;
     }
 
@@ -213,6 +205,7 @@ public class HomePage {
     public boolean isRequestFormAppears() {
         LOGGER.info("Checking if request form displayed for homepage");
         Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
+        baseFunc.scrollToTheBottom();
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
         Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(REQUEST_FORM_INPUT_FIELDS) > 0, "No default text in placeholders in request form");
         List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);

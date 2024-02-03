@@ -24,6 +24,7 @@ public class MobileElementsCheckCmsTestAbove {
         mobileHomePage.loginModalClose();
         mobileHomePage.isSignUpModalWindowOpen();
         mobileHomePage.signUpModalClose();
+        mobileHomePage.isCallUsWidgetMobileDisplayed();
         mobileHomePage.isHomePageWelcomeTextAppears();
         mobileHomePage.isTextOneAppears();
         mobileHomePage.isTextTwoAppears();

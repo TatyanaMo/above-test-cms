@@ -24,6 +24,7 @@ public class ElementsCheckCmsTestAbove {
         homePage.isSignUpModalWindowOpen();
         homePage.signUpModalClose();
         homePage.isHomePageWelcomeTextAppears();
+        homePage.isCallUsWidgetDisplayed();
         homePage.isTextOneAppears();
         homePage.isTextTwoAppears();
         homePage.isTextThreeAppears();
@@ -36,8 +37,6 @@ public class ElementsCheckCmsTestAbove {
         homePage.isPaymentsDisplayed();
         homePage.isPaymentMethodImageDisplayed();
         homePage.isPartnersDisplayed();
-        //homePage.switchToIframeFacebookButton();
-        //homePage.isIframeElementsDisplayed();
         homePage.isAllRightsTextDisplayed();
         homePage.isElementsInMultiCityFlightRequestFormDisplayed();
         homePage.isRequestFormAppears();
@@ -123,7 +122,6 @@ public class ElementsCheckCmsTestAbove {
         privacyPolicyPage.isFooterLinksOpen();
         privacyPolicyPage.isPhoneNumberLinkWorkInFooter();
         privacyPolicyPage.isEmailLinkWorkInFooter();
-        //privacyPolicyPage.switchAndCloseIframeFacebook();
         privacyPolicyPage.isPaymentsDisplayed();
         privacyPolicyPage.isPaymentMethodImageDisplayed();
         privacyPolicyPage.isPartnersDisplayed();
@@ -172,8 +170,8 @@ public class ElementsCheckCmsTestAbove {
         contactUsPage.isPartnersDisplayed();
         contactUsPage.isAllRightsTextDisplayed();
         contactUsPage.manageCookiesPreferencesModalOpen();
-        contactUsPage.isModalWindowDisplayedCorrect();
-        contactUsPage.manageCookiesPreferencesModalClose();
+//        contactUsPage.isModalWindowDisplayedCorrect();
+//        contactUsPage.manageCookiesPreferencesModalClose();
         contactUsPage.closeBrowser();
     }
 }

@@ -108,13 +108,6 @@ public class PrivacyPolicyPage {
         return true;
     }
 
-    public void switchAndCloseIframeFacebook() {
-        LOGGER.info("Switching to and closing Facebook iframe dialog in privacy policy page");
-        baseFunc.switchIframeIndex(0);
-        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-        baseFunc.switchToMainPage();
-    }
-
     public boolean isFooterLinksOpen() {
         LOGGER.info("Checking if footer links successfully open except About us link");
         baseFunc.footerLinksOpenWithException(FOOTER_LINKS, 2, TITTLE);

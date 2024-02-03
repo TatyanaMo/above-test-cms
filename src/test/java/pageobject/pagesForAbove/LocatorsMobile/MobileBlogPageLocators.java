@@ -20,8 +20,8 @@ public class MobileBlogPageLocators {
     public static final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     public static final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
     public static final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
-    public static final By BLOG_CONTAINER = By.xpath(".//div[contains(@class, 'overflow-x-auto gap-4 mb-2 sm:px-10 xl:px-32')]");
-    public static final By BLOG_CONTAINER_ITEMS = By.xpath(".//div[@class='rounded shadow-black']");
+    public static final By BLOG_CONTAINER = By.xpath(".//div[contains(@class, 'overflow-x-auto gap')]");
+    public static final By BLOG_CONTAINER_ITEMS = By.xpath(".//div[@class='rounded']");
     public static final By BLOG_MAIN_POST = By.xpath(".//a[@class='flex col-span-1 xl:col-span-3 relative justify-center items-end']");
     public static final By LOAD_MORE_BTN = By.id("load-more");
     public static final By BLOG_IMAGES = By.xpath(".//img[@class='h-52 w-full md:h-72 xl:h-100 object-cover rounded-lg']");

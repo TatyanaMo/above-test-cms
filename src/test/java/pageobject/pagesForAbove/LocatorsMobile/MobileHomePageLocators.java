@@ -7,22 +7,16 @@ public class MobileHomePageLocators {
     public static final By ACCEPT_COOKIES_BTN = By.xpath(".//button[@data-tid='banner-accept']");
     public static final By REVIEW_HEADER_LINK = By.id("profile-link");
     public static final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
-    public static final By REVIEW_TRUSTPILOT_LINK = By.xpath(".//a[@class='mt-4 md:-ml-3 inline-block space-x-2 px-3 py-4 font-medium']");
-    public static final By REVIEW_IMG = By.xpath(".//img[@class='-mt-1 w-20 md:w-28 h-6']");
-    public static final By TRUSTPILOT_ABOVE_TITTLE = By.xpath(".//span[contains(@class, 'title_displayName__TtDDM')]");
     public static final By CLOSE_BUTTONS = By.xpath(".//button[@aria-label='Close']");
     public static final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
     public static final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     public static final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");
     public static final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
-    public static final By IFRAME_FACEBOOK_IMAGE = By.xpath(".//img[@class='_a3jx img']");
-    public static final By IFRAME_FACEBOOK_TITTLE = By.xpath(".//div[@class='_4ik4 _4ik5']/strong");
-    public static final By IFRAME_FACEBOOK_TEXT = By.xpath(".//div[@class='_a2zt _a6s6 _4ik4 _4ik5']");
-    public static final By IFRAME_FACEBOOK_MENU_ITEMS = By.xpath(".//div[@class='_a1ql']");
-    public static final By IFRAME_FACEBOOK_OPEN = By.xpath(".//div[@class='_90st']");
-    public static final By IFRAME_FACEBOOK_CLOSE_CHAT_BTN = By.xpath(".//div[@aria-label='close']");
-    public static final By IFRAME_FACEBOOK_MORE_BTN = By.xpath(".//div[@aria-label='More']");
-    public static final By IFRAME_FACEBOOK_START_CHAT_BTN = By.xpath(".//div[@class='_a2zm']");
+    public static final By WIDGET_POP_UP = By.id("call-us-expanded");
+    public static final By WIDGET_TEXT = By.xpath(".//span[@class='text-xs md:text-sm font-normal text-center']");
+    public static final By WIDGET_PHONE = By.xpath(".//span[@class='text-orange-550 text-sm md:text-base font-medium']");
+    public static final By WIDGET_CLOSE_BTN = By.xpath(".//button[@class='px-2 flex items-center justify-center']");
+    public static final By WIDGET_CLOSED = By.xpath(".//button[@id='call-us']");
     public static final By LOG_IN_MODAL_WINDOW = By.id("login-title");
     public static final By MODAL_INPUT_FIELDS = By.xpath(".//input[@class='appearance-none block h-10 leading-8 px-0" +
             " py-1 w-full text-sm rounded-none transition-colors bg-transparent border-b border-gray-300 disabled:border-gray-300" +
@@ -31,9 +25,8 @@ public class MobileHomePageLocators {
     public static final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
     public static final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     public static final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
-    public static final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-4 md:pt-10 md:w-4/5']");
+    public static final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-9 md:pt-10 md:w-4/5']");
     public static final By CONTAINERS_TEXT = By.xpath(".//div[@class='container']");
-    public static final By INSTRUCTIONS_BLOCK = By.xpath(".//div[@class='lg:-mx-8 lg:flex py-8 lg:py-0 space-y-4 lg:space-y-0']");
     public static final By HOME_PAGE_TEXT_THREE = By.xpath(".//div[@class='pb-1.5 flex flex-col lg:space-y-1']");
     public static final By REVIEW_HEADER = By.xpath(".//h2[@class='text-2xl lg:text-3xl uppercase font-medium']");
     public static final By REVIEW_CAROUSEL = By.xpath(".//div[contains(@class, 'relative overflow-hidden swiper-container swiper')]");

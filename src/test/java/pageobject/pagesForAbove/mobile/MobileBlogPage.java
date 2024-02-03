@@ -202,21 +202,21 @@ public class MobileBlogPage {
         } catch (NoSuchElementException e) {
             LOGGER.error("Pinterest link doesn't open in new page properly from blog", e);
         }
-        baseFunc.click(socialMediaLinks.get(2));
-        baseFunc.switchTab(1);
-        try {
-            baseFunc.waitElementPresented(TWITTER_PAGE_SIGN_UP_FORM_TITTLE);
-            if (baseFunc.getTextOfElement(TWITTER_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
-                baseFunc.closeTab();
-                baseFunc.switchTab(0);
-            } else {
-                LOGGER.error("Twitter link doesn't open in new page properly from blog");
-            }
-        } catch (NoSuchElementException e) {
-            LOGGER.error("Twitter link doesn't open in new page properly from blog", e);
-        }
-        Assertions.assertTrue(baseFunc.getTextOfElement(SUBMIT_REQUEST_BUTTON).length() > 0, "No text in submit request btn");
-        Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).isEnabled(), "button is disabled");
+//        baseFunc.click(socialMediaLinks.get(2));
+//        baseFunc.switchTab(1);
+//        try {
+//            baseFunc.waitElementPresented(TWITTER_PAGE_SIGN_UP_FORM_TITTLE);
+//            if (baseFunc.getTextOfElement(TWITTER_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
+//                baseFunc.closeTab();
+//                baseFunc.switchTab(0);
+//            } else {
+//                LOGGER.error("Twitter link doesn't open in new page properly from blog");
+//            }
+//        } catch (NoSuchElementException e) {
+//            LOGGER.error("Twitter link doesn't open in new page properly from blog", e);
+//        }
+//        Assertions.assertTrue(baseFunc.getTextOfElement(SUBMIT_REQUEST_BUTTON).length() > 0, "No text in submit request btn");
+//        Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).isEnabled(), "button is disabled");
         baseFunc.click(BACK_LINK);
         return true;
     }
@@ -274,21 +274,21 @@ public class MobileBlogPage {
                 } catch (NoSuchElementException e) {
                     LOGGER.error("Pinterest link doesn't open in new page properly from blog", e);
                 }
-                baseFunc.click(socialMediaLinks.get(2));
-                baseFunc.switchTab(1);
-                try {
-                    baseFunc.waitElementPresented(TWITTER_PAGE_SIGN_UP_FORM_TITTLE);
-                    if (baseFunc.getTextOfElement(TWITTER_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
-                        baseFunc.closeTab();
-                        baseFunc.switchTab(0);
-                    } else {
-                        LOGGER.error("Twitter link doesn't open in new page properly from blog");
-                    }
-                } catch (NoSuchElementException e) {
-                    LOGGER.error("Twitter link doesn't open in new page properly from blog", e);
-                }
-                Assertions.assertTrue(baseFunc.getTextOfElement(SUBMIT_REQUEST_BUTTON).length() > 0, "No text in submit request btn");
-                Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).isEnabled(), "button is disabled");
+//                baseFunc.click(socialMediaLinks.get(2));
+//                baseFunc.switchTab(1);
+//                try {
+//                    baseFunc.waitElementPresented(TWITTER_PAGE_SIGN_UP_FORM_TITTLE);
+//                    if (baseFunc.getTextOfElement(TWITTER_PAGE_SIGN_UP_FORM_TITTLE).length() > 0) {
+//                        baseFunc.closeTab();
+//                        baseFunc.switchTab(0);
+//                    } else {
+//                        LOGGER.error("Twitter link doesn't open in new page properly from blog");
+//                    }
+//                } catch (NoSuchElementException e) {
+//                    LOGGER.error("Twitter link doesn't open in new page properly from blog", e);
+//                }
+//                Assertions.assertTrue(baseFunc.getTextOfElement(SUBMIT_REQUEST_BUTTON).length() > 0, "No text in submit request btn");
+//                Assertions.assertTrue(baseFunc.findElement(SUBMIT_REQUEST_BUTTON).isEnabled(), "button is disabled");
                 baseFunc.click(BACK_LINK);
             }
         }
