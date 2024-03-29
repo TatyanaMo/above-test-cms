@@ -24,6 +24,7 @@ public class HomePageLocators {
     public static final By INPUT_FIELDS_EMAIL = By.xpath(".//input[@type='email']");
     public static final By INPUT_FIELDS_PASSWORD = By.xpath(".//input[@type='password']");
     public static final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
+    public static final By CLOSE_MODAL_WINDOW_BUTTON = By.xpath(".//button[@class='px-2 flex items-center justify-center']");
     public static final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     public static final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     public static final By SIGN_UP_MODAL_WINDOW = By.id("register-title");

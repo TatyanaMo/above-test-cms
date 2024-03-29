@@ -33,7 +33,7 @@ public class MobileContactUsPageLocators {
     public static final By PAYMENTS_METHODS = By.xpath(".//img[@class='max-w-full select-none']");
     public static final By AIRLINES_PARTNERS = By.xpath(".//img[@src='https://staging.above9.travel/img/airlines-sm.png']");
     public static final By ALL_RIGHTS_TEXT = By.xpath(".//p[@class='text-xs text-center lg:text-sm lg:text-left']");
-    public static final By MODAL_WINDOW = By.xpath(".//div[@class='termly-styles-preferenceModal-76cbd2 t-preference-modal']");
+    public static final By MODAL_WINDOW = By.xpath(".//div[@class='undefined t-preference-modal']");
     public static final By MODAL_WINDOW_HEADER = By.xpath(".//h2[@class='termly-styles-preferenceTitle-10161b']");
     public static final By MODAL_WINDOW_TEXT = By.xpath(".//p[@class='termly-styles-description-8f0f46']");
     public static final By MODAL_WINDOW_COOKIES_TYPES = By.xpath(".//div[@class='termly-styles-root-d0bda1']");
@@ -41,10 +41,10 @@ public class MobileContactUsPageLocators {
     public static final By COOKIE_COUNTS = By.xpath(".//div[@class='termly-styles-cookieCount-2c45d5']");
     public static final By COOKIE_DETAILS_LINKS = By.xpath(".//div[@class='termly-styles-detailsLink-306d76 t-detailsLink']");
     public static final By COOKIE_TEXT = By.xpath(".//div[@class='termly-styles-body-aabd97']");
-    public static final By BACK_BUTTON = By.xpath(".//button[contains(@class,'termly-styles-button-da7d96 t-backButton')]");
-    public static final By COOKIE_DETAILS_HEADER = By.xpath(".//h2[@class='termly-styles-title-362f5b']");
-    public static final By COOKIE_DETAILS_BODY = By.xpath(".//div[@class='termly-styles-container-b7e8b8']");
-    public static final By COOKIE_DETAILS_TABLES_NAME = By.xpath(".//div[@class='termly-styles-container-b7e8b8']/h3");
+    public static final By BACK_BUTTON = By.xpath(".//button[contains(@class,'termly-styles-button-531ca6 t-backButton')]");
+    public static final By COOKIE_DETAILS_HEADER = By.xpath(".//h2[@class='termly-styles-title-5449f7']");
+    public static final By COOKIE_DETAILS_BODY = By.xpath(".//div[@class='termly-styles-container-ce8edd']");
+    public static final By COOKIE_DETAILS_TABLES_NAME = By.xpath(".//div[@class='termly-styles-container-ce8edd']/h3");
     public static final By DECLINE_BUTTON = By.xpath(".//button[contains(@class, 't-declineAllButton')]");
     public static final By ALLOW_BUTTON = By.xpath(".//button[contains(@class, 't-allowAllButton')]");
     public static final By CLOSE_MODAL_WINDOW_BUTTON = By.xpath(".//div[@class='termly-styles-closeTag-c6ad69 t-closeModal']");

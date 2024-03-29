@@ -404,9 +404,6 @@ public class HomePage {
                             break;
                         }
                     }
-//                    baseFunc.switchIframeIndex(0);
-//                    baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-//                    baseFunc.switchToMainPage();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid date!" + ":" + expectedReturnDay + " " + expectedReturnMonth);
@@ -453,13 +450,10 @@ public class HomePage {
             }
         }
         Assertions.assertTrue(isFoundTo, "Location " + locationTo + " can't be found in a suggestion list");
-        baseFunc.scrollToTheBottom();
-//        baseFunc.switchIframeIndex(0);
-//        baseFunc.click(IFRAME_FACEBOOK_CLOSE_CHAT_BTN);
-//        baseFunc.switchToMainPage();
     }
     public void submitFlightRequest () {
         LOGGER.info("Submit flight request");
+        baseFunc.click(CLOSE_MODAL_WINDOW_BUTTON);
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
     }
     public boolean isSuccessfulRequestMessageIsDisplayed() {

@@ -201,7 +201,7 @@ public class MobileHomePage {
         baseFunc.waitForElementAttributeToBeNew(baseFunc.findElement(REQUEST_FORM_MODAL), "class", "lg:hidden fixed z-40 inset-0 transition-height duration-500 overflow-hidden");
         WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
         Assertions.assertTrue(flightInfoBlock.isDisplayed(), "Flight information block not displayed in request form modal window");
-        WebElement tittle = flightInfoBlock.findElement(REQUEST_FORM_FLIGHT_INFORMATION_TITTLE);
+        WebElement tittle = flightInfoBlock.findElements(REQUEST_FORM_FLIGHT_INFORMATION_TITTLE).get(0);
         Assertions.assertTrue(tittle.getText().length() > 0, "No tittle for flight info block in flight request");
         LOGGER.info("Check if flight information form displayed");
         List<WebElement> flightInfoButtons = flightInfoBlock.findElements(FLIGHT_INFORMATION_BUTTONS);

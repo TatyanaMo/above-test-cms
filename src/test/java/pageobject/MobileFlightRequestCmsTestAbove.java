@@ -10,14 +10,14 @@ public class MobileFlightRequestCmsTestAbove {
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc = new BaseFunc("mobile");
     int adultPassengerToSelect = 1;
-    public final String expectedDepartDate = "22-11-2023";
-    public final String expectedReturnDate = "06-12-2023";
+    public final String expectedDepartDate = "10-04-2024";
+    public final String expectedReturnDate = "06-05-2024";
 
     @Test
     public void successfulFlightRequest() {
         LOGGER.info("This test make happy path of sending flight request for mobile version");
-        Passenger passenger = new Passenger("AutoTest Client", 26441747, "hesas73373@wireps.com", "VBS",
-                "371", "RIX", "AboveTest");
+        Passenger passenger = new Passenger("AT Client", 26441747, "a3478452@gmail.com", "VBS",
+                "371", "RIX", "AboveTestAcc123@");
 
         baseFunc.openMobileHomePage();
         MobileHomePage mobileHomePage = new MobileHomePage(baseFunc);
