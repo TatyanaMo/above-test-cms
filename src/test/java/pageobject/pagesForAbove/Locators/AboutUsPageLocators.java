@@ -7,7 +7,7 @@ public class AboutUsPageLocators {
     public static final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     public static final By REVIEW_HEADER_LINK = By.id("profile-link");
     public static final By REVIEW_IMG = By.xpath(".//img[@src='https://staging.above9.travel/img/trustpilot-light.svg']");
-    public static final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
+    public static final By PHONE = By.xpath(".//a[@href ='tel:+1-855-777-6336']");
     public static final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
     public static final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     public static final By CREATE_PROFILE_BUTTON = By.xpath(".//li[@class='px-3 pb-1']");

@@ -107,6 +107,13 @@ public class HomePage {
     public boolean isHomePageWelcomeTextAppears() {
         LOGGER.info("Checking if Welcome text on page for homepage");
         Assertions.assertTrue(baseFunc.getTextOfElement(HOME_PAGE_WELCOME_TEXT).length() > 0, "No text here");
+        WebElement howItWorksModal = baseFunc.list(HOW_IT_WORKS_MODAL).get(2);
+        baseFunc.click(howItWorksModal);
+        baseFunc.switchTab(0);
+        Assertions.assertTrue(baseFunc.getTextOfElement(HOW_IT_WORKS_TITLE).length() > 0, "No tittle text for 'How it works' pop up modal");
+        Assertions.assertTrue(baseFunc.getTextOfElement(HOW_IT_WORKS_TEXT_ONE).length() > 0,"No text for 'How it works' pop up modal" );
+        Assertions.assertTrue(baseFunc.getTextOfElement(HOW_IT_WORKS_TEXT_TWO).length() > 0,"No bottom text for 'How it works' pop up modal" );
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(4));
         return baseFunc.findElement(HOME_PAGE_WELCOME_TEXT).isDisplayed();
     }
 
@@ -207,6 +214,15 @@ public class HomePage {
         Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "request form not displayed on homepage");
         baseFunc.scrollToTheBottom();
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
+
+        LOGGER.info("Checking pop up modal window for request form");
+        baseFunc.waitElementToBeVisible(REQUEST_FORM_POP_UP_MODAL);
+        baseFunc.switchTab(0);
+        Assertions.assertTrue(baseFunc.getTextOfElement(POP_UP_HEADER).length() > 0, "No text in header for request form pop up modal");
+        Assertions.assertTrue(baseFunc.getTextOfElement(POP_UP_TEXT).length() > 0, "No main text for request form pop up modal");
+        Assertions.assertTrue(baseFunc.findElement(POP_UP_PHONE_BUTTON).isEnabled(), "Phone number button is disabled for pop up modal");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(5));
+
         Assertions.assertTrue(baseFunc.checkTextInAllElementsOfList(REQUEST_FORM_INPUT_FIELDS) > 0, "No default text in placeholders in request form");
         List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
         for (WebElement input : inputFields) {
@@ -305,6 +321,7 @@ public class HomePage {
         LOGGER.info("Checking if multi city request form displayed for homepage");
         Assertions.assertTrue(baseFunc.findElement(REQUEST_FORM).isDisplayed(), "Request form not displayed on homepage");
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(1));
+
         LOGGER.info("Checking text in input fields in request form");
         List<WebElement> inputFields = baseFunc.list(REQUEST_FORM_INPUT_FIELDS);
         for (WebElement input : inputFields) {

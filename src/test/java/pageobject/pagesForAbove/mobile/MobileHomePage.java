@@ -3,16 +3,15 @@ package pageobject.pagesForAbove.mobile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import pageobject.BaseFunc;
 import pageobject.model.Passenger;
 import pageobject.model.PassengerNew;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static pageobject.pagesForAbove.Locators.HomePageLocators.INSTRUCTIONS_BLOCK;
 import static pageobject.pagesForAbove.LocatorsMobile.MobileHomePageLocators.*;
 
 public class MobileHomePage {
@@ -105,6 +104,15 @@ public class MobileHomePage {
     public boolean isHomePageWelcomeTextAppears() {
         LOGGER.info("Checking if Welcome text on page for homepage");
         Assertions.assertTrue(baseFunc.getTextOfElement(HOME_PAGE_WELCOME_TEXT).length() > 0, "No text here");
+
+        WebElement howItWorksModal = baseFunc.list(HOW_IT_WORKS_MODAL).get(2);
+        baseFunc.click(howItWorksModal);
+        baseFunc.switchTab(0);
+        Assertions.assertTrue(baseFunc.getTextOfElement(HOW_IT_WORKS_TITLE).length() > 0, "No tittle text for 'How it works' pop up modal");
+        Assertions.assertTrue(baseFunc.getTextOfElement(HOW_IT_WORKS_TEXT_ONE).length() > 0,"No text for 'How it works' pop up modal" );
+        Assertions.assertTrue(baseFunc.getTextOfElement(HOW_IT_WORKS_TEXT_TWO).length() > 0,"No bottom text for 'How it works' pop up modal" );
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(14));
+
         return baseFunc.findElement(HOME_PAGE_WELCOME_TEXT).isDisplayed();
     }
 
@@ -201,6 +209,7 @@ public class MobileHomePage {
         baseFunc.waitForElementAttributeToBeNew(baseFunc.findElement(REQUEST_FORM_MODAL), "class", "lg:hidden fixed z-40 inset-0 transition-height duration-500 overflow-hidden");
         WebElement flightInfoBlock = baseFunc.findElement(REQUEST_FORM_FLIGHT_INFORMATION_BLOCK);
         Assertions.assertTrue(flightInfoBlock.isDisplayed(), "Flight information block not displayed in request form modal window");
+        baseFunc.waitElementToBeVisible(flightInfoBlock.findElements(REQUEST_FORM_FLIGHT_INFORMATION_TITTLE).get(0));
         WebElement tittle = flightInfoBlock.findElements(REQUEST_FORM_FLIGHT_INFORMATION_TITTLE).get(0);
         Assertions.assertTrue(tittle.getText().length() > 0, "No tittle for flight info block in flight request");
         LOGGER.info("Check if flight information form displayed");
@@ -529,6 +538,15 @@ public class MobileHomePage {
         LOGGER.info("Check if error message displayed for not filled input fields");
         baseFunc.scrollToTheBottom();
         baseFunc.click(baseFunc.list(SUBMIT_BUTTONS).get(0));
+
+        LOGGER.info("Checking pop up modal window for request form");
+        baseFunc.waitElementToBeVisible(REQUEST_FORM_POP_UP_MODAL);
+        baseFunc.switchTab(0);
+        Assertions.assertTrue(baseFunc.getTextOfElement(POP_UP_HEADER).length() > 0, "No text in header for request form pop up modal");
+        Assertions.assertTrue(baseFunc.getTextOfElement(POP_UP_TEXT).length() > 0, "No main text for request form pop up modal");
+        Assertions.assertTrue(baseFunc.findElement(POP_UP_PHONE_BUTTON).isEnabled(), "Phone number button is disabled for pop up modal");
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(5));
+
         List<WebElement> errorMessages = contactForm.findElements(ERROR_MESSAGES);
         for (WebElement message : errorMessages) {
             String errorText = message.getText();

@@ -11,7 +11,7 @@ public class HomePageLocators {
     public static final By WIDGET_CLOSED = By.xpath(".//button[@id='call-us']");
     public static final By HEADER_LOGO = By.xpath(".//div[@class='-mr-28 md:-mr-33 absolute right-full inset-y-0 my-auto']");
     public static final By REVIEW_HEADER_LINK = By.id("profile-link");
-    public static final By PHONE = By.xpath(".//a[@href ='tel:855-777-6336']");
+    public static final By PHONE = By.xpath(".//a[@href ='tel:+1-855-777-6336']");
     public static final By DROP_DOWN_BUTTONS = By.xpath(".//button[contains(@class, 'h-full flex items-center space-x-2 px-2 py-1')]");
     public static final By LOG_IN_BUTTON = By.xpath(".//button[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
     public static final By MY_PROFILE_BUTTON = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full text-center lg:')]");
@@ -24,12 +24,22 @@ public class HomePageLocators {
     public static final By INPUT_FIELDS_EMAIL = By.xpath(".//input[@type='email']");
     public static final By INPUT_FIELDS_PASSWORD = By.xpath(".//input[@type='password']");
     public static final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
+    public static final By REQUEST_FORM_POP_UP_MODAL = By.xpath(".//div[@aria-labelledby='upsell-title']");
+    public static final By POP_UP_HEADER = By.id("upsell-title");
+    public static final By POP_UP_TEXT = By.xpath(".//div[@class='space-y-4 text-lg']");
+    public static final By POP_UP_PHONE_BUTTON = By.xpath(".//span[contains(@class,'md:rounded select-none transition inline-block hover:shadow-xs')]");
     public static final By CLOSE_MODAL_WINDOW_BUTTON = By.xpath(".//button[@class='px-2 flex items-center justify-center']");
     public static final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     public static final By CLOSE_BUTTONS = By.xpath(".//span[@class='absolute right-4 top-4 lg:right-0 lg:top-0']/button");
     public static final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
     public static final By DROP_DOWN_ELEMENTS = By.xpath(".//a[contains(@class, 'block py-3 lg:py-2 px-5 lg:pr-10 w-full')]");
     public static final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-9 md:pt-10 md:w-4/5']");
+
+    public static final By HOW_IT_WORKS_MODAL = By.xpath(".//button[@data-toggle='modal']");
+    public static final By HOW_IT_WORKS_TITLE = By.id("how-this-works-title");
+    public static final By HOW_IT_WORKS_TEXT_ONE = By.xpath(".//ol[@class='space-y-6']");
+    public static final By HOW_IT_WORKS_TEXT_TWO = By.xpath(".//ul[@class='pt-4 space-y-2']");
+
     public static final By REQUEST_FORM = By.xpath(".//div[@class='space-y-6']");
     public static final By REQUEST_FORM_INPUT_FIELDS = By.xpath(".//div[@class='w-full group is-invalid']");
     public static final By HOME_PAGE_TEXT_ONE = By.xpath(".//div[@class='pt-12 pb-4 space-y-6 w-3/4 simple-content']");

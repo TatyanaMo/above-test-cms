@@ -23,15 +23,27 @@ public class MobileHomePageLocators {
             " text-black group-invalid:text-red-500 placeholder-gray-500 disabled:text-gray-500 hover:border-orange-400 focus:border-orange-400" +
             " placeholder-opacity-75 focus:outline-none']");
     public static final By SUBMIT_BUTTONS = By.xpath(".//button[@type='submit']");
+    public static final By REQUEST_FORM_POP_UP_MODAL = By.xpath(".//div[@aria-labelledby='upsell-title']");
+    public static final By POP_UP_HEADER = By.id("upsell-title");
+    public static final By POP_UP_TEXT = By.xpath(".//div[@class='space-y-4 text-lg']");
+    public static final By POP_UP_PHONE_BUTTON = By.xpath(".//span[contains(@class,'md:rounded select-none transition inline-block hover:shadow-xs')]");
+
     public static final By MODAL_WINDOW_BUTTONS = By.xpath(".//button[@class='text-orange-400 underline hover:no-underline']");
     public static final By SIGN_UP_MODAL_WINDOW = By.id("register-title");
     public static final By HOME_PAGE_WELCOME_TEXT = By.xpath(".//div[@class='pt-9 md:pt-10 md:w-4/5']");
+
+    public static final By HOW_IT_WORKS_MODAL = By.xpath(".//button[@data-toggle='modal']");
+    public static final By HOW_IT_WORKS_TITLE = By.id("how-this-works-title");
+    public static final By HOW_IT_WORKS_TEXT_ONE = By.xpath(".//ol[@class='space-y-6']");
+    public static final By HOW_IT_WORKS_TEXT_TWO = By.xpath(".//ul[@class='pt-4 space-y-2']");
+
     public static final By CONTAINERS_TEXT = By.xpath(".//div[@class='container']");
     public static final By HOME_PAGE_TEXT_THREE = By.xpath(".//div[@class='pb-1.5 flex flex-col lg:space-y-1']");
     public static final By REVIEW_HEADER = By.xpath(".//h2[@class='text-2xl lg:text-3xl uppercase font-medium']");
     public static final By REVIEW_CAROUSEL = By.xpath(".//div[contains(@class, 'relative overflow-hidden swiper-container swiper')]");
     public static final By INSTRUCTION = By.xpath(".//div[@class='w-4/5']");
     public static final By INSTRUCTION_STEPS = By.xpath(".//li[@class='md:w-1/2 lg:w-full md:px-3 md:py-2 lg:p-0 space-y-5']");
+    public static final By INSTRUCTIONS_BLOCK = By.xpath(".//div[@class='lg:-mx-8 lg:flex py-8 lg:py-0 space-y-4 lg:space-y-0']");
     public static final By FOOTER_LINKS = By.xpath(".//a[@class='text-white hover:underline']");
     public static final By TITTLE = By.xpath(".//h1[@class='text-3xl lg:text-4xl font-medium']");
     public static final By PAYMENTS = By.xpath(".//span[@class='text-sm leading-9']");

@@ -38,8 +38,8 @@ public class ElementsCheckCmsTestAbove {
         homePage.isPaymentMethodImageDisplayed();
         homePage.isPartnersDisplayed();
         homePage.isAllRightsTextDisplayed();
-        homePage.isElementsInMultiCityFlightRequestFormDisplayed();
         homePage.isRequestFormAppears();
+        homePage.isElementsInMultiCityFlightRequestFormDisplayed();
         homePage.selectFlightAndPassengerParameters(adultPassengerToSelect);
         homePage.openAboutUsPage();
 

@@ -206,6 +206,10 @@ public class BaseFunc {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
+    public void waitElementToBeVisible(WebElement we) {
+        wait.until(ExpectedConditions.visibilityOf(we));
+    }
+
     public void waitAllElementsToBeVisible(By locator) {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
@@ -292,25 +296,7 @@ public class BaseFunc {
         list(locatorFive).subList(0, 1);
         list(locatorSix).get(2);
     }
-    /*
-    public void checkReviewLinkInHeader(By locatorOne, By locatorTwo, By locatorThree, By locatorFour) {
-        linksStatusCheck(findElement(locatorOne).getAttribute("href"));
-        findElement(locatorTwo).isDisplayed();
-        click(locatorThree);
-        switchTab(1);
-        try {
-            waitElementPresented(locatorFour);
-            if (findElement(locatorFour).isDisplayed()) {
-                closeTab();
-                switchTab(0);
-            } else {
-                LOGGER.error("Trustpilot link doesn't open in new page properly");
-            }
-        } catch (NoSuchElementException e) {
-            LOGGER.error("Trustpilot link doesn't open in new page properly", e);
-        }
-    }
-    */
+
     public void checkPhoneNumberLinkInHeader(By locator) {
         Assertions.assertTrue(list(locator).get(0).getAttribute("href").length() > 0, "no phone number");
     }
