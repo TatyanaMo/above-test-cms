@@ -545,7 +545,8 @@ public class MobileHomePage {
         Assertions.assertTrue(baseFunc.getTextOfElement(POP_UP_HEADER).length() > 0, "No text in header for request form pop up modal");
         Assertions.assertTrue(baseFunc.getTextOfElement(POP_UP_TEXT).length() > 0, "No main text for request form pop up modal");
         Assertions.assertTrue(baseFunc.findElement(POP_UP_PHONE_BUTTON).isEnabled(), "Phone number button is disabled for pop up modal");
-        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(5));
+        baseFunc.scrollToTheBottom();
+        baseFunc.click(baseFunc.list(CLOSE_BUTTONS).get(15));
 
         List<WebElement> errorMessages = contactForm.findElements(ERROR_MESSAGES);
         for (WebElement message : errorMessages) {
@@ -560,8 +561,8 @@ public class MobileHomePage {
             Assertions.assertTrue(label.getAttribute("placeholder").length() > 0, "No label for placeholder");
         }
         WebElement inputName = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(0);
-        WebElement inputPhone = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(1);
-        WebElement inputEmail = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(2);
+        WebElement inputPhone = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(2);
+        WebElement inputEmail = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(1);
         baseFunc.type(inputName, passenger.getName());
         baseFunc.type(inputPhone, passenger.getPhoneNumber());
         baseFunc.type(inputEmail, passenger.getEmail());

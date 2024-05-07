@@ -7,8 +7,8 @@ import pageobject.model.Passenger;
 import pageobject.pagesForAbove.HomePage;
 
 public class FlightRequestCmsTestAbove {
-    public final String expectedDepartDate = "10-04-2024";
-    public final String expectedReturnDate = "06-05-2024";
+    public final String expectedDepartDate = "10-10-2024";
+    public final String expectedReturnDate = "06-11-2024";
     int adultPassengerToSelect = 1;
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc = new BaseFunc("web");

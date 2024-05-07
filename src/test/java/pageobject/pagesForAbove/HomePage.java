@@ -350,8 +350,8 @@ public class HomePage {
     public void fillInPassengerInfo(Passenger passenger) {
         LOGGER.info("Filling passenger info in request form");
         WebElement inputName = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(0);
-        WebElement inputPhone = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(1);
-        WebElement inputEmail = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(2);
+        WebElement inputPhone = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(2);
+        WebElement inputEmail = baseFunc.list(INPUT_FIELDS_REQUEST_FORM).get(1);
         baseFunc.type(inputName, passenger.getName());
         baseFunc.type(inputPhone, passenger.getPhoneNumber());
         baseFunc.type(inputEmail, passenger.getEmail());

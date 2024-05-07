@@ -10,8 +10,8 @@ public class MobileFlightRequestCmsTestAbove {
     private final Logger LOGGER = LogManager.getLogger(this.getClass());
     private BaseFunc baseFunc = new BaseFunc("mobile");
     int adultPassengerToSelect = 1;
-    public final String expectedDepartDate = "10-04-2024";
-    public final String expectedReturnDate = "06-05-2024";
+    public final String expectedDepartDate = "10-10-2024";
+    public final String expectedReturnDate = "06-11-2024";
 
     @Test
     public void successfulFlightRequest() {
